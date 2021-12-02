@@ -1,4 +1,4 @@
-﻿<Window x:Class="FinanceExam.MainWindow"
+﻿<Window x:Name="window" x:Class="FinanceExam.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920"
-        Background="#2A324B" WindowState="Maximized"
+        Background="#2A324B" WindowState="Maximized" WindowStyle="None"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
     <Window.Resources>
@@ -301,13 +301,114 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="FocusVisual1">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!--Button-->
+
+        <Style x:Key="ExitButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Background" Value="PaleVioletRed"/>
+            <Setter Property="BorderBrush" Value="PaleVioletRed"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="PaleVioletRed"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="PaleVioletRed"/>
+                                <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="PaleVioletRed"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="PaleVioletRed"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="PaleVioletRed"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="PaleVioletRed"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="PaleVioletRed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        
+
+        <Style x:Key="FocusVisual2">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="LeftExitButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual2}"/>
+            <Setter Property="Background" Value="#C7CCDB"/>
+            <Setter Property="BorderBrush" Value="#C7CCDB"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="#C7CCDB"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#C7CCDB"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#C7CCDB"/>
+                                <Setter Property="Opacity" TargetName="border" Value="0.5"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#C7CCDB"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#C7CCDB"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="#C7CCDB"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#C7CCDB"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#C7CCDB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
 
     <Grid>
-        <Border Margin="60,167,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0"/>
-        <TextBlock FontSize="79" Foreground="White" Margin="60,39,1609,866">Карта:</TextBlock>
-
-        <ComboBox Style="{DynamicResource CardName}"  HorizontalAlignment="Left" Margin="316,39,0,0" VerticalAlignment="Top" Width="264" Height="123" FontSize="79" Foreground="White" Padding="5,2,0,0">
+        <TextBlock FontSize="65" Foreground="White" Margin="60,56,1609,849">Карта:</TextBlock>
+        <ComboBox Style="{DynamicResource CardName}"  HorizontalAlignment="Left" Margin="292,56,0,0" VerticalAlignment="Top" Width="242" Height="106" FontSize="65" Foreground="White" Padding="5,2,0,0">
 
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#C7CCDB</SolidColorBrush>
@@ -317,6 +418,47 @@
             <ComboBoxItem IsSelected="True" Content="1" FontSize="20" Foreground="White"/>
             <ComboBoxItem Content="2" FontSize="20"  Foreground="White"/>
         </ComboBox>
+
+        <StackPanel>
+            <StackPanel  Height="50" Background="#21273B">
+                <DockPanel HorizontalAlignment="Right">
+                    <Button Style="{DynamicResource LeftExitButton}" Width="50" Height="50" HorizontalAlignment="Right" Margin="30,0,10,0" Background="#C7CCDB" Name="RollUp_Button" Click="RollUp_Button_Click" Content="-" FontSize="40" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button Style="{DynamicResource ExitButton}" Width="50" Height="50" HorizontalAlignment="Right" Margin="30,0,50,0" Background="PaleVioletRed" Name="Close_Button" Click="Close_Button_Click" Content="X" FontSize="30" FontWeight="Bold">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="50"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </DockPanel>
+            </StackPanel>
+            <DockPanel Margin="500,0,0,0">
+                <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#E1E5EE" Content="Expenses" FontSize="30" Name="Expenses_Button" Click="Expenses_Button_Click" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="30,20,20,0" Background="#E1E5EE" Content="Income" FontSize="30" Opacity="0.5" Name="Income_Button" Click="Income_Button_Click" FontWeight="Bold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </DockPanel>
+            <Border Margin="60,20,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0" Height="{Binding ElementName=window, Mode=OneWay}">
+                <Border Background="#767B91" CornerRadius="50,0,0,0" Height="970" Width="500" HorizontalAlignment="Left">
+                </Border>
+            </Border>
+        </StackPanel>
     </Grid>
 
 </Window>

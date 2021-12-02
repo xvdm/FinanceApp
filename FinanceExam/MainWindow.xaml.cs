@@ -24,5 +24,27 @@ namespace FinanceExam
         {
             InitializeComponent();
         }
+        private void Close_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void RollUp_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Expenses_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Income_Button.Opacity = 0.5;
+            Expenses_Button.Opacity = 1;
+        }
+
+        private void Income_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Income_Button.Opacity = 1;
+            Expenses_Button.Opacity = 0.5;
+        }
+
     }
 }
