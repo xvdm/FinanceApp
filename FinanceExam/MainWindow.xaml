@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920"
         Background="#2A324B" WindowState="Maximized">
-    <Border Margin="60,60,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0">
+    <Border Margin="60,113,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0">
         
     </Border>
 </Window>
