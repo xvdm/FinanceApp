@@ -37,12 +37,14 @@ namespace FinanceExam
 
         private void Expenses_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Income_Button.Opacity = 0.5;
+            Expenses_Button.Opacity = 1;
         }
 
         private void Income_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Income_Button.Opacity = 1;
+            Expenses_Button.Opacity = 0.5;
         }
     }
 }

@@ -11,14 +11,14 @@
     
     <StackPanel>
         <DockPanel Margin="500,0,0,0">
-            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#E1E5EE" Content="Expenses" FontSize="30" Name="Expenses_Button" Click="Expenses_Button_Click">
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#E1E5EE" Content="Expenses" FontSize="30" Name="Expenses_Button" Click="Expenses_Button_Click" FontWeight="Bold">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="30,20,20,0" Background="#E1E5EE" Content="Income" FontSize="30" Opacity="0.5" Name="Income_Button" Click="Income_Button_Click">
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="30,20,20,0" Background="#E1E5EE" Content="Income" FontSize="30" Opacity="0.5" Name="Income_Button" Click="Income_Button_Click" FontWeight="Bold">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
@@ -26,14 +26,14 @@
                 </Button.Resources>
             </Button>
             <DockPanel HorizontalAlignment="Right">
-                <Button Width="50" Height="50" HorizontalAlignment="Right" Margin="30,20,10,0" Background="#C7CCDB" Name="RollUp_Button" Click="RollUp_Button_Click">
+                <Button Width="50" Height="50" HorizontalAlignment="Right" Margin="30,20,10,0" Background="#C7CCDB" Name="RollUp_Button" Click="RollUp_Button_Click" Content="-" FontSize="40" FontWeight="Bold">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="50"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Width="50" Height="50" HorizontalAlignment="Right" Margin="30,20,50,0" Background="PaleVioletRed" Name="Close_Button" Click="Close_Button_Click">
+                <Button Width="50" Height="50" HorizontalAlignment="Right" Margin="30,20,50,0" Background="PaleVioletRed" Name="Close_Button" Click="Close_Button_Click" Content="X" FontSize="30" FontWeight="Bold">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="50"/>
@@ -42,8 +42,8 @@
                 </Button>
             </DockPanel>
         </DockPanel>
-        <Border Margin="60,20,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0" Height="955">
-            <Border Background="#767B91" CornerRadius="50,0,0,0" Height="955" Width="500" HorizontalAlignment="Left">
+        <Border Margin="60,20,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0" Height="970">
+            <Border Background="#767B91" CornerRadius="50,0,0,0" Height="970" Width="500" HorizontalAlignment="Left">
                 
             </Border> 
         </Border>
