@@ -34,5 +34,15 @@ namespace FinanceExam
         {
             this.WindowState = WindowState.Minimized;
         }
+
+        private void Expenses_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Income_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
