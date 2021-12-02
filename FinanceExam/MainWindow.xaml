@@ -7,7 +7,24 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920"
         Background="#2A324B" WindowState="Maximized">
-    <Border Margin="60,60,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0">
-        
-    </Border>
+    
+    
+
+
+    <Grid>
+        <Border Margin="60,167,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0"/>
+        <TextBlock FontSize="79" Foreground="White" Margin="60,39,1609,866">Карта:</TextBlock>
+
+        <ComboBox Style="{DynamicResource CardName}"  HorizontalAlignment="Left" Margin="316,39,0,0" VerticalAlignment="Top" Width="264" Height="123" FontSize="79" Foreground="White" Padding="5,2,0,0">
+
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#C7CCDB</SolidColorBrush>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowFrameBrushKey}">Transparent</SolidColorBrush>
+            </ComboBox.Resources>
+
+            <ComboBoxItem IsSelected="True" Content="1" FontSize="20" Foreground="White"/>
+            <ComboBoxItem Content="2" FontSize="20"  Foreground="White"/>
+        </ComboBox>
+    </Grid>
+
 </Window>
