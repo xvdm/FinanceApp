@@ -7,10 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920"
         Background="#2A324B" WindowState="Maximized">
-    <Border>
-        <!--<Button Width="100" Height="50"></Button>-->
-        <Border Margin="60,60,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0">
+    
+    <StackPanel>
+        <DockPanel Margin="450,0,0,0">
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#F7C59F" Content="Expenses" FontSize="30">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#F7C59F" Content="Income" FontSize="30">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </DockPanel>
+        <Border Margin="60,20,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0" Height="960">
 
         </Border>
-    </Border>
+    </StackPanel>
 </Window>
