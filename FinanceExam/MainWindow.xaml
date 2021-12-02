@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920"
-        Background="#2A324B" WindowState="Maximized">
+        Title="Finance Manager" Height="1080" Width="1920"
+        Background="#2A324B" WindowState="Maximized"
+        ResizeMode="NoResize">
     
     <StackPanel>
         <DockPanel Margin="500,0,0,0">
-            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#F7C59F" Content="Expenses" FontSize="30">
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#E1E5EE" Content="Expenses" FontSize="30">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="60,20,20,0" Background="#F7C59F" Content="Income" FontSize="30">
+            <Button Width="150" Height="70" HorizontalAlignment="Left" Margin="30,20,20,0" Background="#E1E5EE" Content="Income" FontSize="30" Opacity="0.5">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="10"/>
