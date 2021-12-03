@@ -5,15 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
-        Title="" Height="1080" Width="1920"
+        Title="" 
+        Height="1080" 
+        Width="1920"
         Background="#2A324B" 
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" WindowState="Normal" WindowStyle="None" >
+        WindowState="Normal" 
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        AllowsTransparency="True"
+        ResizeMode="CanResize"
+        >
+
+
 
     <Grid>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="39*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="118"/>
+            <RowDefinition Height="942"/>
         </Grid.RowDefinitions>
+        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="2" HorizontalAlignment="Center" Width="60" Click="Button_Click_Roll"/>
+        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Center"  Width="60" Click="Button_Click_Exit"/>
+        <Border BorderThickness="1" Background="#C7CCDB" Grid.Row="2" CornerRadius="10" Grid.ColumnSpan="2" Margin="10,10,10,0" Grid.Column="1"/>
+        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="506,59,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="22"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,22,0,0" Grid.Row="1" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="59" Width="182"/>
 
 
 
