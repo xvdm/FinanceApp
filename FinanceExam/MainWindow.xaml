@@ -19,26 +19,30 @@
 
 
     <Grid>
-
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="23*"/>
+            <ColumnDefinition Width="95*"/>
+            <ColumnDefinition Width="90"/>
+            <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="118"/>
             <RowDefinition Height="942"/>
         </Grid.RowDefinitions>
-        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="2" HorizontalAlignment="Center" Width="60" Click="Button_Click_Roll"/>
-        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Center"  Width="60" Click="Button_Click_Exit"/>
-        <Border BorderThickness="1" Background="#C7CCDB" Grid.Row="2" CornerRadius="10" Grid.ColumnSpan="2" Margin="10,10,10,0" Grid.Column="1"/>
-        <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="506,59,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="22"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,22,0,0" Grid.Row="1" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="59" Width="182"/>
-
-
+        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Left" Width="60" Click="Button_Click_Roll"/>
+        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Left"  Width="60" Click="Button_Click_Exit" Margin="60,0,0,0" Grid.ColumnSpan="2"/>
+        <ComboBox Grid.Column="1" HorizontalAlignment="Center" Margin="0,76,0,0" Grid.Row="1" VerticalAlignment="Top" Width="284" Height="32"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="61" Width="104" Foreground="White" FontSize="40" Margin="30,10,0,0" Grid.Row="1"/>
+        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB"/>
+        <Border Grid.Column="2" Grid.Row="2" Background="White" Grid.ColumnSpan="2"/>
+        <TabControl Grid.Column="2" Margin="0,0,1,0" Grid.ColumnSpan="2" Grid.Row="2">
+            <TabItem Header="TabItem" Margin="-1,21,-3,-23">
+            </TabItem>
+            <TabItem Header="TabItem" Margin="3,20,-7,-21">
+            </TabItem>
+        </TabControl>
 
     </Grid>
 
