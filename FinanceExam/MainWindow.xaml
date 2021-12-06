@@ -46,8 +46,8 @@
             </Button>
         </DockPanel>
         <Border Margin="60,20,60,0" Background="#C7CCDB" CornerRadius="50,50,0,0" Height="970">
-            <Border Background="#767B91" CornerRadius="50,0,0,0" Height="970" Width="500" HorizontalAlignment="Left">
-                
+            <Border Background="#767B91" CornerRadius="50,0,0,0" Height="970" Width="500" HorizontalAlignment="Left" >
+                <StackPanel Name="MainBorder"></StackPanel>
             </Border> 
         </Border>
     </StackPanel>
