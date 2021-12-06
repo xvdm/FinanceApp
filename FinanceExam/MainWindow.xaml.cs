@@ -21,7 +21,7 @@ namespace FinanceExam
     public partial class MainWindow : Window
     {
         List<History_Data> data_grid = null;
-       
+        TransverSetting Transver = new TransverSetting();
         public MainWindow()
         {
             InitializeComponent();
@@ -55,8 +55,35 @@ namespace FinanceExam
                 Datagrid.ItemsSource = data_grid;
             }
             data_grid.Add(new History_Data("06.12.2021", 600, "Вадим", "Диме"));
+
+
+
+            Transver.General_Balance += 600;
+            GeneralBalance.Content = Transver.General_Balance;
+
             Datagrid.Items.Refresh();
         }
+
+        private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if(Currency.SelectedItem .ToString() == "$")
+            {
+                double temp = 0;
+                temp = Transver.General_Balance / 27.37;
+                GeneralBalance.Content = temp;
+            }
+        }
+    }
+
+    public class TransverSetting
+    {
+        private double MONEY = 0;
+
+
+        public double General_Balance { get { return MONEY; } set { MONEY = value; } }
+
+
     }
 
     public class History_Data
