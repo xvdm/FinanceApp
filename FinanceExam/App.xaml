@@ -264,8 +264,8 @@
                                 <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
                                 <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
                                 <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
-                                <Setter Property="CornerRadius" TargetName="mainBorder" Value="25"/>
-                                <Setter Property="CornerRadius" TargetName="innerBorder" Value="25"/>
+                                <Setter Property="CornerRadius" TargetName="mainBorder" Value="40"/>
+                                <Setter Property="CornerRadius" TargetName="innerBorder" Value="40"/>
                                 <Setter Property="Foreground" Value="White"/>
 
                             </MultiDataTrigger>
@@ -389,8 +389,8 @@
                                 <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
                                 <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
                                 <Setter Property="Foreground"  Value="White"/>
-                                <Setter Property="CornerRadius" TargetName="mainBorder" Value="25"/>
-                                <Setter Property="CornerRadius" TargetName="innerBorder" Value="25"/>
+                                <Setter Property="CornerRadius" TargetName="mainBorder" Value="40"/>
+                                <Setter Property="CornerRadius" TargetName="innerBorder" Value="40"/>
                             </MultiDataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -444,7 +444,7 @@
             <GradientStop Color="Transparent" Offset="1.0"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="Transparent"/>
-        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="White"/>
         <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="Transparent"/>
         <SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="Transparent"/>
         <LinearGradientBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" EndPoint="0,1" StartPoint="0,0">
@@ -457,7 +457,7 @@
             <GradientStop Color="Transparent" Offset="1.0"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="Transparent"/>
-        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="Transparent"/>
+        <SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="White"/>
         <SolidColorBrush x:Key="ComboBox.Pressed.Foreground" Color="Black"/>
         <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="Transparent"/>
         <SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="Transparent"/>
