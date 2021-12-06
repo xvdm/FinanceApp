@@ -9,44 +9,48 @@
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
-        WindowState="Normal" 
+        WindowState="Maximized" 
         WindowStyle="None"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
-        ResizeMode="CanResize"
+        ResizeMode="NoResize"
         >
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30"/>
-            <ColumnDefinition Width="23*"/>
-            <ColumnDefinition Width="95*"/>
-            <ColumnDefinition Width="90"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="Auto" MinWidth="304"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="57.565"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="106"/>
+            <RowDefinition Height="116"/>
             <RowDefinition Height="135"/>
             <RowDefinition Height="819"/>
         </Grid.RowDefinitions>
 
-        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Left" Width="60" Click="Button_Click_Roll"/>
-        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="3" HorizontalAlignment="Left"  Width="60" Click="Button_Click_Exit" Margin="60,0,0,0" Grid.ColumnSpan="2"/>
-        <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,64,0,0" Grid.Row="1" Width="305" Height="28" VerticalAlignment="Top">
+        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Center" Width="50" Click="Button_Click_Roll"/>
+        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" >
+            <Border BorderThickness="1" BorderBrush="Black" Height="7" Width="12"/>
+        </Button>
+        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Center"  Width="50" Click="Button_Click_Exit"/>
+        <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" Margin="20,64,20,0" Grid.Row="1" Height="35" VerticalAlignment="Top">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#2A324B</SolidColorBrush>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowFrameBrushKey}">Transparent</SolidColorBrush>
-
             </ComboBox.Resources>
 
             <ComboBoxItem IsSelected="True">Карта Вадима</ComboBoxItem>
             <ComboBoxItem>Карта Димы</ComboBoxItem>
         </ComboBox>
-        <Border BorderThickness="1" BorderBrush="White" Height="2" RenderTransformOrigin="0.5,0.5" Margin="20,92,20,12" Grid.Column="1" Grid.Row="1"/>
+        <Border BorderThickness="1" BorderBrush="White" RenderTransformOrigin="0.5,0.5" Margin="20,93,20,21" Grid.Column="1" Grid.Row="1"/>
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
-        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Grid.RowSpan="2"/>
+        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Grid.RowSpan="2" Margin="0,0,0,10"/>
 
         <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" >
             <Label DockPanel.Dock="Top" Content="Общий баланс:" Foreground="Gray" FontSize="16" Margin="20,20,20,0" Height="31"/>
@@ -54,18 +58,25 @@
             <Border BorderThickness="1" BorderBrush="Gray" DockPanel.Dock="Top" Height="2" RenderTransformOrigin="0.5,0.5" Margin="20,10,20,0"/>
         </DockPanel >
 
-        <TabControl  Grid.Column="2" Margin="0,0,1,0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,35,-36,-63" FontSize="24" HorizontalAlignment="Right" Width="191" IsEnabled="True">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
-            </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,35,-88,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
-            </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,35,-141,-63" FontSize="24" HorizontalAlignment="Right" Width="191">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
-            </TabItem>
-        </TabControl>
+        <TabControl  Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Width="1525">
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190" IsEnabled="True">
+                <DockPanel LastChildFill="False" Margin="-3,-42,-2,7" Background="White">
 
+                    <DataGrid DockPanel.Dock="Bottom" Height="724"  Background="White" x:Name="grid" Loaded="grid_Loaded" Width="1524">
+
+
+                    </DataGrid>
+
+                </DockPanel>
+            </TabItem>
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
+                <Border Background="White" Margin="-3,-41,-3,0"/>
+            </TabItem>
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
+                <Border Background="White" Margin="-3,-41,-3,0"/>
+            </TabItem>
+
+        </TabControl>
     </Grid>
 
 </Window>
