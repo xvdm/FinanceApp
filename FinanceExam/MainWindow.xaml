@@ -52,18 +52,23 @@
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
         <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Grid.RowSpan="2" Margin="0,0,0,10"/>
 
+        
         <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" >
             <Label DockPanel.Dock="Top" Content="Общий баланс:" Foreground="Gray" FontSize="16" Margin="20,20,20,0" Height="31"/>
             <Label DockPanel.Dock="Top" Content="₴ 0" Foreground="Black" FontSize="36" Margin="20,0,20,0" Height="58"/>
             <Border BorderThickness="1" BorderBrush="Gray" DockPanel.Dock="Top" Height="2" RenderTransformOrigin="0.5,0.5" Margin="20,10,20,0"/>
-        </DockPanel >
+        </DockPanel>
 
         <TabControl  Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Width="1525">
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190" IsEnabled="True">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
+                <Border Background="White" Margin="-3,-41,-3,0">
+                    <Border Background="Black" Width="500" Height="500" HorizontalAlignment="Left" Margin="100,0,0,0">
+                        
+                    </Border>
+                </Border>
             </TabItem>
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
