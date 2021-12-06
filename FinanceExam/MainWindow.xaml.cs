@@ -49,7 +49,7 @@ namespace FinanceExam
                 this.WindowState = WindowState.Maximized;
             else
                 this.WindowState = WindowState.Normal;
-
+             
             _expanded = !_expanded;
         }
     }
