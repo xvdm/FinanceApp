@@ -1,4 +1,4 @@
-﻿<Window x:Class="FinanceExam.MainWindow"
+﻿<Window x:Name="window" x:Class="FinanceExam.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,7 +9,7 @@
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
-        WindowState="Maximized" 
+        WindowState="Normal" 
         WindowStyle="None"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
@@ -29,8 +29,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="116"/>
-            <RowDefinition Height="135"/>
-            <RowDefinition Height="819"/>
+            <RowDefinition Height="Auto" MinHeight="0"/>
         </Grid.RowDefinitions>
 
         <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Center" Width="50" Click="Button_Click_Roll"/>
@@ -50,33 +49,84 @@
         <Border BorderThickness="1" BorderBrush="White" RenderTransformOrigin="0.5,0.5" Margin="20,93,20,21" Grid.Column="1" Grid.Row="1"/>
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
-        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Grid.RowSpan="2" Margin="0,0,0,10"/>
+        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Margin="0,0,0,-821" Width="{Binding ElementName=window, Mode=OneWay}"/>
 
-        <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" >
+        <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" Margin="0,0,0,2" >
             <Label DockPanel.Dock="Top" Content="Общий баланс:" Foreground="Gray" FontSize="16" Margin="20,20,20,0" Height="31"/>
-            <Label DockPanel.Dock="Top" Content="₴ 0" Foreground="Black" FontSize="36" Margin="20,0,20,0" Height="58"/>
+            <Label DockPanel.Dock="Top" Content="0" Foreground="Black" FontSize="36" Margin="20,0,20,0" Height="58" FontWeight="SemiBold"/>
             <Border BorderThickness="1" BorderBrush="Gray" DockPanel.Dock="Top" Height="2" RenderTransformOrigin="0.5,0.5" Margin="20,10,20,0"/>
         </DockPanel >
 
-        <TabControl  Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="2" Grid.RowSpan="2" HorizontalAlignment="Left" Width="1525">
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190" IsEnabled="True">
-                <DockPanel LastChildFill="False" Margin="-3,-42,-2,7" Background="White">
+        <TabControl  Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="2" Margin="0,0,0,-821">
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190" IsEnabled="True">
+                <Border Background="White" Margin="-3,-41,-3,0" Height="943">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="243*"/>
+                            <ColumnDefinition Width="258*"/>
+                            <ColumnDefinition Width="334*"/>
+                            <ColumnDefinition Width="641*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="186*"/>
+                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="727*"/>
+                        </Grid.RowDefinitions>
 
-                    <DataGrid DockPanel.Dock="Bottom" Height="724"  Background="White" x:Name="grid" Loaded="grid_Loaded" Width="1524">
+                        <DataGrid Style="{DynamicResource History}"  Background="White" x:Name="grid" Margin="0,0,0,20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" Grid.RowSpan="2" HeadersVisibility="Column">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Margin" Value="0,10,0,10" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn  Header="..." Width="186"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Label Content="Дата" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="70" FontWeight="SemiBold" Grid.Column="1" FontSize="20"/>
+                        <Label Content="Сумма" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="89" FontWeight="SemiBold" Grid.Column="2" Margin="10,0,0,0" FontSize="20"/>
+                        <Label Content="Категория" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="140" FontWeight="SemiBold" Grid.Column="3" FontSize="20"/>
+                        <Label Content="Комментарий" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="181" FontWeight="SemiBold" Grid.Column="4" FontSize="20"/>
+                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,28,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4">
+                        </Border>
 
-
-                    </DataGrid>
-
-                </DockPanel>
+                    </Grid>
+                </Border>
             </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,35,-75,-63" FontSize="24" HorizontalAlignment="Right" Width="190">
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
 
         </TabControl>
+
+        <Border Grid.Column="5" Grid.Row="1" Margin="2,33,2,38" CornerRadius="30" Height="45" Width="45" RenderTransformOrigin="0.415,0.421" >
+            <Border.Background>
+                <SolidColorBrush Color="LightGray" Opacity="0.2"/>
+            </Border.Background>
+            <Button Style="{DynamicResource SettinButton}" Grid.Column="5" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="30" Visibility="Visible" Click="Button_Setting" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Setting.png"/>
+                </Button.Background>
+            </Button>
+        </Border>
+        <Button Content="Test" Grid.Column="2" HorizontalAlignment="Left" Margin="28,21,0,0" VerticalAlignment="Top" Height="69" Width="177" Grid.Row="1" FontSize="40" Click="Button_Click"/>
     </Grid>
 
 </Window>

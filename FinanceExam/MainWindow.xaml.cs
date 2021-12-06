@@ -20,6 +20,8 @@ namespace FinanceExam
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<History> data_grid = null;
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -39,15 +41,20 @@ namespace FinanceExam
             this.WindowState = WindowState.Minimized;
         }
 
-        private void grid_Loaded(object sender, RoutedEventArgs e)
+
+        private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            
-            List<History> result = new List<History>();
-            result.Add(new History("06.12.2021", 600, "Thriller", ""));
-            result.Add(new History("06.12.2021", 700, "Back in Black", ""));
-            result.Add(new History("06.12.2021", -10, "Saturday Night Fever", ""));
-            result.Add(new History("06.12.2021", 30, "The Dark Side of the Moon", ""));
-            grid.ItemsSource = result;
+            MessageBox.Show("In coming future", "Setting");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(data_grid == null)
+            {
+                data_grid = new List<History>();
+                grid.ItemsSource = data_grid;
+            }
+            data_grid.Add(new History("06.12.2021", 600, "Thriller", ""));
         }
     }
 
