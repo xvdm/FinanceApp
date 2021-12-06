@@ -20,7 +20,7 @@ namespace FinanceExam
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<History> data_grid = null;
+        List<History_Data> data_grid = null;
        
         public MainWindow()
         {
@@ -51,27 +51,36 @@ namespace FinanceExam
         {
             if(data_grid == null)
             {
-                data_grid = new List<History>();
-                grid.ItemsSource = data_grid;
+                data_grid = new List<History_Data>();
+                Datagrid.ItemsSource = data_grid;
             }
-            data_grid.Add(new History("06.12.2021", 600, "Thriller", ""));
+            data_grid.Add(new History_Data("06.12.2021", 600, "Вадим", "Диме"));
+            Datagrid.Items.Refresh();
         }
     }
 
-    public class History
+    public class History_Data
     {
-        public History(string Id, double Vocalist, string Album, string Year)
+
+        private string day;
+        private double money;
+        private string category;
+        private string comment;
+
+        public History_Data(string _day, double _money, string _category, string _comment)
         {
-            this.Day = Id;
-            this.Money = Vocalist;
-            this.Category = Album;
-            this.Comment = Year;
+            this.day = _day;
+            this.money = _money;
+            this.category = _category;
+            this.comment = _comment;
         }
 
-        public string Day { get; set; }
-        public double Money { get; set; }
-        public string Category { get; set; }
-        public string Comment { get; set; }
-    }
+        public string Day { get { return this.day; } set { this.day = value; } }
+        public double Money { get { return this.money; } set { this.money = value; } }
+        public string Category { get { return this.category; } set { this.category = value; } }
+        public string Comment { get { return this.comment; } set { this.comment = value; } }
 
+
+
+    }
 }
