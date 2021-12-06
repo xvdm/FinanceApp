@@ -50,16 +50,17 @@ namespace FinanceExam
 
         private void DrawCircleDiagram()
         {
-            int sum = 360;
-            int angles = 5;
-            double radius = 100.0;
+            int[] data = new int[3] { 100, 200, 300 };
+            var sum = data.Sum();
+            var angles = data.Select(d => d * 2.0 * Math.PI / sum);
 
+            double radius = 150.0;
             var startAngle = 0.0;
 
             var centerPoint = new Point(radius, radius);
             var xyradius = new Size(radius, radius);
 
-            for (int angle = 0; angle < angles; angle++)
+            foreach (var angle in angles)
             {
                 var endAngle = startAngle + angle;
 
@@ -74,7 +75,7 @@ namespace FinanceExam
                 Path p = new Path()
                 {
                     Stroke = Brushes.Black,
-                    Fill = Brushes.Red,
+                    Fill = Brushes.Gray,
                     Data = new PathGeometry(
                         new PathFigure[]
                         {
