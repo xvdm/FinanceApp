@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
 
         <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Left" Width="50" Click="Button_Click_Roll" Grid.ColumnSpan="2"/>
-        <Button Style="{DynamicResource ButtonExpand}" Content="[]" VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Left" Width="50" Click="Button_Click_Roll" Grid.ColumnSpan="2"/>
+        <Button Style="{DynamicResource ButtonExpand}" Content="[]" VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Left" Width="50" Click="Button_Click_Expand" Grid.ColumnSpan="2"/>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Left"  Width="50" Click="Button_Click_Exit" Margin="0,0,0,0" Grid.ColumnSpan="2"/>
         <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" HorizontalAlignment="Center" Margin="0,64,0,0" Grid.Row="1" Width="305" Height="35" VerticalAlignment="Top">
             <ComboBox.Resources>

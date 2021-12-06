@@ -66,7 +66,7 @@
         
 
         <!--Кнопка Развернуть-->
-        <Style x:Key="FocusVisual2">
+        <Style x:Key="FocusVisual4">
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -75,19 +75,19 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <SolidColorBrush x:Key="Button.Static.Background2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Static.Border2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border2" Color="PaleVioletRed"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground2" Color="PaleVioletRed"/>
+        <SolidColorBrush x:Key="Button.Static.Background4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Static.Border4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border4" Color="DarkGray"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground4" Color="DarkGray"/>
         <Style x:Key="ButtonExpand" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual2}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background2}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border2}"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual4}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background4}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border4}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -103,18 +103,18 @@
                                 <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background2}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border2}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background4}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border4}"/>
                                 <Setter Property="Opacity" TargetName="border" Value="0.7"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background2}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border2}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background4}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border4}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background2}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border2}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground2}"/>
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background4}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border4}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground4}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -181,7 +181,7 @@
         </Style>
 
         <!--Кнопки-->
-        <Style x:Key="FocusVisual">
+        <Style x:Key="FocusVisual2">
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>

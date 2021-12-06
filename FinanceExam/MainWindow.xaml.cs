@@ -20,9 +20,13 @@ namespace FinanceExam
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool _expanded = false;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
+            this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
         }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -37,6 +41,16 @@ namespace FinanceExam
         private void Button_Click_Roll(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void Button_Click_Expand(object sender, RoutedEventArgs e)
+        {
+            if (_expanded == true)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+
+            _expanded = !_expanded;
         }
     }
 }
