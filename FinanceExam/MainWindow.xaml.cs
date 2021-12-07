@@ -22,6 +22,9 @@ namespace FinanceExam
     {
         List<History_Data> data_grid = null;
         TransverSetting Transver = new TransverSetting();
+
+        private bool _expanded = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -73,6 +76,16 @@ namespace FinanceExam
                 temp = Transver.General_Balance / 27.37;
                 GeneralBalance.Content = temp;
             }
+        }
+
+        private void Button_Click_Expand(object sender, RoutedEventArgs e)
+        {
+            if (_expanded == true)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+
+            _expanded = !_expanded;
         }
     }
 
