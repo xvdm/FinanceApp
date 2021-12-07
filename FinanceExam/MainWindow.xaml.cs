@@ -132,7 +132,7 @@ namespace FinanceExam
                     closed: true)
                         })
                 };
-                MainBorder.Children.Add(p);
+                DiagramCanvas.Children.Add(p);
 
                 startAngle = endAngle;
             }

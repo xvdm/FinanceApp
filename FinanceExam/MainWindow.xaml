@@ -117,7 +117,11 @@
                 </Border>
             </TabItem>
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
+                <Border Background="White" Margin="-3,-41,-3,0">
+                    <Canvas Width="500" Height="500" HorizontalAlignment="Left" Margin="100,0,0,0" Name="DiagramCanvas">
+
+                    </Canvas>
+                </Border>
             </TabItem>
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
