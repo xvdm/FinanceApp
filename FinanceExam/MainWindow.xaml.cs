@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,11 @@ using System.Windows.Shapes;
 
 namespace FinanceExam
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private List<History_Data> data_grid = null;
+        private List<History_Data> _dataGrid = null;
+        private Dictionary<string, int> _diagramData = new Dictionary<string, int>();
+        private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>();
 
         private TransverSetting Transver = new TransverSetting();
 
@@ -43,19 +43,45 @@ namespace FinanceExam
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (data_grid == null)
+            if (_dataGrid == null)
             {
-                data_grid = new List<History_Data>();
-                Datagrid.ItemsSource = data_grid;
+                _dataGrid = new List<History_Data>();
+                Datagrid.ItemsSource = _dataGrid;
             }
             Random r = new Random();
             int money = r.Next(100, 2000);
-            data_grid.Add(new History_Data("06.12.2021", money, "Вадим", "Диме"));
-
             Transver.General_Balance += money;
             GeneralBalance.Content = Transver.General_Balance;
+            string day = "day";
+            string category = "category";
+            int random_category = r.Next(1, 5);
+            category += random_category.ToString(); // добавляю рандомную цифру в конец, чтобы было несколько разных категорий
+            string comment = "comment";
 
+            _dataGrid.Add(new History_Data(day, money, category, comment));
             Datagrid.Items.Refresh();
+
+            if (_diagramData.ContainsKey(category))
+                _diagramData[category] += money;
+            else
+                _diagramData.Add(category, money);
+
+            string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
+            switch(random_category) // пока нет функционала - цвета для каждой категории задаются заранее
+            {
+                case 1: color = "Gray"; break;
+                case 2: color = "Red"; break;
+                case 3: color = "Green"; break;
+                case 4: color = "Yellow"; break;
+            }
+
+            if(_categoryColor.ContainsKey(category) == false)
+            {
+                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color));
+                Color clr = (Color)tc.ConvertFromString(color);
+                Brush brush = new SolidColorBrush(clr);
+                _categoryColor.Add(category, brush);
+            }
 
             DrawCircleDiagram();
         }
@@ -82,12 +108,21 @@ namespace FinanceExam
 
         private void DrawCircleDiagram()
         {
-            if (data_grid.Count > 1)
+            if (_diagramData.Count > 1)
             {
-                int[] data = new int[data_grid.Count];
-                for (int i = 0; i < data_grid.Count; i++)
+                int[] data = new int[_diagramData.Count];
+                Brush[] brushes = new Brush[_categoryColor.Count];
+                int i = 0;
+                foreach(var x in _diagramData)
                 {
-                    data[i] = Convert.ToInt32(data_grid[i].Money);
+                    data[i] = x.Value;
+                    i++;
+                }
+                i = 0;
+                foreach (var x in _categoryColor)
+                {
+                    brushes[i] = x.Value;
+                    i++;
                 }
                 var sum = data.Sum();
                 var angles = data.Select(d => d * 2.0 * Math.PI / sum);
@@ -98,6 +133,7 @@ namespace FinanceExam
                 var centerPoint = new Point(radius, radius);
                 var xyradius = new Size(radius, radius);
 
+                i = 0;
                 foreach (var angle in angles)
                 {
                     var endAngle = startAngle + angle;
@@ -113,7 +149,7 @@ namespace FinanceExam
                     Path p = new Path()
                     {
                         Stroke = Brushes.Black,
-                        Fill = Brushes.Gray,
+                        Fill = brushes[i++],
                         StrokeThickness = 1,
                         Data = new PathGeometry(
                             new PathFigure[]
@@ -151,30 +187,26 @@ namespace FinanceExam
 
     public class TransverSetting
     {
-        private double MONEY = 0;
-
-        public double General_Balance { get { return MONEY; } set { MONEY = value; } }
+        public double General_Balance { get; set; }
     }
 
 
     public class History_Data
     {
-        private string _day;
-        private double _money;
-        private string _category;
-        private string _comment;
-
         public History_Data(string day, double money, string category, string comment)
         {
-            _day = day;
-            _money = money;
-            _category = category;
-            _comment = comment;
+            Day = day;
+            Money = money;
+            Category = category;
+            Comment = comment;
         }
 
-        public string Day { get { return _day; } set { _day = value; } }
-        public double Money { get { return _money; } set { _money = value; } }
-        public string Category { get { return _category; } set { _category = value; } }
-        public string Comment { get { return _comment; } set { _comment = value; } }
+        public string Day { get; set; }
+
+        public double Money { get; set; }
+
+        public string Category { get; set; }
+
+        public string Comment { get; set; }
     }
 }
