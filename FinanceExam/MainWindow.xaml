@@ -100,10 +100,12 @@
                             </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn  Width="243" Binding="{Binding Path=Day}"/>
-                                <DataGridTextColumn  Width="258" Binding="{Binding Path=Money}"/>
-                                <DataGridTextColumn  Width="334" Binding="{Binding Path=Category}"/>
-                                <DataGridTextColumn  Width="641" Binding="{Binding Path=Comment}"/>
+                                <DataGridTextColumn  Width="20"/>
+                                <DataGridTextColumn  Width="243*" Binding="{Binding Path=Day}"/>
+                                <DataGridTextColumn  Width="258*" Binding="{Binding Path=Money}"/>
+                                <DataGridTextColumn  Width="334*" Binding="{Binding Path=Category}"/>
+                                <DataGridTextColumn  Width="641*" Binding="{Binding Path=Comment}"/>
+                                <DataGridTextColumn  Width="20"/>
                             </DataGrid.Columns>
                         </DataGrid>
                         <Label Content="Дата" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="80" FontWeight="SemiBold" Grid.Column="1" FontSize="20"/>
@@ -127,7 +129,7 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="186*"/>
                             <RowDefinition Height="30*"/>
                             <RowDefinition Height="727*"/>
                         </Grid.RowDefinitions>
@@ -153,8 +155,11 @@
                             </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn  Width="334" Binding="{Binding Path=Category}"/>
-                                <DataGridTextColumn  Width="641" Binding="{Binding Path=Color}"/>
+                                <DataGridTextColumn  Width="20"/>
+                                <DataGridTextColumn  Width="300*"/>
+                                <DataGridTextColumn  Width="380*" Binding="{Binding Path=Category}"/>
+                                <DataGridTextColumn  Width="150*" Binding="{Binding Path=Color}"/>
+                                <DataGridTextColumn  Width="20"/>
                             </DataGrid.Columns>
                         </DataGrid>
 
