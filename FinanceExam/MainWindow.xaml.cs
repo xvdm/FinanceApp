@@ -19,6 +19,7 @@ namespace FinanceExam
     public partial class MainWindow : Window
     {
         private List<History_Data> _dataGrid = null;
+        private List<Category_Data> _dataGridCategories = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>();
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>();
 
@@ -47,6 +48,11 @@ namespace FinanceExam
             {
                 _dataGrid = new List<History_Data>();
                 Datagrid.ItemsSource = _dataGrid;
+            }
+            if(_dataGridCategories == null)
+            {
+                _dataGridCategories = new List<Category_Data>();
+                DatagridCategory.ItemsSource = _dataGridCategories;
             }
             Random r = new Random();
             int money = r.Next(100, 2000);
@@ -82,6 +88,9 @@ namespace FinanceExam
                 Brush brush = new SolidColorBrush(clr);
                 _categoryColor.Add(category, brush);
             }
+
+            _dataGridCategories.Add(new Category_Data(category, color));
+            DatagridCategory.Items.Refresh();
 
             DrawCircleDiagram();
         }
@@ -208,5 +217,19 @@ namespace FinanceExam
         public string Category { get; set; }
 
         public string Comment { get; set; }
+    }
+
+
+    public class Category_Data
+    {
+        public Category_Data(string category, string color)
+        {
+            Category = category;
+            Color = color;
+        }
+
+        public string Category { get; set; }
+
+        public string Color { get; set; }
     }
 }
