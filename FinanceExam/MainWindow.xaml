@@ -9,7 +9,7 @@
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
-        WindowState="Normal" 
+        WindowState="Maximized" 
         WindowStyle="None"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
 
         <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Center" Width="50" Click="Button_Click_Roll"/>
-        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" >
+        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" Click="Button_Click_Expand">
             <Border BorderThickness="1" BorderBrush="Black" Height="7" Width="12"/>
         </Button>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Center"  Width="50" Click="Button_Click_Exit"/>
