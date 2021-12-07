@@ -22,9 +22,14 @@ namespace FinanceExam
     {
         List<History_Data> data_grid = null;
         TransverSetting Transver = new TransverSetting();
+        private bool _expanded = false;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
+            this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
         }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -35,6 +40,18 @@ namespace FinanceExam
         {
             Close();
         }
+
+
+        private void Button_Click_Expand(object sender, RoutedEventArgs e)
+        {
+            if (_expanded == true)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+
+            _expanded = !_expanded;
+        }
+
 
         private void Button_Click_Roll(object sender, RoutedEventArgs e)
         {
@@ -47,9 +64,21 @@ namespace FinanceExam
             MessageBox.Show("In coming future", "Setting");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(data_grid == null)
+
+            if(Currency.SelectedItem .ToString() == "$")
+            {
+                double temp = 0;
+                temp = Transver.General_Balance / 27.37;
+                GeneralBalance.Content = temp;
+            }
+        }
+
+        private void Button_AddInData(object sender, RoutedEventArgs e)
+        {
+            if (data_grid == null)
             {
                 data_grid = new List<History_Data>();
                 Datagrid.ItemsSource = data_grid;
@@ -62,17 +91,6 @@ namespace FinanceExam
             GeneralBalance.Content = Transver.General_Balance;
 
             Datagrid.Items.Refresh();
-        }
-
-        private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            if(Currency.SelectedItem .ToString() == "$")
-            {
-                double temp = 0;
-                temp = Transver.General_Balance / 27.37;
-                GeneralBalance.Content = temp;
-            }
         }
     }
 
