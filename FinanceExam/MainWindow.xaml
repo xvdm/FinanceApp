@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
-        Title="" 
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
@@ -14,6 +13,7 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         >
 
     <Grid>

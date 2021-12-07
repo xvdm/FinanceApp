@@ -1,0 +1,31 @@
+﻿<Window x:Class="FinanceExam.NewDataItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FinanceExam"
+        mc:Ignorable="d"
+        Height="450" Width="400"
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        
+        >
+    <Grid>
+        <Border BorderBrush="#2A324B" BorderThickness="1,20,1,1">
+            <Grid>
+
+                <Button Content="Добавить" HorizontalAlignment="Left" Margin="288,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click"/>
+                <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100"/>
+                
+                <TextBox HorizontalAlignment="Left" Margin="87,49,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputData" Height="24"/>
+                <TextBox HorizontalAlignment="Left" Margin="87,92,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputMoney" Height="24"/>
+                <TextBox HorizontalAlignment="Left" Margin="87,140,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputCategory" Height="24"/>
+                <TextBox HorizontalAlignment="Left" Margin="87,182,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputComment" Height="24"/>
+            </Grid>
+        </Border>
+        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Top" Height="20" HorizontalAlignment="Left"  Width="50" Click="Button_Click_Exit" Margin="350,0,0,0"/>
+    </Grid>
+</Window>

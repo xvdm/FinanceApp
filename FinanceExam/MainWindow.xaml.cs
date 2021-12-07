@@ -24,12 +24,18 @@ namespace FinanceExam
         TransverSetting Transver = new TransverSetting();
         private bool _expanded = false;
 
+        public List<History_Data> Data_grid { set { data_grid.Add(value); } }
+
         public MainWindow()
         {
             InitializeComponent();
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+
+            data_grid = new List<History_Data>();
+            Datagrid.ItemsSource = data_grid;
+
         }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -78,17 +84,13 @@ namespace FinanceExam
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
-            if (data_grid == null)
-            {
-                data_grid = new List<History_Data>();
-                Datagrid.ItemsSource = data_grid;
-            }
-            data_grid.Add(new History_Data("06.12.2021", 600, "Вадим", "Диме"));
+
+            NewDataItem NewItem = new NewDataItem();
+            NewItem.Owner = this;
+            NewItem.ShowDialog();
+            NewItem.DataList(data_grid)
 
 
-
-            Transver.General_Balance += 600;
-            GeneralBalance.Content = Transver.General_Balance;
 
             Datagrid.Items.Refresh();
         }
