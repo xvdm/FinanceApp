@@ -46,7 +46,6 @@ namespace FinanceExam
             this.WindowState = WindowState.Minimized;
         }
 
-
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("In coming future", "Setting");
@@ -89,21 +88,68 @@ namespace FinanceExam
 
             _expanded = !_expanded;
         }
+
+        private void DrawCircleDiagram()
+        {
+            int[] data = new int[3] { 100, 200, 300 };
+            var sum = data.Sum();
+            var angles = data.Select(d => d * 2.0 * Math.PI / sum);
+
+            double radius = 150.0;
+            var startAngle = 0.0;
+
+            var centerPoint = new Point(radius, radius);
+            var xyradius = new Size(radius, radius);
+
+            foreach (var angle in angles)
+            {
+                var endAngle = startAngle + angle;
+
+                var startPoint = centerPoint;
+                startPoint.Offset(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle));
+
+                var endPoint = centerPoint;
+                endPoint.Offset(radius * Math.Cos(endAngle), radius * Math.Sin(endAngle));
+
+                var angleDeg = angle * 180.0 / Math.PI;
+
+                Path p = new Path()
+                {
+                    Stroke = Brushes.Black,
+                    Fill = Brushes.Gray,
+                    Data = new PathGeometry(
+                        new PathFigure[]
+                        {
+                new PathFigure(
+                    centerPoint,
+                    new PathSegment[]
+                    {
+                        new LineSegment(startPoint, isStroked: true),
+                        new ArcSegment(endPoint, xyradius,
+                                       angleDeg, angleDeg > 180,
+                                       SweepDirection.Clockwise, isStroked: true)
+                    },
+                    closed: true)
+                        })
+                };
+                MainBorder.Children.Add(p);
+
+                startAngle = endAngle;
+            }
+        }
     }
+
 
     public class TransverSetting
     {
         private double MONEY = 0;
 
-
         public double General_Balance { get { return MONEY; } set { MONEY = value; } }
-
-
     }
+
 
     public class History_Data
     {
-
         private string day;
         private double money;
         private string category;
@@ -116,13 +162,9 @@ namespace FinanceExam
             this.category = _category;
             this.comment = _comment;
         }
-
         public string Day { get { return this.day; } set { this.day = value; } }
         public double Money { get { return this.money; } set { this.money = value; } }
         public string Category { get { return this.category; } set { this.category = value; } }
         public string Comment { get { return this.comment; } set { this.comment = value; } }
-
-
-
     }
 }
