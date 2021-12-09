@@ -54,22 +54,20 @@ namespace FinanceExam
                 _dataGridCategories = new List<Category_Data>();
                 DatagridCategory.ItemsSource = _dataGridCategories;
             }
+
             Random r = new Random();
             int money = r.Next(100, 2000);
             Transver.General_Balance += money;
             GeneralBalance.Content = Transver.General_Balance;
             string day = "day";
             string category = "category";
+            string comment = "comment";
             int random_category = r.Next(1, 5);
             category += random_category.ToString(); // добавляю рандомную цифру в конец, чтобы было несколько разных категорий
-            string comment = "comment";
-
             _dataGrid.Add(new History_Data(day, money, category, comment));
-            Datagrid.Items.Refresh();
-            
 
             string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
-            switch(random_category) // пока нет функционала - цвета для каждой категории задаются заранее
+            switch(random_category) // пока нет функционала - цвет для каждой категории задается тут
             {
                 case 1: color = "Gray"; break;
                 case 2: color = "Red"; break;
@@ -77,37 +75,38 @@ namespace FinanceExam
                 case 4: color = "Yellow"; break;
             }
 
-            if (_diagramData.ContainsKey(category))
+            if (_diagramData.ContainsKey(category)) // если категория уже есть
             {
-                _diagramData[category] += money;
-                foreach(var x in _dataGridCategories)
+                _diagramData[category] += money; // увеличиваю кол-во денег в ней
+                foreach(var x in _dataGridCategories) // в таблице ищу строку с этой категорией
                 {
                     if(x.Category == category)
                     {
-                        x.Money += money;
+                        x.Money += money; // и увеличиваю сумму в этой строке
                     }
                 }
             }
             else
             {
-                _diagramData.Add(category, money);
+                _diagramData.Add(category, money); // добавление новой категории в диаграмму
 
-                _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории и ее цвета в таблицу
+                _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
 
-                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой и цветом
+                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
                 Color clr = (Color)tc.ConvertFromString(color);
                 Brush brush = new SolidColorBrush(clr);
                 _categoryColor.Add(category, brush);
             }
 
-            DatagridCategory.Items.Refresh();
 
+            DatagridCategory.Items.Refresh();
+            Datagrid.Items.Refresh();
             DrawCircleDiagram();
         }
 
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Currency.SelectedItem .ToString() == "$")
+            if(Currency.SelectedItem.ToString() == "$")
             {
                 double temp = 0;
                 temp = Transver.General_Balance / 27.37;
