@@ -56,6 +56,7 @@ namespace FinanceExam
 
             HistoryTableEdit(money, category);
             ChartTableEdit(money, category);
+            DiagramEdit(money, category);
             
             DrawCircleDiagram();
         }
@@ -96,7 +97,6 @@ namespace FinanceExam
 
             if (_diagramData.ContainsKey(category)) // если категория уже есть
             {
-                _diagramData[category] += money; // увеличиваю кол-во денег в ней
                 foreach (var x in _dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
                 {
                     if (x.Category == category)
@@ -107,7 +107,6 @@ namespace FinanceExam
             }
             else
             {
-                _diagramData.Add(category, money); // добавление новой категории в диаграмму
                 _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
 
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
@@ -119,8 +118,16 @@ namespace FinanceExam
             DatagridCategory.Items.Refresh();
         }
 
-        private void DiagramEdit()
+        private void DiagramEdit(int money, string category)
         {
+            if (_diagramData.ContainsKey(category)) // если категория уже есть
+            {
+                _diagramData[category] += money; // увеличиваю кол-во денег в ней
+            }
+            else
+            {
+                _diagramData.Add(category, money); // добавление новой категории в диаграмму
+            }
 
         }
 
