@@ -117,16 +117,31 @@ namespace FinanceExam
 
     }
 
-
     public class User
     {
         double UserMoney = 0;
 
         List<History_Data> DATAGrid;
+        List<Category> CategoryList;
+
+
+        private void CardHistory()
+        {
+
+        }
+
+
+        private void LoadCategory()
+        {
+            string path = @"C:\Users\Isae_j3yu\source\repos\FinanceExam\FinanceExam\Category\Category.txt";
+            
+        }
 
         public User()
         {
             DATAGrid = new List<History_Data>();
+            LoadCategory();
+            CardHistory();
         }
 
         public List<History_Data> Data
@@ -144,14 +159,23 @@ namespace FinanceExam
 
         public double Balance { set { UserMoney = value; } get { return UserMoney; } }
 
-        public void AddItem (History_Data NewItem)
+        public void AddItem(History_Data NewItem)
         {
             DATAGrid.Add(NewItem);
         }
 
+        public void AddCategory()
+        {
 
-
+        }
 
     }
 
+    struct Category
+    {
+        string Name;
+        string Color;
+    }
+    
 }
+
