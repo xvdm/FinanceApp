@@ -21,7 +21,7 @@ namespace FinanceExam
         private List<History_Data> _dataGrid = null;
         private List<Category_Data> _dataGridCategories = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>();
-        private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>();
+        private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         private TransverSetting Transver = new TransverSetting();
 
@@ -66,11 +66,7 @@ namespace FinanceExam
 
             _dataGrid.Add(new History_Data(day, money, category, comment));
             Datagrid.Items.Refresh();
-
-            if (_diagramData.ContainsKey(category))
-                _diagramData[category] += money;
-            else
-                _diagramData.Add(category, money);
+            
 
             string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
             switch(random_category) // пока нет функционала - цвета для каждой категории задаются заранее
@@ -81,15 +77,22 @@ namespace FinanceExam
                 case 4: color = "Yellow"; break;
             }
 
-            if(_categoryColor.ContainsKey(category) == false)
+            if (_diagramData.ContainsKey(category))
             {
-                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color));
+                _diagramData[category] += money;
+            }
+            else
+            {
+                _diagramData.Add(category, money);
+
+                _dataGridCategories.Add(new Category_Data(category, color)); // добавление новой категории и ее цвета в таблицу
+
+                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой и цветом
                 Color clr = (Color)tc.ConvertFromString(color);
                 Brush brush = new SolidColorBrush(clr);
                 _categoryColor.Add(category, brush);
             }
 
-            _dataGridCategories.Add(new Category_Data(category, color));
             DatagridCategory.Items.Refresh();
 
             DrawCircleDiagram();
@@ -193,12 +196,10 @@ namespace FinanceExam
         }
     }
 
-
     public class TransverSetting
     {
         public double General_Balance { get; set; }
     }
-
 
     public class History_Data
     {
@@ -218,7 +219,6 @@ namespace FinanceExam
 
         public string Comment { get; set; }
     }
-
 
     public class Category_Data
     {
