@@ -130,8 +130,8 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="186*"/>
-                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="50*"/>
                             <RowDefinition Height="727*"/>
                         </Grid.RowDefinitions>
 
