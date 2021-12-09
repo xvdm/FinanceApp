@@ -85,6 +85,7 @@ namespace FinanceExam
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
 
+            GeneralBalance.Content = MainUser.Balance;
             Datagrid.Items.Refresh();
         }
     }
@@ -141,6 +142,7 @@ namespace FinanceExam
             }
         }
 
+        public double Balance { set { UserMoney = value; } get { return UserMoney; } }
 
         public void AddItem (History_Data NewItem)
         {

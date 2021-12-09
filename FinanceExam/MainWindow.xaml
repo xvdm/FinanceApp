@@ -71,7 +71,7 @@
                             <ColumnDefinition Width="243"/>
                             <ColumnDefinition Width="258"/>
                             <ColumnDefinition Width="334"/>
-                            <ColumnDefinition Width="641"/>
+                            <ColumnDefinition/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -111,7 +111,7 @@
                         <Label Content="Дата" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Left" Width="243"/>
                         <Label Content="Сумма" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="2" FontSize="25" HorizontalAlignment="Left" Width="258"/>
                         <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
-                        <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Center" Width="641"/>
+                        <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
 
                         <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,37,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>

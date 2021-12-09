@@ -40,6 +40,8 @@ namespace FinanceExam
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text,Convert.ToDouble(InputMoney.Text), InputCategory.Text,InputComment.Text));
+            ((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
+
             Close();
 
         }
