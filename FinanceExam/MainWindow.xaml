@@ -123,6 +123,16 @@
                                 </TransformGroup>
                             </Border.RenderTransform>
                         </Border>
+                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,5,0,32" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
 
                         <Button Style="{DynamicResource DataSettingButton}" Content="" Grid.Column="4" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="36" />
                         <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,51,10" VerticalAlignment="Bottom" Height="36" IsEnabled="False" HorizontalAlignment="Right" Width="36">
@@ -131,6 +141,7 @@
                         <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" Click="Button_AddInData" HorizontalAlignment="Right" Width="36">
                             <TextBlock HorizontalAlignment="Center" Height="30" Width="14">+</TextBlock>
                         </Button>
+                        <Label Content="Дата" VerticalAlignment="Center" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Center" Width="243" Grid.Row="1"/>
 
 
                     </Grid>
@@ -148,9 +159,9 @@
 
         <Border Grid.Column="5" Grid.Row="1" Margin="2,33,2,38" CornerRadius="30" Height="45" Width="45" RenderTransformOrigin="0.415,0.421" >
             <Border.Background>
-                <SolidColorBrush Color="LightGray" Opacity="0.2"/>
+                <SolidColorBrush Color="LightGray" Opacity="0.1"/>
             </Border.Background>
-            <Button Style="{DynamicResource SettinButton}" Grid.Column="5" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="30" Visibility="Visible" Click="Button_Setting" >
+            <Button Style="{DynamicResource SettinButton}" Grid.Column="5" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="30" Visibility="Visible" Click="Button_Setting" Opacity="0.6" >
                 <Button.Background>
                     <ImageBrush ImageSource="/Setting.png"/>
                 </Button.Background>

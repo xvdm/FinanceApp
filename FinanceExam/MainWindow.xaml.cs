@@ -68,7 +68,10 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("In coming future", "Setting");
+            WindowSetting WinSet = new WindowSetting();
+            WinSet.ShowDialog();
+
+
         }
 
 
@@ -123,10 +126,25 @@ namespace FinanceExam
         double UserMoney = 0;
 
         List<History_Data> DATAGrid;
+        List<Category> CategoryList;
+
+
+        private void CardHistory()
+        {
+
+        }
+
+
+        private void LoadCategory()
+        {
+
+        }
 
         public User()
         {
             DATAGrid = new List<History_Data>();
+            LoadCategory();
+            CardHistory();
         }
 
         public List<History_Data> Data
@@ -144,14 +162,29 @@ namespace FinanceExam
 
         public double Balance { set { UserMoney = value; } get { return UserMoney; } }
 
+
         public void AddItem (History_Data NewItem)
         {
             DATAGrid.Add(NewItem);
         }
 
+        public void AddCategory()
+        {
+
+        }
 
 
 
     }
+
+
+    struct Category
+    {
+        string Name;
+        string Color;
+    }
+
+
+
 
 }
