@@ -18,9 +18,9 @@ namespace FinanceExam
 {
     public partial class MainWindow : Window
     {
-        private List<History_Data> _dataGrid = null;
-        private List<Category_Data> _dataGridCategories = null;
-        private Dictionary<string, int> _diagramData = new Dictionary<string, int>();
+        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
+        private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
+        private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         private TransverSetting Transver = new TransverSetting();
