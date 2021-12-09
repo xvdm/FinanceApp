@@ -118,6 +118,8 @@
                 </Border>
             </TabItem>
             
+            
+            <!--раздел ГРАФИК-->
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0">
                     <Grid>
@@ -130,12 +132,12 @@
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100*"/>
                             <RowDefinition Height="50*"/>
                             <RowDefinition Height="727*"/>
                         </Grid.RowDefinitions>
 
-                        <DataGrid Style="{DynamicResource Categories}"  Background="White" x:Name="DatagridCategory" Margin="0,10,0,20" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2" AutoGenerateColumns="False">
+                        <DataGrid Style="{DynamicResource Categories}"  Background="White" x:Name="DatagridCategory" Margin="0,0,0,20" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2" AutoGenerateColumns="False">
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Margin" Value="0,20,0,20" />
