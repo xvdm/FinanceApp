@@ -80,12 +80,19 @@ namespace FinanceExam
             if (_diagramData.ContainsKey(category))
             {
                 _diagramData[category] += money;
+                foreach(var x in _dataGridCategories)
+                {
+                    if(x.Category == category)
+                    {
+                        x.Money += money;
+                    }
+                }
             }
             else
             {
                 _diagramData.Add(category, money);
 
-                _dataGridCategories.Add(new Category_Data(category, color)); // добавление новой категории и ее цвета в таблицу
+                _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории и ее цвета в таблицу
 
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой и цветом
                 Color clr = (Color)tc.ConvertFromString(color);
@@ -222,14 +229,17 @@ namespace FinanceExam
 
     public class Category_Data
     {
-        public Category_Data(string category, string color)
+        public Category_Data(string category, string color, int money)
         {
             Category = category;
             Color = color;
+            Money = money;
         }
 
         public string Category { get; set; }
 
         public string Color { get; set; }
+
+        public int Money { get; set; }
     }
 }
