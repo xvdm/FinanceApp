@@ -142,15 +142,26 @@ namespace FinanceExam
         private void Button_Click_Expand(object sender, RoutedEventArgs e)
         {
             if (_expanded == true)
+            {
                 this.WindowState = WindowState.Maximized;
+                DiagramCanvas.Width = 300;
+                DiagramCanvas.Height = 300;
+            }
             else
+            {
                 this.WindowState = WindowState.Normal;
+                DiagramCanvas.Width = 250;
+                DiagramCanvas.Height = 250;
+            }
 
+            DrawCircleDiagram();
             _expanded = !_expanded;
         }
 
         private void DrawCircleDiagram()
         {
+            DiagramCanvas.Children.Clear();
+
             if (_diagramData.Count > 1)
             {
                 int[] data = new int[_diagramData.Count];
@@ -219,7 +230,7 @@ namespace FinanceExam
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = Brushes.Gray;
+                ellipse.Fill = _categoryColor.Values.First();
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
