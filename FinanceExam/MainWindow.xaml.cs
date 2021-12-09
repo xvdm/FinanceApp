@@ -44,43 +44,62 @@ namespace FinanceExam
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Random r = new Random();
+            int money = r.Next(100, 2000);
+
+            Transver.General_Balance += money;
+            GeneralBalance.Content = Transver.General_Balance;
+
+            string category = "category";
+            int random_category = r.Next(1, 5);
+            category += random_category.ToString(); // добавляю рандомную цифру в конец, чтобы было несколько разных категорий
+
+            HistoryTableEdit(money, category);
+            ChartTableEdit(money, category);
+            
+            DrawCircleDiagram();
+        }
+
+        private void HistoryTableEdit(int money, string category)
+        {
+            Random r = new Random();
             if (_dataGrid == null)
             {
                 _dataGrid = new List<History_Data>();
                 Datagrid.ItemsSource = _dataGrid;
             }
-            if(_dataGridCategories == null)
+
+            string day = "day";
+            string comment = "comment";
+            
+            _dataGrid.Add(new History_Data(day, money, category, comment));
+
+            Datagrid.Items.Refresh();
+        }
+
+        private void ChartTableEdit(int money, string category)
+        {
+            if (_dataGridCategories == null)
             {
                 _dataGridCategories = new List<Category_Data>();
                 DatagridCategory.ItemsSource = _dataGridCategories;
             }
 
-            Random r = new Random();
-            int money = r.Next(100, 2000);
-            Transver.General_Balance += money;
-            GeneralBalance.Content = Transver.General_Balance;
-            string day = "day";
-            string category = "category";
-            string comment = "comment";
-            int random_category = r.Next(1, 5);
-            category += random_category.ToString(); // добавляю рандомную цифру в конец, чтобы было несколько разных категорий
-            _dataGrid.Add(new History_Data(day, money, category, comment));
-
             string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
-            switch(random_category) // пока нет функционала - цвет для каждой категории задается тут
+            switch (category[category.Length - 1]) // пока нет функционала - цвет для каждой категории задается тут (в зависимости от рандомной цифры в конце названия категории)
             {
-                case 1: color = "Gray"; break;
-                case 2: color = "Red"; break;
-                case 3: color = "Green"; break;
-                case 4: color = "Yellow"; break;
+                case '1': color = "Gray"; break;
+                case '2': color = "Red"; break;
+                case '3': color = "Green"; break;
+                case '4': color = "Yellow"; break;
             }
 
             if (_diagramData.ContainsKey(category)) // если категория уже есть
             {
                 _diagramData[category] += money; // увеличиваю кол-во денег в ней
-                foreach(var x in _dataGridCategories) // в таблице ищу строку с этой категорией
+                foreach (var x in _dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
                 {
-                    if(x.Category == category)
+                    if (x.Category == category)
                     {
                         x.Money += money; // и увеличиваю сумму в этой строке
                     }
@@ -89,7 +108,6 @@ namespace FinanceExam
             else
             {
                 _diagramData.Add(category, money); // добавление новой категории в диаграмму
-
                 _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
 
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
@@ -98,11 +116,10 @@ namespace FinanceExam
                 _categoryColor.Add(category, brush);
             }
 
-
             DatagridCategory.Items.Refresh();
-            Datagrid.Items.Refresh();
-            DrawCircleDiagram();
         }
+
+     
 
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
