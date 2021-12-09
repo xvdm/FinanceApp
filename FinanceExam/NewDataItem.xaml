@@ -17,13 +17,22 @@
         <Border BorderBrush="#2A324B" BorderThickness="1,20,1,1">
             <Grid>
 
-                <Button Content="Добавить" HorizontalAlignment="Left" Margin="288,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click"/>
-                <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100"/>
-                
-                <TextBox HorizontalAlignment="Left" Margin="87,49,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputData" Height="24"/>
-                <TextBox HorizontalAlignment="Left" Margin="87,92,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputMoney" Height="24"/>
-                <TextBox HorizontalAlignment="Left" Margin="87,140,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputCategory" Height="24"/>
-                <TextBox HorizontalAlignment="Left" Margin="87,182,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="251" Name="InputComment" Height="24"/>
+                <Button Content="Добавить" HorizontalAlignment="Left" Margin="288,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_ADD"/>
+                <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_Close"/>
+
+                <TextBlock Text="Дата:" Margin="24,23,321,379" FontSize="18"/>
+                <TextBox HorizontalAlignment="Left" Margin="124,26,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputData" Height="24"/>
+
+                <TextBlock Text="Сумма:" Margin="24,69,304,333" FontSize="18"/>
+                <TextBox HorizontalAlignment="Left" Margin="124,69,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputMoney" Height="24"/>
+
+                <TextBlock Text="Категория:" Margin="24,116,282,286" FontSize="18"/>
+                <TextBox HorizontalAlignment="Left" Margin="124,116,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputCategory" Height="24"/>
+
+                <TextBlock Text="Комментарий:" Margin="24,159,249,242" FontSize="18"/>
+                <TextBox Margin="24,191,24,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Name="InputComment" Height="151" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+
             </Grid>
         </Border>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Top" Height="20" HorizontalAlignment="Left"  Width="50" Click="Button_Click_Exit" Margin="350,0,0,0"/>

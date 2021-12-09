@@ -19,7 +19,7 @@ namespace FinanceExam
     /// </summary>
     public partial class NewDataItem : Window
     {
-
+        public History_Data Item { private set;  get; }
 
         public NewDataItem()
         {
@@ -37,9 +37,16 @@ namespace FinanceExam
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
-            
+            ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text,Convert.ToDouble(InputMoney.Text), InputCategory.Text,InputComment.Text));
+            Close();
+
+        }
+
+        private void Button_Click_Close(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

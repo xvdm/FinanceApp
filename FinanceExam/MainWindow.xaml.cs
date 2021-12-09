@@ -18,13 +18,15 @@ namespace FinanceExam
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
-        List<History_Data> data_grid = null;
-        TransverSetting Transver = new TransverSetting();
         private bool _expanded = false;
+        User MainUser = new User();
 
-        public List<History_Data> Data_grid { set { data_grid.Add(value); } }
+        public User ConfUser { get { return MainUser; } }
+
 
         public MainWindow()
         {
@@ -32,11 +34,10 @@ namespace FinanceExam
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-
-            data_grid = new List<History_Data>();
-            Datagrid.ItemsSource = data_grid;
-
+  
+            Datagrid.ItemsSource = MainUser.Data;
         }
+
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -74,37 +75,21 @@ namespace FinanceExam
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if(Currency.SelectedItem .ToString() == "$")
-            {
-                double temp = 0;
-                temp = Transver.General_Balance / 27.37;
-                GeneralBalance.Content = temp;
-            }
+            
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
 
-            NewDataItem NewItem = new NewDataItem();
-            NewItem.Owner = this;
-            NewItem.ShowDialog();
-            NewItem.DataList(data_grid)
-
-
+            NewDataItem ItemDialog = new NewDataItem();
+            ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
 
             Datagrid.Items.Refresh();
         }
     }
 
-    public class TransverSetting
-    {
-        private double MONEY = 0;
-
-
-        public double General_Balance { get { return MONEY; } set { MONEY = value; } }
-
-
-    }
+    
 
     public class History_Data
     {
@@ -130,4 +115,41 @@ namespace FinanceExam
 
 
     }
+
+
+    public class User
+    {
+        double UserMoney = 0;
+
+        List<History_Data> DATAGrid;
+
+        public User()
+        {
+            DATAGrid = new List<History_Data>();
+        }
+
+        public List<History_Data> Data
+        {
+            set
+            {
+                DATAGrid = value;
+            }
+
+            get
+            {
+                return DATAGrid;
+            }
+        }
+
+
+        public void AddItem (History_Data NewItem)
+        {
+            DATAGrid.Add(NewItem);
+        }
+
+
+
+
+    }
+
 }
