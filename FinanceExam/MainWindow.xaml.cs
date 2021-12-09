@@ -19,8 +19,11 @@ namespace FinanceExam
     public partial class MainWindow : Window
     {
         private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
+
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
+
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
+
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         private TransverSetting Transver = new TransverSetting();
@@ -121,14 +124,9 @@ namespace FinanceExam
         private void DiagramEdit(int money, string category)
         {
             if (_diagramData.ContainsKey(category)) // если категория уже есть
-            {
                 _diagramData[category] += money; // увеличиваю кол-во денег в ней
-            }
             else
-            {
                 _diagramData.Add(category, money); // добавление новой категории в диаграмму
-            }
-
         }
 
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -199,16 +197,16 @@ namespace FinanceExam
                         Data = new PathGeometry(
                             new PathFigure[]
                             {
-                new PathFigure(
-                    centerPoint,
-                    new PathSegment[]
-                    {
-                        new LineSegment(startPoint, isStroked: true),
-                        new ArcSegment(endPoint, xyradius,
-                                       angleDeg, angleDeg > 180,
-                                       SweepDirection.Clockwise, isStroked: true)
-                    },
-                    closed: true)
+                                new PathFigure(
+                                    centerPoint,
+                                    new PathSegment[]
+                                    {
+                                        new LineSegment(startPoint, isStroked: true),
+                                        new ArcSegment(endPoint, xyradius,
+                                        angleDeg, angleDeg > 180,
+                                        SweepDirection.Clockwise, isStroked: true)
+                                    },
+                                    closed: true)
                             })
                     };
                     DiagramCanvas.Children.Add(p);
