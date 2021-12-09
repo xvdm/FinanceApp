@@ -119,7 +119,10 @@ namespace FinanceExam
             DatagridCategory.Items.Refresh();
         }
 
-     
+        private void DiagramEdit()
+        {
+
+        }
 
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
