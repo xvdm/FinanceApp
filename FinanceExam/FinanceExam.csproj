@@ -6,4 +6,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Setting.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Icon\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Setting.png" />
+  </ItemGroup>
+
 </Project>

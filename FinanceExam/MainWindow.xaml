@@ -5,10 +5,169 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920"
-        Background="#2A324B" WindowState="Maximized" WindowStyle="None"
-    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
+        Height="1080" 
+        Width="1920"
+        Background="#2A324B" 
+        WindowState="Normal" 
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        >
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="Auto" MinWidth="304"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="57.565"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="116"/>
+            <RowDefinition Height="Auto" MinHeight="0"/>
+        </Grid.RowDefinitions>
+
+        <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Center" Width="50" Click="Button_Click_Roll"/>
+        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" Click="Button_Click_Expand" >
+            <Border BorderThickness="1" BorderBrush="Black" Height="7" Width="12"/>
+        </Button>
+        <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Center"  Width="50" Click="Button_Click_Exit"/>
+        <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" Margin="20,64,20,0" Grid.Row="1" Height="35" VerticalAlignment="Top">
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#2A324B</SolidColorBrush>
+                <SolidColorBrush x:Key="{x:Static SystemColors.WindowFrameBrushKey}">Transparent</SolidColorBrush>
+            </ComboBox.Resources>
+
+            <ComboBoxItem IsSelected="True">Карта Вадима</ComboBoxItem>
+            <ComboBoxItem>Карта Димы</ComboBoxItem>
+        </ComboBox>
+        <Border BorderThickness="1" BorderBrush="White" RenderTransformOrigin="0.5,0.5" Margin="20,93,20,21" Grid.Column="1" Grid.Row="1"/>
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
+        <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Margin="0,0,0,-821" Width="{Binding ElementName=window, Mode=OneWay}">
+            <ComboBox Name="Currency"  Style="{DynamicResource Valyta}"  Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44" SelectionChanged="Сurrency_SelectionChanged">
+                <ComboBoxItem IsSelected="True">₴</ComboBoxItem>
+                <ComboBoxItem >$</ComboBoxItem>
+            </ComboBox>
+        </Border>
+
+        <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" Margin="0,0,0,2" >
+            <Label DockPanel.Dock="Top" Content="Общий баланс:" Foreground="Gray" FontSize="16" Margin="20,20,20,0" Height="31"/>
+            <Label Name="GeneralBalance" DockPanel.Dock="Top" Content="0" Foreground="Black" FontSize="36" Margin="20,0,60,0" Height="58" FontWeight="SemiBold"/>
+            <Border BorderThickness="1" BorderBrush="Gray" DockPanel.Dock="Top" Height="2" RenderTransformOrigin="0.5,0.5" Margin="20,10,20,0"/>
+        </DockPanel >
+
+        <TabControl  Grid.Column="2" Grid.ColumnSpan="4" Grid.Row="2" Margin="0,0,0,-821">
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="История" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190" IsEnabled="True">
+                <Border Background="White" Margin="-3,-41,-3,0" Height="943">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="243"/>
+                            <ColumnDefinition Width="258"/>
+                            <ColumnDefinition Width="334"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="178*"/>
+                            <RowDefinition Height="38*"/>
+                            <RowDefinition Height="727*"/>
+                        </Grid.RowDefinitions>
 
 
+
+                        <DataGrid Style="{DynamicResource History}"  Background="White" x:Name="Datagrid" Margin="0,30,0,20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2"  AutoGenerateColumns="False">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Margin" Value="0,20,0,20" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn  Width="243" Binding="{Binding Path=Day}"/>
+                                <DataGridTextColumn  Width="258" Binding="{Binding Path=Money}"/>
+                                <DataGridTextColumn  Width="334" Binding="{Binding Path=Category}"/>
+                                <DataGridTextColumn  Width="641" Binding="{Binding Path=Comment}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Label Content="Дата" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Left" Width="243"/>
+                        <Label Content="Сумма" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="2" FontSize="25" HorizontalAlignment="Left" Width="258"/>
+                        <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
+                        <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
+
+                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,37,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,5,0,32" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+
+                        <Button Style="{DynamicResource DataSettingButton}" Content="" Grid.Column="4" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="36" />
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,51,10" VerticalAlignment="Bottom" Height="36" IsEnabled="False" HorizontalAlignment="Right" Width="36">
+                            <TextBlock HorizontalAlignment="Center" Height="30" Width="9">-</TextBlock>
+                        </Button>
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" Click="Button_AddInData" HorizontalAlignment="Right" Width="36">
+                            <TextBlock HorizontalAlignment="Center" Height="30" Width="14">+</TextBlock>
+                        </Button>
+                        <Label Content="Дата" VerticalAlignment="Center" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Center" Width="243" Grid.Row="1"/>
+
+
+                    </Grid>
+                </Border>
+
+            </TabItem>
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
+                <Border Background="White" Margin="-3,-41,-3,0"/>
+            </TabItem>
+            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
+                <Border Background="White" Margin="-3,-41,-3,0"/>
+            </TabItem>
+
+        </TabControl>
+
+        <Border Grid.Column="5" Grid.Row="1" Margin="2,33,2,38" CornerRadius="30" Height="45" Width="45" RenderTransformOrigin="0.415,0.421" >
+            <Border.Background>
+                <SolidColorBrush Color="LightGray" Opacity="0.1"/>
+            </Border.Background>
+            <Button Style="{DynamicResource SettinButton}" Grid.Column="5" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="30" Width="30" Visibility="Visible" Click="Button_Setting" Opacity="0.6" >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Setting.png"/>
+                </Button.Background>
+            </Button>
+        </Border>
+
+    </Grid>
 
 </Window>
