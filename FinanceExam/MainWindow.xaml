@@ -132,12 +132,11 @@
                             <TextBlock HorizontalAlignment="Center" Height="30" Width="9">-</TextBlock>
                         </Button>
                         <!--<Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" Click="Button_AddInData" HorizontalAlignment="Right" Width="36">-->
-                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" HorizontalAlignment="Right" Width="36">
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" HorizontalAlignment="Right" Width="36" Click="Button_AddInData" >
                             <TextBlock HorizontalAlignment="Center" Height="30" Width="14">+</TextBlock>
                         </Button>
                     </Grid>
                 </Border>
-
             </TabItem>
             
             

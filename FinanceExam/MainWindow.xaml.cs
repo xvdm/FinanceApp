@@ -26,7 +26,7 @@ namespace FinanceExam
 
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
-        private TransverSetting Transver = new TransverSetting();
+        //private TransverSetting Transver = new TransverSetting();
 
         private bool _expanded = false;
 
@@ -52,15 +52,30 @@ namespace FinanceExam
 
         private void Button_Click_Roll(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
 
-        private void Button_Setting(object sender, RoutedEventArgs e) => MessageBox.Show("In coming future", "Setting");
+        private void Button_Setting(object sender, RoutedEventArgs e)
+        {
+            WindowSetting WinSet = new WindowSetting();
+            WinSet.ShowDialog();
+        }
+
+        private void Button_AddInData(object sender, RoutedEventArgs e)
+        {
+
+            NewDataItem ItemDialog = new NewDataItem();
+            ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
+
+            GeneralBalance.Content = MainUser.Balance;
+            Datagrid.Items.Refresh();
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Random r = new Random();
             int money = r.Next(100, 2000);
 
-            Transver.General_Balance += money;
-            GeneralBalance.Content = Transver.General_Balance;
+            //Transver.General_Balance += money;
+            //GeneralBalance.Content = Transver.General_Balance;
 
             string category = "category";
             int random_category = r.Next(1, 5);
@@ -72,7 +87,6 @@ namespace FinanceExam
             
             DrawCircleDiagram();
         }
-
 
         private void HistoryTableEdit(int money, string category)
         {
@@ -141,12 +155,12 @@ namespace FinanceExam
 
         private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(Currency.SelectedItem.ToString() == "$")
-            {
-                double temp = 0;
-                temp = Transver.General_Balance / 27.37;
-                GeneralBalance.Content = temp;
-            }
+            //if(Currency.SelectedItem.ToString() == "$")
+            //{
+            //    double temp = 0;
+            //    temp = Transver.General_Balance / 27.37;
+            //    GeneralBalance.Content = temp;
+            //}
         }
 
         private void Button_Click_Expand(object sender, RoutedEventArgs e)
@@ -246,23 +260,25 @@ namespace FinanceExam
                 DiagramCanvas.Children.Add(ellipse);
             }
         }
+
+        
     }
 
-    public class TransverSetting
-    {
-        public double General_Balance { get; set; }    
+    //public class TransverSetting
+    //{
+    //    public double General_Balance { get; set; }    
 
-        private void Button_AddInData(object sender, RoutedEventArgs e)
-        {
+    //    private void Button_AddInData(object sender, RoutedEventArgs e)
+    //    {
 
-            NewDataItem ItemDialog = new NewDataItem();
-            //ItemDialog.Owner = this;
-            ItemDialog.ShowDialog();
+    //        NewDataItem ItemDialog = new NewDataItem();
+    //        //ItemDialog.Owner = this;
+    //        ItemDialog.ShowDialog();
 
-            //GeneralBalance.Content = MainUser.Balance;
-            //Datagrid.Items.Refresh();
-        }
-    }
+    //        //GeneralBalance.Content = MainUser.Balance;
+    //        //Datagrid.Items.Refresh();
+    //    }
+    //}
 
     
 
@@ -307,10 +323,13 @@ namespace FinanceExam
         double UserMoney = 0;
 
         List<History_Data> DATAGrid;
+        List<Category> CategoryList;
 
         public User()
         {
             DATAGrid = new List<History_Data>();
+            LoadCategory();
+            CardHistory();
         }
 
         public List<History_Data> Data
@@ -320,11 +339,33 @@ namespace FinanceExam
             get { return DATAGrid; }
         }
 
+        private void CardHistory()
+        {
+
+        }
+
+
+        private void LoadCategory()
+        {
+
+        }
+
         public double Balance { set { UserMoney = value; } get { return UserMoney; } }
 
         public void AddItem (History_Data NewItem)
         {
             DATAGrid.Add(NewItem);
         }
+
+        public void AddCategory()
+        {
+
+        }
+    }
+
+    struct Category
+    {
+        string Name;
+        string Color;
     }
 }
