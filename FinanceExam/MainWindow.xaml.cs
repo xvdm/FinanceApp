@@ -60,7 +60,6 @@ namespace FinanceExam
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
-
             NewDataItem ItemDialog = new NewDataItem();
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
@@ -263,23 +262,6 @@ namespace FinanceExam
 
         
     }
-
-    //public class TransverSetting
-    //{
-    //    public double General_Balance { get; set; }    
-
-    //    private void Button_AddInData(object sender, RoutedEventArgs e)
-    //    {
-
-    //        NewDataItem ItemDialog = new NewDataItem();
-    //        //ItemDialog.Owner = this;
-    //        ItemDialog.ShowDialog();
-
-    //        //GeneralBalance.Content = MainUser.Balance;
-    //        //Datagrid.Items.Refresh();
-    //    }
-    //}
-
     
 
     public class History_Data
