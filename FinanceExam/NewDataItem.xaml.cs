@@ -21,33 +21,20 @@ namespace FinanceExam
     {
         public History_Data Item { private set;  get; }
 
-        public NewDataItem()
-        {
-            InitializeComponent();
-        }
+        public NewDataItem() => InitializeComponent();
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
-        private void Button_Click_Exit(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void Button_Click_Exit(object sender, RoutedEventArgs e) => Close();
 
+        private void Button_Click_Close(object sender, RoutedEventArgs e) => Close();
 
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text,Convert.ToDouble(InputMoney.Text), InputCategory.Text,InputComment.Text));
+            ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text));
             ((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
+            ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
 
-            Close();
-
-        }
-
-        private void Button_Click_Close(object sender, RoutedEventArgs e)
-        {
             Close();
         }
     }

@@ -8,7 +8,7 @@
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
-        WindowState="Normal" 
+        WindowState="Maximized" 
         WindowStyle="None"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
 
         <Button Style="{DynamicResource ButtonRoll}" Content="ꟷ" VerticalAlignment="Center" Height="20" Grid.Column="4" HorizontalAlignment="Center" Width="50" Click="Button_Click_Roll"/>
-        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" Click="Button_Click_Expand" >
+        <Button Style="{DynamicResource ButtonExpand}"  VerticalAlignment="Center" Height="20" Grid.Column="5" HorizontalAlignment="Center" Width="50" Click="Button_Click_Expand">
             <Border BorderThickness="1" BorderBrush="Black" Height="7" Width="12"/>
         </Button>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Center"  Width="50" Click="Button_Click_Exit"/>
@@ -102,18 +102,21 @@
                             </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn  Width="243" Binding="{Binding Path=Day}"/>
-                                <DataGridTextColumn  Width="258" Binding="{Binding Path=Money}"/>
-                                <DataGridTextColumn  Width="334" Binding="{Binding Path=Category}"/>
-                                <DataGridTextColumn  Width="641" Binding="{Binding Path=Comment}"/>
+                                <DataGridTextColumn  Width="20"/>
+                                <DataGridTextColumn  Width="243*" Binding="{Binding Path=Day}"/>
+                                <DataGridTextColumn  Width="258*" Binding="{Binding Path=Money}"/>
+                                <DataGridTextColumn  Width="334*" Binding="{Binding Path=Category}"/>
+                                <DataGridTextColumn  Width="641*" Binding="{Binding Path=Comment}"/>
+                                <DataGridTextColumn  Width="20"/>
                             </DataGrid.Columns>
                         </DataGrid>
+
                         <Label Content="Дата" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Left" Width="243"/>
                         <Label Content="Сумма" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="2" FontSize="25" HorizontalAlignment="Left" Width="258"/>
                         <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
                         <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
 
-                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,37,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
+                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-1"/>
@@ -138,23 +141,74 @@
                         <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,51,10" VerticalAlignment="Bottom" Height="36" IsEnabled="False" HorizontalAlignment="Right" Width="36">
                             <TextBlock HorizontalAlignment="Center" Height="30" Width="9">-</TextBlock>
                         </Button>
-                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" Click="Button_AddInData" HorizontalAlignment="Right" Width="36">
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" HorizontalAlignment="Right" Width="36" Click="Button_AddInData" >
                             <TextBlock HorizontalAlignment="Center" Height="30" Width="14">+</TextBlock>
                         </Button>
-                        <Label Content="Дата" VerticalAlignment="Center" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Center" Width="243" Grid.Row="1"/>
-
-
                     </Grid>
                 </Border>
-
             </TabItem>
+            
+            
+            <!--раздел ГРАФИК-->
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="График" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
+                <Border Background="White" Margin="-3,-41,-3,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="300*"/>
+                            <ColumnDefinition Width="380*"/>
+                            <ColumnDefinition Width="150*"/>
+                            <ColumnDefinition Width="150*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="50*"/>
+                            <RowDefinition Height="727*"/>
+                        </Grid.RowDefinitions>
+
+                        <DataGrid Style="{DynamicResource Categories}"  Background="White" x:Name="DatagridCategory" Margin="0,0,0,20" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2" AutoGenerateColumns="False">
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Margin" Value="0,20,0,20" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn  Width="20"/>
+                                <DataGridTextColumn  Width="380*" Binding="{Binding Path=Category}"/>
+                                <DataGridTextColumn  Width="150*" Binding="{Binding Path=Color}"/>
+                                <DataGridTextColumn  Width="150*" Binding="{Binding Path=Money}"/>
+                                <DataGridTextColumn  Width="20"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+
+                        <Label Content="Категория" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="150" FontWeight="SemiBold" Grid.Column="2" FontSize="20"/>
+                        <Label Content="Цвет" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="191" FontWeight="SemiBold" Grid.Column="3" FontSize="20"/>
+                        <Label Content="Сумма" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="191" FontWeight="SemiBold" Grid.Column="4" FontSize="20"/>
+
+                        <Canvas Width="300" Height="300" HorizontalAlignment="Left" Margin="30,-450,0,0" Name="DiagramCanvas" Grid.Column="1" Grid.Row="2"/>
+                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,10,0,10" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4"/>
+                    </Grid>
+                </Border>
             </TabItem>
             <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
                 <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
-
         </TabControl>
 
         <Border Grid.Column="5" Grid.Row="1" Margin="2,33,2,38" CornerRadius="30" Height="45" Width="45" RenderTransformOrigin="0.415,0.421" >
