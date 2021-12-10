@@ -33,7 +33,7 @@ namespace FinanceExam
         {
             ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text));
             ((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
-            //((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
+            ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
 
             Close();
         }

@@ -26,13 +26,13 @@ namespace FinanceExam
 
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
-        //private TransverSetting Transver = new TransverSetting();
-
         private bool _expanded = false;
 
         private User MainUser = new User();
 
         public User ConfUser { get { return MainUser; } }
+
+        public History_Data LastAddedData = new History_Data(null, 0, null , null);
 
         public MainWindow()
         {
@@ -65,29 +65,15 @@ namespace FinanceExam
             ItemDialog.ShowDialog();
 
             GeneralBalance.Content = MainUser.Balance;
-            Datagrid.Items.Refresh();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Random r = new Random();
-            int money = r.Next(100, 2000);
+            HistoryTableEdit(LastAddedData);
+            ChartTableEdit(LastAddedData);
+            DiagramEdit(LastAddedData);
 
-            //Transver.General_Balance += money;
-            //GeneralBalance.Content = Transver.General_Balance;
-
-            string category = "category";
-            int random_category = r.Next(1, 5);
-            category += random_category.ToString(); // добавляю рандомную цифру в конец, чтобы было несколько разных категорий
-
-            HistoryTableEdit(money, category);
-            ChartTableEdit(money, category);
-            DiagramEdit(money, category);
-            
             DrawCircleDiagram();
         }
 
-        private void HistoryTableEdit(int money, string category)
+        private void HistoryTableEdit(History_Data data)
         {
             Random r = new Random();
             if (_dataGrid == null)
@@ -95,22 +81,21 @@ namespace FinanceExam
                 _dataGrid = new List<History_Data>();
                 Datagrid.ItemsSource = _dataGrid;
             }
-
-            string day = "day";
-            string comment = "comment";
             
-            _dataGrid.Add(new History_Data(day, money, category, comment));
+            _dataGrid.Add(new History_Data(data.Day, data.Money, data.Category, data.Comment));
 
             Datagrid.Items.Refresh();
         }
 
-        private void ChartTableEdit(int money, string category)
+        private void ChartTableEdit(History_Data data)
         {
             if (_dataGridCategories == null)
             {
                 _dataGridCategories = new List<Category_Data>();
                 DatagridCategory.ItemsSource = _dataGridCategories;
             }
+            string category = data.Category;
+            int money = Convert.ToInt32(data.Money);
 
             string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
             switch (category[category.Length - 1]) // пока нет функционала - цвет для каждой категории задается тут (в зависимости от рандомной цифры в конце названия категории)
@@ -144,8 +129,10 @@ namespace FinanceExam
             DatagridCategory.Items.Refresh();
         }
 
-        private void DiagramEdit(int money, string category)
+        private void DiagramEdit(History_Data data)
         {
+            string category = data.Category;
+            int money = Convert.ToInt32(data.Money);
             if (_diagramData.ContainsKey(category)) // если категория уже есть
                 _diagramData[category] += money; // увеличиваю кол-во денег в ней
             else
