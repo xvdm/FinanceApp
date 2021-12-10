@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
-        Title="" 
         Height="1080" 
         Width="1920"
         Background="#2A324B" 
@@ -14,6 +13,7 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         AllowsTransparency="True"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         >
 
     <Grid>
@@ -68,19 +68,21 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="243*"/>
-                            <ColumnDefinition Width="258*"/>
-                            <ColumnDefinition Width="334*"/>
-                            <ColumnDefinition Width="641*"/>
+                            <ColumnDefinition Width="243"/>
+                            <ColumnDefinition Width="258"/>
+                            <ColumnDefinition Width="334"/>
+                            <ColumnDefinition/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="186*"/>
-                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="178*"/>
+                            <RowDefinition Height="38*"/>
                             <RowDefinition Height="727*"/>
                         </Grid.RowDefinitions>
 
-                        <DataGrid Style="{DynamicResource History}"  Background="White" x:Name="Datagrid" Margin="0,10,0,20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2"  AutoGenerateColumns="False">
+
+
+                        <DataGrid Style="{DynamicResource History}"  Background="White" x:Name="Datagrid" Margin="0,30,0,20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2"  AutoGenerateColumns="False">
                             <DataGrid.RowStyle>
                                 <Style TargetType="DataGridRow">
                                     <Setter Property="Margin" Value="0,20,0,20" />
@@ -108,14 +110,34 @@
                                 <DataGridTextColumn  Width="20"/>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Label Content="Дата" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="80" FontWeight="SemiBold" Grid.Column="1" FontSize="20"/>
-                        <Label Content="Сумма" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="99" FontWeight="SemiBold" Grid.Column="2" FontSize="20"/>
-                        <Label Content="Категория" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="150" FontWeight="SemiBold" Grid.Column="3" FontSize="20"/>
-                        <Label Content="Комментарий" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Height="42" Width="191" FontWeight="SemiBold" Grid.Column="4" FontSize="20"/>
-                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4">
+
+                        <Label Content="Дата" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="1" FontSize="25" HorizontalAlignment="Left" Width="243"/>
+                        <Label Content="Сумма" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="2" FontSize="25" HorizontalAlignment="Left" Width="258"/>
+                        <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
+                        <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
+
+                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,37,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1"/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
                         </Border>
+
+                        <Button Style="{DynamicResource DataSettingButton}" Content="" Grid.Column="4" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="36" />
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,51,10" VerticalAlignment="Bottom" Height="36" IsEnabled="False" HorizontalAlignment="Right" Width="36">
+                            <TextBlock HorizontalAlignment="Center" Height="30" Width="9">-</TextBlock>
+                        </Button>
+                        <!--<Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" Click="Button_AddInData" HorizontalAlignment="Right" Width="36">-->
+                        <Button Style="{DynamicResource DataSettingButton}" Grid.Column="4" Margin="0,0,92,10"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="20" Height="36" HorizontalAlignment="Right" Width="36">
+                            <TextBlock HorizontalAlignment="Center" Height="30" Width="14">+</TextBlock>
+                        </Button>
                     </Grid>
                 </Border>
+
             </TabItem>
             
             
@@ -191,7 +213,7 @@
                 </Button.Background>
             </Button>
         </Border>
-        <Button Content="Test" Grid.Column="2" HorizontalAlignment="Left" Margin="28,21,0,0" VerticalAlignment="Top" Height="69" Width="177" Grid.Row="1" FontSize="40" Click="Button_Click"/>
+
     </Grid>
 
 </Window>

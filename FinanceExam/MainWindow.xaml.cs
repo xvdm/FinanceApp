@@ -30,11 +30,20 @@ namespace FinanceExam
 
         private bool _expanded = false;
 
+        private User MainUser = new User();
+
+        public User ConfUser { get { return MainUser; } }
+
         public MainWindow()
         {
             InitializeComponent();
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+
+            this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
+            this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+  
+            Datagrid.ItemsSource = MainUser.Data;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -63,6 +72,7 @@ namespace FinanceExam
             
             DrawCircleDiagram();
         }
+
 
         private void HistoryTableEdit(int money, string category)
         {
@@ -240,8 +250,21 @@ namespace FinanceExam
 
     public class TransverSetting
     {
-        public double General_Balance { get; set; }
+        public double General_Balance { get; set; }    
+
+        private void Button_AddInData(object sender, RoutedEventArgs e)
+        {
+
+            NewDataItem ItemDialog = new NewDataItem();
+            //ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
+
+            //GeneralBalance.Content = MainUser.Balance;
+            //Datagrid.Items.Refresh();
+        }
     }
+
+    
 
     public class History_Data
     {
@@ -276,5 +299,32 @@ namespace FinanceExam
         public string Color { get; set; }
 
         public int Money { get; set; }
+    }
+
+
+    public class User
+    {
+        double UserMoney = 0;
+
+        List<History_Data> DATAGrid;
+
+        public User()
+        {
+            DATAGrid = new List<History_Data>();
+        }
+
+        public List<History_Data> Data
+        {
+            set { DATAGrid = value; }
+
+            get { return DATAGrid; }
+        }
+
+        public double Balance { set { UserMoney = value; } get { return UserMoney; } }
+
+        public void AddItem (History_Data NewItem)
+        {
+            DATAGrid.Add(NewItem);
+        }
     }
 }
