@@ -34,6 +34,8 @@ namespace FinanceExam
 
         public History_Data LastAddedData = new History_Data(null, 0, null , null);
 
+        public bool LastAddedDataIsCorrect = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -64,13 +66,16 @@ namespace FinanceExam
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
 
-            GeneralBalance.Content = MainUser.Balance;
+            if (LastAddedDataIsCorrect == true)
+            {
+                GeneralBalance.Content = MainUser.Balance;
 
-            HistoryTableEdit(LastAddedData);
-            ChartTableEdit(LastAddedData);
-            DiagramEdit(LastAddedData);
+                HistoryTableEdit(LastAddedData);
+                ChartTableEdit(LastAddedData);
+                DiagramEdit(LastAddedData);
 
-            DrawCircleDiagram();
+                DrawCircleDiagram();
+            }
         }
 
         private void HistoryTableEdit(History_Data data)
