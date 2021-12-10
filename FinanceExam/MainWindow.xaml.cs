@@ -246,8 +246,6 @@ namespace FinanceExam
                 DiagramCanvas.Children.Add(ellipse);
             }
         }
-
-        
     }
     
 
@@ -289,9 +287,8 @@ namespace FinanceExam
 
     public class User
     {
-        double UserMoney = 0;
-
         List<History_Data> DATAGrid;
+
         List<Category> CategoryList;
 
         public User()
@@ -304,7 +301,6 @@ namespace FinanceExam
         public List<History_Data> Data
         {
             set { DATAGrid = value; }
-
             get { return DATAGrid; }
         }
 
@@ -319,12 +315,9 @@ namespace FinanceExam
 
         }
 
-        public double Balance { set { UserMoney = value; } get { return UserMoney; } }
+        public double Balance { get; set; }
 
-        public void AddItem (History_Data NewItem)
-        {
-            DATAGrid.Add(NewItem);
-        }
+        public void AddItem (History_Data NewItem) => DATAGrid.Add(NewItem);
 
         public void AddCategory()
         {
