@@ -21,7 +21,7 @@
                 <Button Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_Close"/>
 
                 <TextBlock Text="Дата:" Margin="24,23,321,379" FontSize="18"/>
-                <TextBox HorizontalAlignment="Left" Margin="124,26,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputData" Height="24"/>
+                <TextBox HorizontalAlignment="Left" Margin="124,26,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputDate" Height="24"/>
 
                 <TextBlock Text="Сумма:" Margin="24,69,304,333" FontSize="18"/>
                 <TextBox HorizontalAlignment="Left" Margin="124,69,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Name="InputMoney" Height="24"/>
