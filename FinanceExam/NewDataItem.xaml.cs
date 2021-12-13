@@ -26,9 +26,17 @@ namespace FinanceExam
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
-        private void Button_Click_Exit(object sender, RoutedEventArgs e) => Close();
+        private void Button_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            Close();
+        }
 
-        private void Button_Click_Close(object sender, RoutedEventArgs e) => Close();
+        private void Button_Click_Close(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            Close();
+        }
 
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
