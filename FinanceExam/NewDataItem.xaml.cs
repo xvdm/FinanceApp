@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,10 +32,20 @@ namespace FinanceExam
 
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text));
-            ((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
-            ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
-
+            string moneyPattern = @"^([1-9]{1}[0-9]{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))$|^\-?\$?([1-9]{1}\d{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))$|^\(\$?([1-9]{1}\d{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))\)$";
+            if (Regex.IsMatch(InputMoney.Text, moneyPattern) == false || InputDate.Text == "" || InputCategory.Text == "" || InputComment.Text == "")
+            {
+                ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+                if (Regex.IsMatch(InputMoney.Text, moneyPattern) == false)
+                    InputMoney.Text = "0";
+                MessageBox.Show("Incorrect data.");
+            }
+            else
+            {
+                ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = true;
+                ((MainWindow)Application.Current.MainWindow).AddMoneyToGeneralBalance(Convert.ToDouble(InputMoney.Text));
+            }
+            ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
             Close();
         }
     }
