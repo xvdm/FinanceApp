@@ -73,6 +73,11 @@ namespace FinanceExam
             DrawCircleDiagram();
         }
 
+        public void AddMoneyToGeneralBalance(double money)
+        {
+            MainUser.Balance += money;
+        }
+
         private void HistoryTableEdit(History_Data data)
         {
             Random r = new Random();
