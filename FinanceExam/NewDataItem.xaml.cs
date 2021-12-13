@@ -47,7 +47,7 @@ namespace FinanceExam
                 if (InputMoney.Text == "" || Convert.ToDouble(InputMoney.Text) <= 0) 
                     InputMoney.Text = "0";
                 ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
-                MessageBox.Show("Incorrect data");
+                MessageBox.Show("Incorrect data.");
             }
             else
             {
