@@ -30,9 +30,9 @@ namespace FinanceExam
 
         private User MainUser = new User();
 
-        public User ConfUser { get { return MainUser; } }
-
         public History_Data LastAddedData = new History_Data(null, 0, null , null);
+
+        public bool LastAddedDataIsCorrect = true;
 
         public MainWindow()
         {
@@ -64,13 +64,21 @@ namespace FinanceExam
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
 
-            GeneralBalance.Content = MainUser.Balance;
+            if (LastAddedDataIsCorrect == true)
+            {
+                GeneralBalance.Content = MainUser.Balance;
 
-            HistoryTableEdit(LastAddedData);
-            ChartTableEdit(LastAddedData);
-            DiagramEdit(LastAddedData);
+                HistoryTableEdit(LastAddedData);
+                ChartTableEdit(LastAddedData);
+                DiagramEdit(LastAddedData);
 
-            DrawCircleDiagram();
+                DrawCircleDiagram();
+            }
+        }
+
+        public void AddMoneyToGeneralBalance(double money)
+        {
+            MainUser.Balance += money;
         }
 
         private void HistoryTableEdit(History_Data data)
@@ -137,16 +145,6 @@ namespace FinanceExam
                 _diagramData[category] += money; // увеличиваю кол-во денег в ней
             else
                 _diagramData.Add(category, money); // добавление новой категории в диаграмму
-        }
-
-        private void Сurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if(Currency.SelectedItem.ToString() == "$")
-            //{
-            //    double temp = 0;
-            //    temp = Transver.General_Balance / 27.37;
-            //    GeneralBalance.Content = temp;
-            //}
         }
 
         private void Button_Click_Expand(object sender, RoutedEventArgs e)
