@@ -116,17 +116,7 @@
                         <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
                         <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
 
-                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
-                            <Border.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleY="-1"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Border.RenderTransform>
-                        </Border>
-                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,5,0,32" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,6,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-1"/>

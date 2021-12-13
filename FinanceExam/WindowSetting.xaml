@@ -15,21 +15,53 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Background="#2A324B"
+        BorderBrush="#2A324B"
+        BorderThickness="1"
         >
     <Grid>
+        <Border Background="White" Margin="78,398,0,0" BorderThickness="1" BorderBrush="White"></Border>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Top" Height="20" HorizontalAlignment="Left"  Width="50" Click="Button_Click_Exit" Margin="750,0,0,0"/>
-        <TabControl TabStripPlacement="Left" Margin="0,20,0,50">
-            <TabItem Header="TabItem" Height="46" Margin="-2,-2,0,0" VerticalAlignment="Top">
-                <Grid Background="#FFE5E5E5"/>
+        <TabControl TabStripPlacement="Left" Margin="0,20,0,50" BorderThickness="0">
+            <TabItem Style="{DynamicResource SettingTabItem}" Header="Общее" Height="46" Margin="-2,-2,0,0" VerticalAlignment="Top" Width="76" HorizontalAlignment="Left">
+                <Grid Background="White" Margin="-3,-3,-3,-3"  Width="718">
+                </Grid>
             </TabItem>
-            <TabItem Header="Категории" Margin="-2,-1,0,-22">
-                <Grid Background="#2A324B" Margin="-3,-3,-3,-3">
+            <TabItem Style="{DynamicResource SettingTabItem}" Header="Категории" Margin="-2,-2,2,0" Height="46" VerticalAlignment="Top">
+                <Grid Background="White" Margin="-3,-3,-3,-3" Width="718">
                     <StackPanel Margin="0,10,0,326" Orientation="Horizontal">
-                        <Button Content="+" Width="75"/>
-                        <Button Content="-" Width="75"/>
+                        <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Width="247" Margin="20,0,10,0" Height="20" BorderThickness="0,0,0,2"/>
+                        <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Найти" Width="69" Height="34"/>
                     </StackPanel>
+                    <Border BorderBrush="#2A324B" BorderThickness="1" Margin="520,57,9,10">
+                        <Label Content="Добавление категории" HorizontalAlignment="Center" Margin="0,9,0,267" FontSize="15" FontWeight="Bold"/>
+                    </Border>
+                    <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Добавить" Width="69" Height="34" Margin="629,326,20,20"></Button>
+                    <DataGrid Style="{DynamicResource History}" Margin="10,57,212,10" Background="White" BorderBrush="#2A324B" BorderThickness="1">
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Margin" Value="0,20,0,20" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </DataGrid.CellStyle>
 
-
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Width="20"/>
+                            <DataGridTextColumn  Width="243*" Binding="{Binding Path=Day}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Text="Название:" Margin="537,117,129,241"/>
+                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="537,142,26,220" BorderThickness="0,0,0,2"/>
                 </Grid>
             </TabItem>
         </TabControl>
