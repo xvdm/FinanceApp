@@ -54,7 +54,6 @@ namespace FinanceExam
             {
                 ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = true;
                 ((MainWindow)Application.Current.MainWindow).AddMoneyToGeneralBalance(Convert.ToDouble(InputMoney.Text));
-
             }
             ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
             Close();
