@@ -27,7 +27,7 @@ namespace FinanceExam
 
             if(((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect == false)
             {
-                InputData.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Day;
+                InputDate.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Day;
                 InputMoney.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Money.ToString();
                 InputCategory.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Category;
                 InputComment.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Comment;
@@ -42,15 +42,16 @@ namespace FinanceExam
 
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
-            if (InputData.Text == "" || InputMoney.Text == "" || InputCategory.Text == "" || InputComment.Text == "" || Convert.ToDouble(InputMoney.Text) <= 0) {
+            if (InputDate.Text == "" || InputMoney.Text == "" || InputCategory.Text == "" || InputComment.Text == "" || Convert.ToDouble(InputMoney.Text) <= 0) {
                 ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
-                if (InputMoney.Text == "" || Convert.ToDouble(InputMoney.Text) <= 0) InputMoney.Text = "0";
-                ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
+                if (InputMoney.Text == "" || Convert.ToDouble(InputMoney.Text) <= 0) 
+                    InputMoney.Text = "0";
+                ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
                 MessageBox.Show("Incorrect data");
             }
             else
             {
-                ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputData.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text));
+                ((MainWindow)Application.Current.MainWindow).ConfUser.AddItem(new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text));
                 ((MainWindow)Application.Current.MainWindow).ConfUser.Balance = Convert.ToDouble(InputMoney.Text) + ((MainWindow)Application.Current.MainWindow).ConfUser.Balance;
                 ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = true;
             }
