@@ -35,7 +35,10 @@
                     <Border BorderBrush="#2A324B" BorderThickness="1" Margin="520,57,9,10">
                         <Label Content="Добавление категории" HorizontalAlignment="Center" Margin="0,9,0,267" FontSize="15" FontWeight="Bold"/>
                     </Border>
+                    
                     <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Добавить" Width="69" Height="34" Margin="629,326,20,20"></Button>
+                    <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Сбросить" Height="34" Margin="534,326,114,20"/>
+                    
                     <DataGrid Style="{DynamicResource History}" Margin="10,57,212,10" Background="White" BorderBrush="#2A324B" BorderThickness="1">
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
@@ -60,8 +63,14 @@
                             <DataGridTextColumn  Width="243*" Binding="{Binding Path=Day}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Text="Название:" Margin="537,117,129,241"/>
-                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="537,142,26,220" BorderThickness="0,0,0,2"/>
+                    <TextBlock Text="Название:" Margin="534,117,131,241"/>
+                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="534,142,20,220" BorderThickness="0,0,0,2"/>
+                    <TextBlock Text="Цвет:" Margin="534,190,131,170"/>
+
+                    <Border BorderThickness="1" BorderBrush="Black" Margin="534,215,20,59"/>
+                    <Button Content="Выбрать" HorizontalAlignment="Left" Margin="629,190,0,0" VerticalAlignment="Top" Width="69"/>
+                    
+
                 </Grid>
             </TabItem>
         </TabControl>
