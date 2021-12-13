@@ -30,9 +30,9 @@ namespace FinanceExam
 
         private User MainUser = new User();
 
-        public User ConfUser { get { return MainUser; } }
+        public History_Data LastAddedData = new History_Data(null, 0, null, null);
 
-        public History_Data LastAddedData = new History_Data(null, 0, null , null);
+        public bool LastAddedDataIsCorrect = true;
 
         public MainWindow()
         {
