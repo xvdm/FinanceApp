@@ -53,6 +53,7 @@
             <ComboBox Name="Currency"  Style="{DynamicResource Valyta}"  Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44" SelectionChanged="Сurrency_SelectionChanged">
                 <ComboBoxItem IsSelected="True">₴</ComboBoxItem>
                 <ComboBoxItem >$</ComboBoxItem>
+                <ComboBoxItem >€</ComboBoxItem>
             </ComboBox>
         </Border>
 
@@ -116,17 +117,7 @@
                         <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
                         <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
 
-                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
-                            <Border.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleY="-1"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Border.RenderTransform>
-                        </Border>
-                        <Border BorderThickness="1" BorderBrush="#FFAAAAAA" Margin="0,5,0,32" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,6,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-1"/>
@@ -205,9 +196,6 @@
                         <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,10,0,10" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4"/>
                     </Grid>
                 </Border>
-            </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
         </TabControl>
 

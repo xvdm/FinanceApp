@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +29,8 @@ namespace FinanceExam
 
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
+        private FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
+
         private bool _expanded = false;
 
         private User MainUser = new User();
@@ -37,21 +42,30 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
+            
+            _dataGrid = _fileData.LoadHistoryData();
+            _dataGridCategories = _fileData.LoadCategoryData();
+            Datagrid.ItemsSource = _dataGrid;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-  
-            Datagrid.ItemsSource = MainUser.Data;
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        private void Button_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-        private void Button_Click_Exit(object sender, RoutedEventArgs e) => Close();
-
-        private void Button_Click_Roll(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
-
+        private void Button_Click_Roll(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
             WindowSetting WinSet = new WindowSetting();
@@ -71,6 +85,9 @@ namespace FinanceExam
             DiagramEdit(LastAddedData);
 
             DrawCircleDiagram();
+            _fileData.SaveHistoryData(_dataGrid);
+            _fileData.SaveCategory(_dataGridCategories);
+            
         }
 
         private void HistoryTableEdit(History_Data data)
@@ -210,7 +227,7 @@ namespace FinanceExam
 
                     var angleDeg = angle * 180.0 / Math.PI;
 
-                    Path p = new Path()
+                    System.Windows.Shapes.Path p = new System.Windows.Shapes.Path()
                     {
                         Stroke = Brushes.Black,
                         Fill = brushes[i++],
@@ -248,7 +265,7 @@ namespace FinanceExam
         }
     }
     
-
+    [Serializable]
     public class History_Data
     {
         public History_Data(string day, double money, string category, string comment)
@@ -268,6 +285,7 @@ namespace FinanceExam
         public string Comment { get; set; }
     }
 
+    [Serializable]
     public class Category_Data
     {
         public Category_Data(string category, string color, int money)
@@ -289,13 +307,9 @@ namespace FinanceExam
     {
         List<History_Data> DATAGrid;
 
-        List<Category> CategoryList;
-
         public User()
         {
             DATAGrid = new List<History_Data>();
-            LoadCategory();
-            CardHistory();
         }
 
         public List<History_Data> Data
@@ -304,30 +318,83 @@ namespace FinanceExam
             get { return DATAGrid; }
         }
 
-        private void CardHistory()
-        {
-
-        }
-
-
-        private void LoadCategory()
-        {
-
-        }
-
         public double Balance { get; set; }
 
         public void AddItem (History_Data NewItem) => DATAGrid.Add(NewItem);
-
-        public void AddCategory()
-        {
-
-        }
     }
 
-    struct Category
+    public class FileProcessing 
     {
-        string Name;
-        string Color;
+        private static BinaryFormatter binaryFormatter = new BinaryFormatter();
+        private readonly string path = @"..\Data";
+        public FileProcessing()
+        {
+            if (!Directory.Exists(path))
+            { 
+                Directory.CreateDirectory(path);
+            }
+        }
+
+        public List<Category_Data> LoadCategoryData()
+        {
+            using (Stream stream = File.Open(path + '\\' + "CategoryData.txt", FileMode.Open))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Category_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public void SaveCategory(List<Category_Data> data)
+        {
+            using (Stream stream = File.Open(path + '\\'  +"CategoryData.txt", FileMode.Open))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message,"Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+    
+        public void SaveHistoryData(List<History_Data> data)
+        {
+            using (Stream stream = File.Open(path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+
+        public List<History_Data> LoadHistoryData()
+        {
+            using (Stream stream = File.Open(path + '\\' + "HistoryData.txt", FileMode.Open))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<History_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
