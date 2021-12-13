@@ -50,7 +50,7 @@
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
         <Border Grid.Column="1" Grid.Row="2" Background="#C7CCDB" Margin="0,0,0,-821" Width="{Binding ElementName=window, Mode=OneWay}">
-            <ComboBox Name="Currency"  Style="{DynamicResource Valyta}"  Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44" SelectionChanged="Сurrency_SelectionChanged">
+            <ComboBox Name="Currency"  Style="{DynamicResource Valyta}"  Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44">
                 <ComboBoxItem IsSelected="True">₴</ComboBoxItem>
                 <ComboBoxItem >$</ComboBoxItem>
             </ComboBox>
