@@ -18,7 +18,7 @@ namespace FinanceExam
 {
     public class Card
     {
-        public string Name;
+        public string Name { get; }
 
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
@@ -32,7 +32,7 @@ namespace FinanceExam
 
         public bool LastAddedDataIsCorrect = true;
 
-        public double Balance = 0;
+        public double Balance { get; set; }
 
         public Card(string name)
         {
@@ -77,14 +77,10 @@ namespace FinanceExam
 
         private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (Cards.Count != 0)
-            {
-                CurrentCardIndex = CardsComboBox.SelectedIndex;
-
-                DrawCircleDiagram();
-                UpdateTables();
-                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
-            }
+            CurrentCardIndex = CardsComboBox.SelectedIndex;
+            DrawCircleDiagram();
+            UpdateTables();
+            GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
         }
 
         private void UpdateTables()
