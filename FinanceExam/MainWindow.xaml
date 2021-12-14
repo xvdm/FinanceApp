@@ -42,8 +42,6 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#2A324B</SolidColorBrush>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowFrameBrushKey}">Transparent</SolidColorBrush>
             </ComboBox.Resources>
-
-            <ComboBoxItem IsSelected="True">Card 1</ComboBoxItem>
         </ComboBox>
         <Border BorderThickness="1" BorderBrush="White" RenderTransformOrigin="0.5,0.5" Margin="20,93,20,21" Grid.Column="1" Grid.Row="1"/>
 

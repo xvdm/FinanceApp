@@ -72,20 +72,28 @@ namespace FinanceExam
             Cards.Add(card);
             cmb.Content = card.Name;
             CardsComboBox.Items.Add(cmb);
+            if(CardsComboBox.Items.Count == 1) 
+                ((ComboBoxItem)(CardsComboBox.Items.GetItemAt(0))).IsSelected = true;
         }
 
         private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (Cards.Count != 0)
             {
                 CurrentCardIndex = CardsComboBox.SelectedIndex;
-                //HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                //ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                //DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
 
                 DrawCircleDiagram();
+                UpdateTables();
             }
+        }
+
+        private void UpdateTables()
+        {
+            Datagrid.ItemsSource = Cards[CurrentCardIndex]._dataGrid;
+            Datagrid.Items.Refresh();
+
+            DatagridCategory.ItemsSource = Cards[CurrentCardIndex]._dataGridCategories;
+            DatagridCategory.Items.Refresh();
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
