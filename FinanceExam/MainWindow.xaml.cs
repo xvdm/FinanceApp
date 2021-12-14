@@ -32,6 +32,8 @@ namespace FinanceExam
 
         public bool LastAddedDataIsCorrect = true;
 
+        public double Balance = 0;
+
         public Card()
         {
             Random r = new Random();
@@ -84,6 +86,7 @@ namespace FinanceExam
 
                 DrawCircleDiagram();
                 UpdateTables();
+                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
             }
         }
 
@@ -116,7 +119,7 @@ namespace FinanceExam
 
             if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
             {
-                GeneralBalance.Content = MainUser.Balance;
+                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
 
                 HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
                 ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
@@ -128,7 +131,7 @@ namespace FinanceExam
 
         public void AddMoneyToGeneralBalance(double money)
         {
-            MainUser.Balance += money;
+            Cards[CurrentCardIndex].Balance += money;
         }
 
         private void HistoryTableEdit(History_Data data)
