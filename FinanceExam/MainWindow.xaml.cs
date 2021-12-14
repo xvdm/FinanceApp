@@ -42,13 +42,7 @@ namespace FinanceExam
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
 
-
-
-
             _dataSettingCategory = new();
-
-
-
             Datagrid.ItemsSource = MainUser.Data;
         }
 
@@ -266,7 +260,6 @@ namespace FinanceExam
         }
     }
     
-
     public class History_Data
     {
         public History_Data(string day, double money, string category, string comment)
@@ -339,6 +332,21 @@ namespace FinanceExam
 
         public string Color { get; set; }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
