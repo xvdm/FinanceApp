@@ -31,6 +31,12 @@ namespace FinanceExam
         public History_Data LastAddedData = new History_Data(null, 0, null, null);
 
         public bool LastAddedDataIsCorrect = true;
+
+        public Card()
+        {
+            Random r = new Random();
+            Name += r.Next(0, 9).ToString();
+        }
     }
 
     public partial class MainWindow : Window
@@ -41,7 +47,7 @@ namespace FinanceExam
 
         public List<Card> Cards = new List<Card>();
 
-        public int CurrentCardIndex = 0;
+        public int CurrentCardIndex;
 
         public MainWindow()
         {
@@ -56,6 +62,7 @@ namespace FinanceExam
 
             AddCard();
             AddCard();
+            CurrentCardIndex = 0;
         }
 
         private void AddCard() 
@@ -69,7 +76,16 @@ namespace FinanceExam
 
         private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentCardIndex = CardsComboBox.SelectedIndex;
+
+            if (Cards.Count != 0)
+            {
+                CurrentCardIndex = CardsComboBox.SelectedIndex;
+                //HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                //ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                //DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
+
+                DrawCircleDiagram();
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -259,7 +275,7 @@ namespace FinanceExam
                     startAngle = endAngle;
                 }
             }
-            else
+            else if(Cards[CurrentCardIndex]._diagramData.Count == 1)
             {
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
