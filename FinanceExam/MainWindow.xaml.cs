@@ -19,7 +19,7 @@ namespace FinanceExam
 {
     public partial class MainWindow : Window
     {
-
+        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
         private List<Categories> _dataSettingCategory = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
@@ -82,6 +82,7 @@ namespace FinanceExam
             {
                 GeneralBalance.Content = MainUser.Balance;
 
+                HistoryTableEdit(LastAddedData);
                 ChartTableEdit(LastAddedData);
                 DiagramEdit(LastAddedData);
 
@@ -92,6 +93,21 @@ namespace FinanceExam
         public void AddMoneyToGeneralBalance(double money)
         {
             MainUser.Balance += money;
+        }
+
+        
+        private void HistoryTableEdit(History_Data data)
+        {
+            Random r = new Random();
+            if (_dataGrid == null)
+            {
+                _dataGrid = new List<History_Data>();
+                Datagrid.ItemsSource = _dataGrid;
+            }
+
+            _dataGrid.Add(new History_Data(data.Day, data.Money, data.Category, data.Comment));
+
+            Datagrid.Items.Refresh();
         }
 
         private void ChartTableEdit(History_Data data)
