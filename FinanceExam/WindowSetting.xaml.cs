@@ -33,7 +33,5 @@ namespace FinanceExam
         {
             Close();
         }
-
-
     }
 }

@@ -18,7 +18,7 @@ namespace FinanceExam
 {
     public class Card
     {
-        public string Name = "userName";
+        public string Name;
 
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
@@ -34,10 +34,9 @@ namespace FinanceExam
 
         public double Balance = 0;
 
-        public Card()
+        public Card(string name)
         {
-            Random r = new Random();
-            Name += r.Next(0, 9).ToString();
+            Name = name;
         }
     }
 
@@ -62,14 +61,14 @@ namespace FinanceExam
   
             Datagrid.ItemsSource = MainUser.Data;
 
-            AddCard();
-            AddCard();
+            AddCard("1");
+            AddCard("2");
             CurrentCardIndex = 0;
         }
 
-        private void AddCard() 
+        private void AddCard(string name) 
         {
-            var card = new Card();
+            var card = new Card(name);
             var cmb = new ComboBoxItem();
             Cards.Add(card);
             cmb.Content = card.Name;
@@ -296,6 +295,15 @@ namespace FinanceExam
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
             }
+        }
+
+        private void AddCard_Click(object sender, RoutedEventArgs e)
+        {
+            var CardDialog = new NewCard();
+            CardDialog.Owner = this;
+            CardDialog.ShowDialog();
+
+            
         }
     }
 
