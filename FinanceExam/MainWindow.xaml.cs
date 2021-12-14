@@ -51,8 +51,20 @@ namespace FinanceExam
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+            UpDateBallance();
         }
 
+        public string GeneralBallanceChange
+        {   
+            get
+            {
+                return GeneralBalance.Content.ToString();
+            }
+            set
+            {
+                GeneralBalance.Content = value;
+            }
+        }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
@@ -263,6 +275,11 @@ namespace FinanceExam
                 DiagramCanvas.Children.Add(ellipse);
             }
         }
+
+        private void UpDateBallance()
+        {
+
+        }
     }
     
     [Serializable]
@@ -299,7 +316,7 @@ namespace FinanceExam
 
         public string Color { get; set; }
 
-        public int Money { get; set; }
+        public double Money { get; set; }
     }
 
 
