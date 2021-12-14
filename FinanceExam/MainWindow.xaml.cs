@@ -34,6 +34,8 @@ namespace FinanceExam
 
         public bool LastAddedDataIsCorrect = true;
 
+        private List<Card> _cards = new List<Card>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -44,6 +46,18 @@ namespace FinanceExam
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
   
             Datagrid.ItemsSource = MainUser.Data;
+
+            AddCard();
+            AddCard();
+        }
+
+        private void AddCard() 
+        {
+            var usr = new Card();
+            var cmb = new ComboBoxItem();
+            _cards.Add(usr);
+            cmb.Content = usr.Name;
+            CardsComboBox.Items.Add(cmb);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -244,8 +258,13 @@ namespace FinanceExam
                 DiagramCanvas.Children.Add(ellipse);
             }
         }
+
+        private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
-    
+
 
     public class History_Data
     {
@@ -302,30 +321,25 @@ namespace FinanceExam
             get { return DATAGrid; }
         }
 
-        private void CardHistory()
-        {
+        private void CardHistory() { }
 
-        }
-
-
-        private void LoadCategory()
-        {
-
-        }
+        private void LoadCategory() { }
 
         public double Balance { get; set; }
 
         public void AddItem (History_Data NewItem) => DATAGrid.Add(NewItem);
 
-        public void AddCategory()
-        {
-
-        }
+        public void AddCategory() { }
     }
 
     struct Category
     {
         string Name;
         string Color;
+    }
+
+    class Card
+    {
+        public string Name = "userName";
     }
 }

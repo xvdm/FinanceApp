@@ -37,14 +37,13 @@
             <Border BorderThickness="1" BorderBrush="Black" Height="7" Width="12"/>
         </Button>
         <Button Style="{DynamicResource ButtonExit}" Content="X" VerticalAlignment="Center" Height="20" Grid.Column="6" HorizontalAlignment="Center"  Width="50" Click="Button_Click_Exit"/>
-        <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" Margin="20,64,20,0" Grid.Row="1" Height="35" VerticalAlignment="Top">
+        <ComboBox Style="{DynamicResource CardName}" Grid.Column="1" Margin="20,64,20,0" Grid.Row="1" Height="35" VerticalAlignment="Top" Name="CardsComboBox" SelectionChanged="CardsComboBox_SelectionChanged">
             <ComboBox.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}">#2A324B</SolidColorBrush>
                 <SolidColorBrush x:Key="{x:Static SystemColors.WindowFrameBrushKey}">Transparent</SolidColorBrush>
             </ComboBox.Resources>
 
-            <ComboBoxItem IsSelected="True">Карта Вадима</ComboBoxItem>
-            <ComboBoxItem>Карта Димы</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">Card 1</ComboBoxItem>
         </ComboBox>
         <Border BorderThickness="1" BorderBrush="White" RenderTransformOrigin="0.5,0.5" Margin="20,93,20,21" Grid.Column="1" Grid.Row="1"/>
 
@@ -116,7 +115,7 @@
                         <Label Content="Категория" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="3" FontSize="25" HorizontalAlignment="Left" Width="334"/>
                         <Label Content="Комментарий" VerticalAlignment="Center" Grid.Row="1" Height="42" FontWeight="SemiBold" Grid.Column="4" FontSize="25" HorizontalAlignment="Left" Width="641"/>
 
-                        <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
+                        <Border BorderThickness="0,1,0,0" BorderBrush="#FFAAAAAA" Margin="0,0,0,0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleY="-1"/>
@@ -205,9 +204,6 @@
                         <Border BorderThickness="0,1,0,1" BorderBrush="#FFAAAAAA" Margin="0,10,0,10" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4"/>
                     </Grid>
                 </Border>
-            </TabItem>
-            <TabItem  Style="{DynamicResource TabItemStyleA}" Header="Счета" Margin="0,11,-17,-39" FontSize="24" HorizontalAlignment="Right" Width="190">
-                <Border Background="White" Margin="-3,-41,-3,0"/>
             </TabItem>
         </TabControl>
 
