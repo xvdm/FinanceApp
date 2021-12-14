@@ -16,25 +16,32 @@ using System.Windows.Shapes;
 
 namespace FinanceExam
 {
-    public partial class MainWindow : Window
+    public class Card
     {
-        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
+        public string Name = "userName";
 
-        private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
+        public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
-        private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
+        public List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
 
-        private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
+        public Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
 
+        public Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
+
+        public History_Data LastAddedData = new History_Data(null, 0, null, null);
+
+        public bool LastAddedDataIsCorrect = true;
+    }
+
+    public partial class MainWindow : Window
+    { 
         private bool _expanded = false;
 
         private User MainUser = new User();
 
-        public History_Data LastAddedData = new History_Data(null, 0, null , null);
+        public List<Card> Cards = new List<Card>();
 
-        public bool LastAddedDataIsCorrect = true;
-
-        private List<Card> _cards = new List<Card>();
+        public int CurrentCardIndex = 0;
 
         public MainWindow()
         {
@@ -53,11 +60,16 @@ namespace FinanceExam
 
         private void AddCard() 
         {
-            var usr = new Card();
+            var card = new Card();
             var cmb = new ComboBoxItem();
-            _cards.Add(usr);
-            cmb.Content = usr.Name;
+            Cards.Add(card);
+            cmb.Content = card.Name;
             CardsComboBox.Items.Add(cmb);
+        }
+
+        private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CurrentCardIndex = CardsComboBox.SelectedIndex;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -78,13 +90,13 @@ namespace FinanceExam
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
 
-            if (LastAddedDataIsCorrect == true)
+            if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
             {
                 GeneralBalance.Content = MainUser.Balance;
 
-                HistoryTableEdit(LastAddedData);
-                ChartTableEdit(LastAddedData);
-                DiagramEdit(LastAddedData);
+                HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
 
                 DrawCircleDiagram();
             }
@@ -98,23 +110,23 @@ namespace FinanceExam
         private void HistoryTableEdit(History_Data data)
         {
             Random r = new Random();
-            if (_dataGrid == null)
+            if (Cards[CurrentCardIndex]._dataGrid == null)
             {
-                _dataGrid = new List<History_Data>();
-                Datagrid.ItemsSource = _dataGrid;
+                Cards[CurrentCardIndex]._dataGrid = new List<History_Data>();
+                Datagrid.ItemsSource = Cards[CurrentCardIndex]._dataGrid;
             }
-            
-            _dataGrid.Add(new History_Data(data.Day, data.Money, data.Category, data.Comment));
+
+            Cards[CurrentCardIndex]._dataGrid.Add(new History_Data(data.Day, data.Money, data.Category, data.Comment));
 
             Datagrid.Items.Refresh();
         }
 
         private void ChartTableEdit(History_Data data)
         {
-            if (_dataGridCategories == null)
+            if (Cards[CurrentCardIndex]._dataGridCategories == null)
             {
-                _dataGridCategories = new List<Category_Data>();
-                DatagridCategory.ItemsSource = _dataGridCategories;
+                Cards[CurrentCardIndex]._dataGridCategories = new List<Category_Data>();
+                DatagridCategory.ItemsSource = Cards[CurrentCardIndex]._dataGridCategories;
             }
             string category = data.Category;
             int money = Convert.ToInt32(data.Money);
@@ -128,9 +140,9 @@ namespace FinanceExam
                 case '4': color = "Yellow"; break;
             }
 
-            if (_diagramData.ContainsKey(category)) // если категория уже есть
+            if (Cards[CurrentCardIndex]._diagramData.ContainsKey(category)) // если категория уже есть
             {
-                foreach (var x in _dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
+                foreach (var x in Cards[CurrentCardIndex]._dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
                 {
                     if (x.Category == category)
                     {
@@ -140,12 +152,12 @@ namespace FinanceExam
             }
             else
             {
-                _dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
+                Cards[CurrentCardIndex]._dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
 
                 TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
                 Color clr = (Color)tc.ConvertFromString(color);
                 Brush brush = new SolidColorBrush(clr);
-                _categoryColor.Add(category, brush);
+                Cards[CurrentCardIndex]._categoryColor.Add(category, brush);
             }
 
             DatagridCategory.Items.Refresh();
@@ -155,10 +167,10 @@ namespace FinanceExam
         {
             string category = data.Category;
             int money = Convert.ToInt32(data.Money);
-            if (_diagramData.ContainsKey(category)) // если категория уже есть
-                _diagramData[category] += money; // увеличиваю кол-во денег в ней
+            if (Cards[CurrentCardIndex]._diagramData.ContainsKey(category)) // если категория уже есть
+                Cards[CurrentCardIndex]._diagramData[category] += money; // увеличиваю кол-во денег в ней
             else
-                _diagramData.Add(category, money); // добавление новой категории в диаграмму
+                Cards[CurrentCardIndex]._diagramData.Add(category, money); // добавление новой категории в диаграмму
         }
 
         private void Button_Click_Expand(object sender, RoutedEventArgs e)
@@ -184,18 +196,18 @@ namespace FinanceExam
         {
             DiagramCanvas.Children.Clear();
 
-            if (_diagramData.Count > 1)
+            if (Cards[CurrentCardIndex]._diagramData.Count > 1)
             {
-                int[] data = new int[_diagramData.Count];
-                Brush[] brushes = new Brush[_categoryColor.Count];
+                int[] data = new int[Cards[CurrentCardIndex]._diagramData.Count];
+                Brush[] brushes = new Brush[Cards[CurrentCardIndex]._categoryColor.Count];
                 int i = 0;
-                foreach(var x in _diagramData)
+                foreach(var x in Cards[CurrentCardIndex]._diagramData)
                 {
                     data[i] = x.Value;
                     i++;
                 }
                 i = 0;
-                foreach (var x in _categoryColor)
+                foreach (var x in Cards[CurrentCardIndex]._categoryColor)
                 {
                     brushes[i] = x.Value;
                     i++;
@@ -252,16 +264,11 @@ namespace FinanceExam
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = _categoryColor.Values.First();
+                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
             }
-        }
-
-        private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 
@@ -336,10 +343,5 @@ namespace FinanceExam
     {
         string Name;
         string Color;
-    }
-
-    class Card
-    {
-        public string Name = "userName";
     }
 }

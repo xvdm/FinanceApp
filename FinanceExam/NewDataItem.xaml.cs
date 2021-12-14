@@ -26,12 +26,17 @@ namespace FinanceExam
         {
             InitializeComponent();
 
-            if(((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect == false)
+            //if(((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect == false)
+            if(((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect == false)
             {
-                InputDate.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Day;
-                InputMoney.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Money.ToString();
-                InputCategory.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Category;
-                InputComment.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Comment;
+                //InputDate.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Day;
+                //InputMoney.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Money.ToString();
+                //InputCategory.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Category;
+                //InputComment.Text = ((MainWindow)Application.Current.MainWindow).LastAddedData.Comment;
+                InputDate.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Day;
+                InputMoney.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Money.ToString();
+                InputCategory.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Category;
+                InputComment.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Comment;
             }
         }
 
@@ -39,13 +44,15 @@ namespace FinanceExam
 
         private void Button_Click_Exit(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            //((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect = false;
             Close();
         }
 
         private void Button_Click_Close(object sender, RoutedEventArgs e)
         {
-            ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            //((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+            ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect = false;
             Close();
         }
 
@@ -53,17 +60,20 @@ namespace FinanceExam
         {
             string moneyPattern = @"^([1-9]{1}[0-9]{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))$|^\-?\$?([1-9]{1}\d{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))$|^\(\$?([1-9]{1}\d{0,2}(\,\d{3})*(,\d{0,2})?|[1-9]{1}\d{0,}(,\d{0,2})?|0(,\d{0,2})?|(,\d{1,2}))\)$";
             if (Regex.IsMatch(InputMoney.Text, moneyPattern) == false || InputDate.Text == "" || InputCategory.Text == "" || InputComment.Text == "") {
-                ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+                //((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = false;
+                ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect = false;
                 if (Regex.IsMatch(InputMoney.Text, moneyPattern) == false) 
                     InputMoney.Text = "0";
                 MessageBox.Show("Incorrect data.");
             }
             else
             {
-                ((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = true;
+                //((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect = true;
+                ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect = true;
                 ((MainWindow)Application.Current.MainWindow).AddMoneyToGeneralBalance(Convert.ToDouble(InputMoney.Text));
             }
-            ((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
+            //((MainWindow)Application.Current.MainWindow).LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
+            ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData = new History_Data(InputDate.Text, Convert.ToDouble(InputMoney.Text), InputCategory.Text, InputComment.Text);
             Close();
         }
     }
