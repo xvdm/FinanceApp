@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace FinanceExam
     {
 
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
+        private List<Categories> _dataSettingCategory = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
@@ -39,7 +41,14 @@ namespace FinanceExam
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-  
+
+
+
+
+            _dataSettingCategory = new();
+
+
+
             Datagrid.ItemsSource = MainUser.Data;
         }
 
@@ -57,13 +66,15 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting();
+            WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
             WinSet.ShowDialog();
+
+
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
-            NewDataItem ItemDialog = new NewDataItem();
+            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
 
@@ -90,17 +101,22 @@ namespace FinanceExam
                 _dataGridCategories = new List<Category_Data>();
                 DatagridCategory.ItemsSource = _dataGridCategories;
             }
+
             string category = data.Category;
+            string color = null;
+            foreach (var col in _dataSettingCategory)
+            {
+                if (col.Category == category)
+                {
+                    color = col.Color;
+                    break;
+                }
+            }    
+
+           
             int money = Convert.ToInt32(data.Money);
 
-            string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
-            switch (category[category.Length - 1]) // пока нет функционала - цвет для каждой категории задается тут (в зависимости от рандомной цифры в конце названия категории)
-            {
-                case '1': color = "Gray"; break;
-                case '2': color = "Red"; break;
-                case '3': color = "Green"; break;
-                case '4': color = "Yellow"; break;
-            }
+            
 
             if (_diagramData.ContainsKey(category)) // если категория уже есть
             {
@@ -196,7 +212,7 @@ namespace FinanceExam
 
                     var angleDeg = angle * 180.0 / Math.PI;
 
-                    Path p = new Path()
+                    System.Windows.Shapes.Path p = new System.Windows.Shapes.Path()
                     {
                         Stroke = Brushes.Black,
                         Fill = brushes[i++],
@@ -256,6 +272,7 @@ namespace FinanceExam
 
     public class Category_Data
     {
+
         public Category_Data(string category, string color, int money)
         {
             Category = category;
@@ -269,7 +286,6 @@ namespace FinanceExam
 
         public int Money { get; set; }
     }
-
 
     public class User
     {
@@ -295,6 +311,18 @@ namespace FinanceExam
         }
     }
 
+    public class Categories
+    {
+        public Categories(string category, string color)
+        {
+            Category = category;
+            Color = color;
+        }
+
+        public string Category { get; set; }
+
+        public string Color { get; set; }
+    }
 
 
 }

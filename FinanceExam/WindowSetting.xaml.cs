@@ -20,14 +20,14 @@ namespace FinanceExam
     public partial class WindowSetting : Window
     {
 
-        List<Categories> SettinhCategory = null;
+        private List<Categories> SettinhCategory = null;
 
-        public WindowSetting()
+        public WindowSetting(List<Categories> _SettinhCategory)
         {
             InitializeComponent();
             //Подгрузка категорий из файла
             //Пока такая 
-            SettinhCategory = new List<Categories>();
+            SettinhCategory = _SettinhCategory;
             CategoryData.ItemsSource = SettinhCategory;
         }
 
@@ -43,6 +43,9 @@ namespace FinanceExam
 
         private void Button_Color(object sender, RoutedEventArgs e)
         {
+
+           
+
             try
             {
                 if (SettingNameCategory.Text == "" || ColorPick.SelectedColor == null)
@@ -101,18 +104,4 @@ namespace FinanceExam
 
         }
     }
-
-    public class Categories
-    {
-        public Categories(string category, string color)
-        {
-            Category = category;
-            Color = color;
-        }
-
-        public string Category { get; set; }
-
-        public string Color { get; set; }
-    }
-
 }
