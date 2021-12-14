@@ -20,6 +20,7 @@ namespace FinanceExam
     public partial class MainWindow : Window
     {
         private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
+        private List<History_Data> _FilterGrid = null; // список для таблицы в разделе "история"
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
         private List<Categories> _dataSettingCategory = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
@@ -82,6 +83,14 @@ namespace FinanceExam
 
                 DrawCircleDiagram();
             }
+        }
+
+
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
+            ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
         }
 
         public void AddMoneyToGeneralBalance(double money)
@@ -252,12 +261,37 @@ namespace FinanceExam
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = _categoryColor.Values.First();
+                //ellipse.Fill = _categoryColor.Values.First();  //Баг уменьшения окна
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
             }
         }
+
+
+        private void Button_Filter(object sender, RoutedEventArgs e)
+        {
+
+            _FilterGrid = new();
+            if (searchBox.Text.Equals(""))
+            {
+                _FilterGrid.AddRange(_dataGrid);
+            }
+            else
+            {
+                foreach (History_Data row in _dataGrid)
+                {
+                    if (row.Category.Contains(searchBox.Text) || row.Day.Contains(searchBox.Text) || row.Comment.Contains(searchBox.Text))
+                    {
+                        _FilterGrid.Add(row);
+                    }
+                }
+            }
+            Datagrid.ItemsSource = _FilterGrid;
+            Datagrid.Items.Refresh();
+
+        }
+
     }
     
     public class History_Data

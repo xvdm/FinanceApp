@@ -21,7 +21,8 @@ namespace FinanceExam
     {
 
         private List<Categories> SettinhCategory = null;
-
+        private List<Categories> FilterList = null;
+        private bool settingrow = false;
         public WindowSetting(List<Categories> _SettinhCategory)
         {
             InitializeComponent();
@@ -44,23 +45,35 @@ namespace FinanceExam
         private void Button_Color(object sender, RoutedEventArgs e)
         {
 
-           
-
             try
             {
-                if (SettingNameCategory.Text == "" || ColorPick.SelectedColor == null)
+                if (!settingrow)
                 {
-                    throw new ArgumentNullException();
+                    if (SettingNameCategory.Text == "" || ColorPick.SelectedColor == null)
+                    {
+                        throw new ArgumentNullException();
+                    }
+
+                    foreach (var x in SettinhCategory)
+                    {
+                        if (x.Category == SettingNameCategory.Text || x.Color == ColorPick.SelectedColorText)
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    SettinhCategory.Add(new(SettingNameCategory.Text, ColorPick.SelectedColorText));
+
+                }
+                else
+                {
+                    int index = SettinhCategory.IndexOf((Categories)CategoryData.SelectedItem);
+                    SettinhCategory[index].Category = SettingNameCategory.Text;
+                    SettinhCategory[index].Color = ColorPick.SelectedColorText;
+                    CategoryData.Items.Refresh();
+                    settingrow = false;
                 }
 
-                foreach (var x in SettinhCategory)
-                {
-                    if (x.Category == SettingNameCategory.Text || x.Color == ColorPick.SelectedColorText)
-                    {
-                          throw new Exception();
-                    }
-                }
-                SettinhCategory.Add(new(SettingNameCategory.Text, ColorPick.SelectedColorText));
+
                 SettingNameCategory.Text = null;
                 ColorPick.SelectedColor = null;
                 CategoryData.Items.Refresh();
@@ -82,6 +95,7 @@ namespace FinanceExam
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
+            settingrow = true;
             ColorButton.Content = "Изменить";
             ResetButton.Content = "Удалить";
 
@@ -100,6 +114,29 @@ namespace FinanceExam
 
             ResetButton.Content = "Сбросить";
             ColorButton.Content = "Добавить";
+            CategoryData.Items.Refresh();
+
+        }
+
+        private void Button_Filter(object sender, RoutedEventArgs e)
+        {
+
+            FilterList = new();
+            if (searchBox.Text.Equals(""))
+            {
+                FilterList.AddRange(SettinhCategory);
+            }
+            else
+            {
+                foreach (Categories row in SettinhCategory)
+                {
+                    if (row.Category.Contains(searchBox.Text))
+                    {
+                        FilterList.Add(row);
+                    }
+                }
+            }
+            CategoryData.ItemsSource = FilterList;
             CategoryData.Items.Refresh();
 
         }
