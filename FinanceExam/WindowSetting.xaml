@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:FinanceExam"
         mc:Ignorable="d"
         Title="WindowSetting" 
@@ -30,19 +31,33 @@
                 <Grid Background="White" Margin="-3,-3,-3,-3" Width="718">
                     <StackPanel Margin="0,10,0,326" Orientation="Horizontal">
                         <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Width="247" Margin="20,0,10,0" Height="20" BorderThickness="0,0,0,2"/>
-                        <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Найти" Width="69" Height="34"/>
+                        <Button Style="{DynamicResource SettingCategorySearchButton}" Content="Найти" Width="69" Height="34"/>
                     </StackPanel>
                     <Border BorderBrush="#2A324B" BorderThickness="1" Margin="520,57,9,10">
                         <Label Content="Добавление категории" HorizontalAlignment="Center" Margin="0,9,0,267" FontSize="15" FontWeight="Bold"/>
                     </Border>
-                    
-                    <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Добавить" Width="69" Height="34" Margin="629,326,20,20"></Button>
-                    <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Сбросить" Height="34" Margin="534,326,114,20"/>
-                    
-                    <DataGrid Style="{DynamicResource History}" Margin="10,57,212,10" Background="White" BorderBrush="#2A324B" BorderThickness="1">
+
+                    <Button Style="{DynamicResource SettingCategoryAddButton}"  Content="Добавить" Width="69" Height="34" Margin="629,326,20,20" Click="Button_Color" Name="ColorButton"/>
+                    <Button Style="{DynamicResource SettingCategoryResetButton}" Content="Сбросить" Height="34" Margin="534,326,114,20" Click="Button_Reset" Name="ResetButton"/>
+
+
+
+
+                    <DataGrid Style="{DynamicResource History}" Margin="10,70,212,10" Background="White"  Name="CategoryData" IsReadOnly="True" HeadersVisibility="Column" AutoGenerateColumns="False">
+
+                        <DataGrid.ItemContainerStyle>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
-                                <Setter Property="Margin" Value="0,20,0,20" />
+                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="Height" Value="30"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                     </Trigger>
@@ -59,22 +74,48 @@
                         </DataGrid.CellStyle>
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn  Width="20"/>
-                            <DataGridTextColumn  Width="243*" Binding="{Binding Path=Day}"/>
+                            <DataGridTextColumn  Width="1*"  Binding="{Binding Path=Category}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Width="1*">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="{Binding Path=Color}"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Text="Название:" Margin="534,117,131,241"/>
-                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="534,142,20,220" BorderThickness="0,0,0,2"/>
-                    <TextBlock Text="Цвет:" Margin="534,190,131,170"/>
 
-                    <Border BorderThickness="1" BorderBrush="Black" Margin="534,215,20,59"/>
-                    <Button Content="Выбрать" HorizontalAlignment="Left" Margin="629,190,0,0" VerticalAlignment="Top" Width="69"/>
-                    
 
+                    <Border BorderBrush="#2A324B" BorderThickness="1" Margin="10,57,212,10"/>
+                    <TextBlock Text="Название:" Margin="534,132,131,226"/>
+                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="534,156,20,206" BorderThickness="0,0,0,2" Name="SettingNameCategory"/>
+                    <TextBlock Text="Цвет:" Margin="534,204,131,156"/>
+                    <xctk:ColorPicker SelectedColor="{Binding MyColorProperty}" Margin="534,228,14,128" Name="ColorPick" />
+                    <Border BorderThickness="1" BorderBrush="#2A324B" Margin="10,57,212,289">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Категория" Width="246" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
+                            <Border Background="#2A324B" Width="1"/>
+                            <Label Content="Цвет" Width="247" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+            </TabItem>
+            <TabItem Style="{DynamicResource SettingTabItem}" Header="Инфо" Height="46" Margin="-2,0,0,2" VerticalAlignment="Bottom" Width="76" HorizontalAlignment="Left">
+                <Grid Background="White" Margin="-3,-3,-3,-3"  Width="718">
+                    <Label Content="Работаем за еду!" HorizontalAlignment="Center" Margin="0,140,0,0" VerticalAlignment="Top" FontSize="50" FontWeight="SemiBold"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <Button Content="Подтвердить" HorizontalAlignment="Left" Margin="708,405,0,0" VerticalAlignment="Top" Height="35" Width="82"/>
+        <Label Content="Настройки" HorizontalAlignment="Left" Margin="3,-5,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,0.25" Height="25" Width="77" Foreground="White"/>
 
     </Grid>
 </Window>

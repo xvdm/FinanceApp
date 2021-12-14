@@ -18,20 +18,17 @@ namespace FinanceExam
 {
     public partial class MainWindow : Window
     {
-        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
-
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
-
         private Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         private bool _expanded = false;
 
         private User MainUser = new User();
+        
 
         public History_Data LastAddedData = new History_Data(null, 0, null , null);
-
         public bool LastAddedDataIsCorrect = true;
 
         public MainWindow()
@@ -48,9 +45,15 @@ namespace FinanceExam
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
-        private void Button_Click_Exit(object sender, RoutedEventArgs e) => Close();
+        private void Button_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-        private void Button_Click_Roll(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
+        private void Button_Click_Roll(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
@@ -68,7 +71,6 @@ namespace FinanceExam
             {
                 GeneralBalance.Content = MainUser.Balance;
 
-                HistoryTableEdit(LastAddedData);
                 ChartTableEdit(LastAddedData);
                 DiagramEdit(LastAddedData);
 
@@ -79,20 +81,6 @@ namespace FinanceExam
         public void AddMoneyToGeneralBalance(double money)
         {
             MainUser.Balance += money;
-        }
-
-        private void HistoryTableEdit(History_Data data)
-        {
-            Random r = new Random();
-            if (_dataGrid == null)
-            {
-                _dataGrid = new List<History_Data>();
-                Datagrid.ItemsSource = _dataGrid;
-            }
-            
-            _dataGrid.Add(new History_Data(data.Day, data.Money, data.Category, data.Comment));
-
-            Datagrid.Items.Refresh();
         }
 
         private void ChartTableEdit(History_Data data)
@@ -285,15 +273,12 @@ namespace FinanceExam
 
     public class User
     {
-        List<History_Data> DATAGrid;
+        List<History_Data> DATAGrid; //Список ззаписей пользователя
 
-        List<Category> CategoryList;
 
         public User()
         {
             DATAGrid = new List<History_Data>();
-            LoadCategory();
-            CardHistory();
         }
 
         public List<History_Data> Data
@@ -302,30 +287,14 @@ namespace FinanceExam
             get { return DATAGrid; }
         }
 
-        private void CardHistory()
-        {
-
-        }
-
-
-        private void LoadCategory()
-        {
-
-        }
-
         public double Balance { get; set; }
 
-        public void AddItem (History_Data NewItem) => DATAGrid.Add(NewItem);
-
-        public void AddCategory()
+        public void AddItem(History_Data NewItem)
         {
-
+            DATAGrid.Add(NewItem);
         }
     }
 
-    struct Category
-    {
-        string Name;
-        string Color;
-    }
+
+
 }
