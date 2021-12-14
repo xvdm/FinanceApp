@@ -61,8 +61,6 @@ namespace FinanceExam
   
             Datagrid.ItemsSource = MainUser.Data;
 
-            AddCard("1");
-            AddCard("2");
             CurrentCardIndex = 0;
         }
 
@@ -112,19 +110,26 @@ namespace FinanceExam
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
-            NewDataItem ItemDialog = new NewDataItem();
-            ItemDialog.Owner = this;
-            ItemDialog.ShowDialog();
-
-            if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
+            if (Cards.Count > 0)
             {
-                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
+                NewDataItem ItemDialog = new NewDataItem();
+                ItemDialog.Owner = this;
+                ItemDialog.ShowDialog();
 
-                HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
+                if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
+                {
+                    GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
 
-                DrawCircleDiagram();
+                    HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                    ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                    DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
+
+                    DrawCircleDiagram();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Нет ни одного счета");
             }
         }
 
@@ -301,9 +306,10 @@ namespace FinanceExam
         {
             var CardDialog = new NewCard();
             CardDialog.Owner = this;
-            CardDialog.ShowDialog();
-
+            CardDialog.ShowDialog(); 
             
+            if (CardsComboBox.Items.Count == 1)
+                ((ComboBoxItem)(CardsComboBox.Items.GetItemAt(0))).IsSelected = true;
         }
     }
 

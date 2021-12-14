@@ -37,7 +37,9 @@ namespace FinanceExam
         private void Button_Click_ADD(object sender, RoutedEventArgs e)
         {
             ((MainWindow)Application.Current.MainWindow).Cards.Add(new Card(NameTextBox.Text));
-            ((MainWindow)Application.Current.MainWindow).CardsComboBox.Items.Add(((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).Cards.Count - 1].Name);
+            var cmb = new ComboBoxItem();
+            cmb.Content = NameTextBox.Text;
+            ((MainWindow)Application.Current.MainWindow).CardsComboBox.Items.Add(cmb);
             ((MainWindow)Application.Current.MainWindow).CardsComboBox.Items.Refresh();
             Close();
         }
