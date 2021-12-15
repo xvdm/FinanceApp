@@ -40,15 +40,19 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
-
+            
             _dataGrid = _fileData.LoadHistoryData();
             _dataGridCategories = _fileData.LoadCategoryData();
+            _dataSettingCategory = _fileData.LoadSettingsCategory();
             Datagrid.ItemsSource = _dataGrid;
-
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-
             UpDateBallance();
+        }
+
+        private void ASDAS()
+        {
+            _dataSettingCategory.Add(new ("stas","Red"));
         }
 
         public string GeneralBallanceChange
@@ -79,7 +83,7 @@ namespace FinanceExam
         {
             WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
             WinSet.ShowDialog();
-
+            _fileData.SaveSettingsCategory(_dataSettingCategory);
 
         }
 
@@ -101,7 +105,6 @@ namespace FinanceExam
 
                 _fileData.SaveHistoryData(_dataGrid);
                 _fileData.SaveCategory(_dataGridCategories);
-
             }
         }
 
@@ -362,7 +365,7 @@ namespace FinanceExam
 
         public string Color { get; set; }
 
-        public int Money { get; set; }
+        public double Money { get; set; }
     }
 
     public class User
@@ -406,19 +409,21 @@ namespace FinanceExam
 
     public class FileProcessing
     {
-        private static BinaryFormatter binaryFormatter = new BinaryFormatter();
-        private readonly string path = @"..\Data";
+        private static BinaryFormatter binaryFormatter;
+        private readonly string _path = @"..\Data";
+        private readonly string _settingspath = @"..\..\..\SettingsCategory";
         public FileProcessing()
         {
-            if (!Directory.Exists(path))
+            binaryFormatter = new BinaryFormatter();
+            if (!Directory.Exists(_path))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(_path);
             }
         }
 
         public List<Category_Data> LoadCategoryData()
         {
-            using (Stream stream = File.Open(path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
             {
                 if (stream.Length > 0)
                 {
@@ -433,7 +438,7 @@ namespace FinanceExam
 
         public void SaveCategory(List<Category_Data> data)
         {
-            using (Stream stream = File.Open(path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
             {
                 try
                 {
@@ -449,7 +454,7 @@ namespace FinanceExam
 
         public void SaveHistoryData(List<History_Data> data)
         {
-            using (Stream stream = File.Open(path + '\\' + "HistoryData.txt", FileMode.Open))
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.Open))
             {
                 try
                 {
@@ -465,7 +470,7 @@ namespace FinanceExam
 
         public List<History_Data> LoadHistoryData()
         {
-            using (Stream stream = File.Open(path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
             {
                 if (stream.Length > 0)
                 {
@@ -477,6 +482,38 @@ namespace FinanceExam
                 }
             }
         }
+
+        public void SaveSettingsCategory(List<Categories> data)
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+
+        public List<Categories> LoadSettingsCategory()
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Categories>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 
 
