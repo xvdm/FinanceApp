@@ -50,10 +50,6 @@ namespace FinanceExam
             UpDateBallance();
         }
 
-        private void ASDAS()
-        {
-            _dataSettingCategory.Add(new ("stas","Red"));
-        }
 
         public string GeneralBallanceChange
         {
