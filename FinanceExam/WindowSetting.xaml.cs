@@ -26,8 +26,6 @@ namespace FinanceExam
         public WindowSetting(List<Categories> _SettinhCategory)
         {
             InitializeComponent();
-            //Подгрузка категорий из файла
-            //Пока такая 
             SettinhCategory = _SettinhCategory;
             CategoryData.ItemsSource = SettinhCategory;
         }
