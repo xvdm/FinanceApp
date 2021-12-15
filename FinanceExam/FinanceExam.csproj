@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Icon\" />
+    <Folder Include="SettingsCategory\" />
   </ItemGroup>
 
   <ItemGroup>

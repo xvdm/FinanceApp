@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,8 +21,9 @@ namespace FinanceExam
 {
     public partial class MainWindow : Window
     {
+        private FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
         private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
-        private List<History_Data> _FilterGrid = null; // список для таблицы в разделе "история"
+        private List<History_Data> _FilterGrid = null; // список фильтров для таблицы в разделе "история"
         private List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
         private List<Categories> _dataSettingCategory = null;
         private Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
@@ -37,14 +40,31 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
+            
+            _dataGrid = _fileData.LoadHistoryData();
+            _dataGridCategories = _fileData.LoadCategoryData();
+            _dataSettingCategory = _fileData.LoadSettingsCategory();
+            Datagrid.ItemsSource = _dataGrid;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+            UpDateBallance();
+        }
 
-            this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
-            this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+        private void ASDAS()
+        {
+            _dataSettingCategory.Add(new ("stas","Red"));
+        }
 
-            _dataSettingCategory = new();
-            Datagrid.ItemsSource = MainUser.Data;
+        public string GeneralBallanceChange
+        {
+            get
+            {
+                return GeneralBalance.Content.ToString();
+            }
+            set
+            {
+                GeneralBalance.Content = value;
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
@@ -63,7 +83,7 @@ namespace FinanceExam
         {
             WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
             WinSet.ShowDialog();
-
+            _fileData.SaveSettingsCategory(_dataSettingCategory);
 
         }
 
@@ -80,12 +100,26 @@ namespace FinanceExam
                 HistoryTableEdit(LastAddedData);
                 ChartTableEdit(LastAddedData);
                 DiagramEdit(LastAddedData);
-
+                UpDateBallance();
                 DrawCircleDiagram();
+
+                _fileData.SaveHistoryData(_dataGrid);
+                _fileData.SaveCategory(_dataGridCategories);
             }
         }
 
-
+        private void UpDateBallance()
+        {
+            double buffballace = 0;
+            if (_dataGrid != null) 
+            { 
+                for (int i = 0; i < _dataGrid.Count; i++)
+                {
+                    buffballace += _dataGrid[i].Money;
+                }
+            }
+            GeneralBallanceChange = buffballace.ToString();
+        }
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
@@ -293,7 +327,9 @@ namespace FinanceExam
         }
 
     }
-    
+
+
+    [Serializable]
     public class History_Data
     {
         public History_Data(string day, double money, string category, string comment)
@@ -313,6 +349,8 @@ namespace FinanceExam
         public string Comment { get; set; }
     }
 
+
+    [Serializable]
     public class Category_Data
     {
 
@@ -327,7 +365,7 @@ namespace FinanceExam
 
         public string Color { get; set; }
 
-        public int Money { get; set; }
+        public double Money { get; set; }
     }
 
     public class User
@@ -354,6 +392,7 @@ namespace FinanceExam
         }
     }
 
+    [Serializable]
     public class Categories
     {
         public Categories(string category, string color)
@@ -368,19 +407,114 @@ namespace FinanceExam
     }
 
 
+    public class FileProcessing
+    {
+        private static BinaryFormatter binaryFormatter;
+        private readonly string _path = @"..\Data";
+        private readonly string _settingspath = @"..\..\..\SettingsCategory";
+        public FileProcessing()
+        {
+            binaryFormatter = new BinaryFormatter();
+            if (!Directory.Exists(_path))
+            {
+                Directory.CreateDirectory(_path);
+            }
+        }
 
+        public List<Category_Data> LoadCategoryData()
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Category_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
+        public void SaveCategory(List<Category_Data> data)
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
 
+        public void SaveHistoryData(List<History_Data> data)
+        {
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.Open))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
 
+        public List<History_Data> LoadHistoryData()
+        {
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<History_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
+        public void SaveSettingsCategory(List<Categories> data)
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
 
+        public List<Categories> LoadSettingsCategory()
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Categories>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
-
-
-
-
-
-
+    }
 
 
 }
