@@ -83,31 +83,35 @@ namespace FinanceExam
             Datagrid.ItemsSource = Cards[0]._dataGrid;
             DatagridCategory.ItemsSource = Cards[0]._dataGridCategories;
             int i = 0;
-            foreach(var x in Cards[0]._dataGridCategories)
+            if (Cards[0]._dataGridCategories != null)
             {
-                if (Cards[0]._diagramData.ContainsKey(x.Category)) // если категория уже есть
+                foreach (var x in Cards[0]._dataGridCategories)
                 {
-                    foreach (var y in Cards[0]._dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
+                    if (Cards[0]._diagramData.ContainsKey(x.Category)) // если категория уже есть
                     {
-                        if (y.Category == x.Category)
+                        foreach (var y in Cards[0]._dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
                         {
-                            x.Money += y.Money; // и увеличиваю сумму в этой строке
+                            if (y.Category == x.Category)
+                            {
+                                x.Money += y.Money; // и увеличиваю сумму в этой строке
+                            }
                         }
                     }
+                    else
+                    {
+                        Cards[0]._diagramData.Add(x.Category, (int)x.Money);
+                    }
                 }
-                else
-                {
-                    Cards[0]._diagramData.Add(x.Category, (int)x.Money);
-                }
-            }
 
-            foreach(var x in Cards[0]._dataGridCategories)
-            {
-                if (Cards[0]._categoryColor.ContainsKey(x.Category) == false) {
-                    TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
-                    Color clr = (Color)tc.ConvertFromString(x.Color);
-                    Brush brush = new SolidColorBrush(clr);
-                    Cards[0]._categoryColor.Add(x.Category, brush);
+                foreach (var x in Cards[0]._dataGridCategories)
+                {
+                    if (Cards[0]._categoryColor.ContainsKey(x.Category) == false)
+                    {
+                        TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
+                        Color clr = (Color)tc.ConvertFromString(x.Color);
+                        Brush brush = new SolidColorBrush(clr);
+                        Cards[0]._categoryColor.Add(x.Category, brush);
+                    }
                 }
             }
             DrawCircleDiagram();
