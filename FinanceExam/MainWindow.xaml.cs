@@ -41,7 +41,7 @@ namespace FinanceExam
 
         public double Balance { get; set; }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public Card(string name)
         {
@@ -52,7 +52,8 @@ namespace FinanceExam
     public partial class MainWindow : Window
     { 
         private bool _expanded = false;
-
+        int MaxDiagramCanvasSize = 600;
+        int MinDiagramCanvasSize = 450;
         public string GeneralBallanceChange
         {
             get
@@ -72,10 +73,14 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
-
+            DiagramCanvas.Width = MaxDiagramCanvasSize;
+            DiagramCanvas.Height = MaxDiagramCanvasSize;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
+
+
             AddCard("Main card");
+
             CurrentCardIndex = 0;
             Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
             Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
@@ -114,6 +119,9 @@ namespace FinanceExam
                     }
                 }
             }
+
+
+
             DrawCircleDiagram();
             UpDateBallance();
         }
@@ -128,6 +136,7 @@ namespace FinanceExam
             if(CardsComboBox.Items.Count == 1) 
                 ((ComboBoxItem)(CardsComboBox.Items.GetItemAt(0))).IsSelected = true;
         }
+
 
         private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -160,7 +169,7 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory);
+            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory, Cards[CurrentCardIndex]._dataGrid, Cards);
             WinSet.ShowDialog();
             Cards[CurrentCardIndex]._fileData.SaveSettingsCategory(Cards[CurrentCardIndex]._dataSettingCategory);
         }
@@ -290,14 +299,14 @@ namespace FinanceExam
             if (_expanded == true)
             {
                 this.WindowState = WindowState.Maximized;
-                DiagramCanvas.Width = 300;
-                DiagramCanvas.Height = 300;
+                DiagramCanvas.Width = MaxDiagramCanvasSize;
+                DiagramCanvas.Height = MaxDiagramCanvasSize;
             }
             else
             {
                 this.WindowState = WindowState.Normal;
-                DiagramCanvas.Width = 250;
-                DiagramCanvas.Height = 250;
+                DiagramCanvas.Width = MinDiagramCanvasSize;
+                DiagramCanvas.Height = MinDiagramCanvasSize;
             }
 
             DrawCircleDiagram();
@@ -383,15 +392,6 @@ namespace FinanceExam
             }
         }
 
-        private void AddCard_Click(object sender, RoutedEventArgs e)
-        {
-            var CardDialog = new NewCard();
-            CardDialog.Owner = this;
-            CardDialog.ShowDialog(); 
-            
-            if (CardsComboBox.Items.Count == 1)
-                ((ComboBoxItem)(CardsComboBox.Items.GetItemAt(0))).IsSelected = true;
-        }
 
 
         private void Button_Filter(object sender, RoutedEventArgs e)

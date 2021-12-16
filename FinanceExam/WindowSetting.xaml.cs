@@ -22,13 +22,21 @@ namespace FinanceExam
 
         private List<Categories> SettinhCategory = null;
         private List<Categories> FilterList = null;
-        private bool settingrow = false;
-        public WindowSetting(List<Categories> _SettinhCategory)
+
+        private List<Card> SettingCard = null;
+
+        private bool settiggrow = false;
+        private bool settigcard = false;
+
+        public WindowSetting(List<Categories> _SettinhCategory, List<History_Data> _SettingHistory_Data, List<Card> _SettingCard)
         {
             InitializeComponent();
             SettinhCategory = _SettinhCategory;
+            SettingCard = _SettingCard;
             CategoryData.ItemsSource = SettinhCategory;
+            CardData.ItemsSource = SettingCard;
         }
+
 
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -41,12 +49,97 @@ namespace FinanceExam
             Close();
         }
 
+
+        private void Button_Card(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (!settigcard)
+                {
+                    if (SettingNameCard.Text == "")
+                    {
+                        throw new ArgumentNullException();
+                    }
+
+                    foreach (var x in SettingCard)
+                    {
+                        if (x.Name == SettingNameCard.Text)
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    SettingCard.Add(new(SettingNameCard.Text));
+                    ((MainWindow)Application.Current.MainWindow).Cards.Add(new Card(SettingNameCard.Text));
+                }
+                else
+                {
+                    int index = SettingCard.IndexOf((Card)CardData.SelectedItem);
+                    SettingCard[index].Name = SettingNameCard.Text;
+                    CardData.Items.Refresh();
+                    settigcard = false;
+                }
+
+
+                SettingNameCard.Text = null;
+                CardData.Items.Refresh();
+
+                CardButton.Content = "Добавить";
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show("Ошибка, пустые значения", "Внимание");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Цвет или имя категории уже используются", "Внимание");
+            }
+        }
+
+        private void Button_Card_Delete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (CardData.Items.Count < 2)
+                    throw new Exception();
+
+                SettingNameCard.Text = null;
+                SettingCard.Remove((Card)CardData.SelectedItem);
+
+                CardButtonDelete.IsEnabled = false;
+                CardButton.Content = "Добавить";
+                CardData.Items.Refresh();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Вы не можете удалить последнюю карту.\nДолжна существовать хотя бы 1 карта" , "Внимание");
+                SettingNameCard.Text = null;
+                CardButtonDelete.IsEnabled = false;
+                CardButton.Content = "Добавить";
+            }
+
+        }
+
+
+        private void Row_DoubleClick_Card(object sender, MouseButtonEventArgs e)
+        {
+            settigcard = true;
+            CardButtonDelete.IsEnabled = true;
+            CardButton.Content = "Изменить";
+
+            Card temp = (Card)CardData.SelectedItem;
+
+            SettingNameCard.Text = temp.Name;
+        }
+
+
+
         private void Button_Color(object sender, RoutedEventArgs e)
         {
 
             try
             {
-                if (!settingrow)
+                if (!settiggrow)
                 {
                     if (SettingNameCategory.Text == "" || ColorPick.SelectedColor == null)
                     {
@@ -69,7 +162,7 @@ namespace FinanceExam
                     SettinhCategory[index].Category = SettingNameCategory.Text;
                     SettinhCategory[index].Color = ColorPick.SelectedColorText;
                     CategoryData.Items.Refresh();
-                    settingrow = false;
+                    settiggrow = false;
                 }
 
 
@@ -91,10 +184,9 @@ namespace FinanceExam
 
         }
 
-
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            settingrow = true;
+            settiggrow = true;
             ColorButton.Content = "Изменить";
             ResetButton.Content = "Удалить";
 
@@ -139,5 +231,7 @@ namespace FinanceExam
             CategoryData.Items.Refresh();
 
         }
+
+
     }
 }

@@ -25,7 +25,72 @@
         <TabControl TabStripPlacement="Left" Margin="0,20,0,50" BorderThickness="0">
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Общее" Height="46" Margin="-2,-2,0,0" VerticalAlignment="Top" Width="76" HorizontalAlignment="Left">
                 <Grid Background="White" Margin="-3,-3,-3,-3"  Width="718">
+
+                    <DataGrid Style="{DynamicResource History}" Margin="26,86,359,23" Background="White"  Name="CardData" IsReadOnly="True" HeadersVisibility="Column" AutoGenerateColumns="False">
+
+                        <DataGrid.ItemContainerStyle>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick_Card"/>
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick_Card"/>
+                                <Setter Property="Margin" Value="0,0,0,0"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="Height" Value="30"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="Transparent" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0" />
+                            </Style>
+                        </DataGrid.CellStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="1*"  Binding="{Binding Path=Name}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Border BorderThickness="1" BorderBrush="#2A324B" Margin="25,74,359,272">
+                        <StackPanel Orientation="Horizontal" Margin="1,1,-1,-1">
+                            <Label Content="Счета" Width="332" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
+                        </StackPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="#2A324B" Margin="25,107,359,23"/>
+                    <Button Style="{DynamicResource SettingCategoryAddButton}"  Content="Добавить" Height="34" Margin="192,35,445,311" Click="Button_Card" x:Name="CardButton"/>
+                    <Button Style="{DynamicResource SettingCategoryAddButton}"  Content="Удалить" Height="34" Margin="278,35,359,311" Click="Button_Card_Delete" x:Name="CardButtonDelete" IsEnabled="False"/>
+                    <TextBlock Text="Имя счета:" Margin="27,24,630,334"/>
+                    <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="27,51,538,311" BorderThickness="0,0,0,2" x:Name="SettingNameCard"/>
                     
+                    <GroupBox Header="Валюта" Margin="413,24,18,284">
+                        <StackPanel Orientation="Horizontal" Height="39">
+                            <Label FontSize="18" Content="Сменить валюту:"/>
+                            <ComboBox Style="{DynamicResource CurrencyBox}" x:Name="CurrencyBox" FontSize="18" Height="31">
+                                <ComboBoxItem IsSelected="True" Content="₴"/>
+                                <ComboBoxItem Content="$"/>
+                                <ComboBoxItem Content="€"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </GroupBox>
+                   
+
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Категории" Margin="-2,-2,2,0" Height="46" VerticalAlignment="Top">
@@ -95,7 +160,7 @@
 
 
                     <Border BorderBrush="#2A324B" BorderThickness="1" Margin="10,57,212,10"/>
-                    <TextBlock Text="Название:" Margin="534,132,131,226"/>
+                    <TextBlock Text="Название:" Margin="534,132,124,226"/>
                     <TextBox Style="{DynamicResource SettingCategoryTextBox}" TextWrapping="Wrap" Margin="534,156,20,206" BorderThickness="0,0,0,2" Name="SettingNameCategory"/>
                     <TextBlock Text="Цвет:" Margin="534,204,131,156"/>
                     <xctk:ColorPicker SelectedColor="{Binding MyColorProperty}" Margin="534,228,14,128" Name="ColorPick" />
@@ -115,7 +180,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="Подтвердить" HorizontalAlignment="Left" Margin="708,405,0,0" VerticalAlignment="Top" Height="35" Width="82"/>
+        <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Сохранить" HorizontalAlignment="Left" Margin="690,401,0,0" VerticalAlignment="Top" Height="39" Width="100"  FontWeight="SemiBold"/>
         <Label Content="Настройки" HorizontalAlignment="Left" Margin="3,-5,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,0.25" Height="25" Width="77" Foreground="White"/>
 
     </Grid>
