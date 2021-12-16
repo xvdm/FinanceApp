@@ -68,13 +68,32 @@ namespace FinanceExam
 
             AddCard("Main card");
             CurrentCardIndex = 0;
-            Cards[CurrentCardIndex]._dataGrid = Cards[0]._fileData.LoadHistoryData();
-            Cards[CurrentCardIndex]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
-            Cards[CurrentCardIndex]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
-            Datagrid.ItemsSource = Cards[CurrentCardIndex]._dataGrid;
-            DatagridCategory.ItemsSource = Cards[CurrentCardIndex]._dataGridCategories;
+            Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
+            Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
+            Cards[0]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
+            Datagrid.ItemsSource = Cards[0]._dataGrid;
+            DatagridCategory.ItemsSource = Cards[0]._dataGridCategories;
+            int i = 0;
+            foreach(var x in Cards[0]._dataGridCategories)
+            {
+                if (Cards[0]._diagramData.ContainsKey(x.Category)) // если категория уже есть
+                {
+                    foreach (var y in Cards[0]._dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
+                    {
+                        if (y.Category == x.Category)
+                        {
+                            x.Money += y.Money; // и увеличиваю сумму в этой строке
+                        }
+                    }
+                }
+                else
+                {
+                    Cards[0]._diagramData.Add(x.Category, (int)x.Money);
+                }
+            }
             DrawCircleDiagram();
-
+            //MessageBox.Show(Cards[CurrentCardIndex]._dataGrid.Count.ToString());
+            //MessageBox.Show(Cards[CurrentCardIndex]._diagramData.Count.ToString());
             //Datagrid.ItemsSource = MainUser.Data;
         }
 
@@ -268,7 +287,9 @@ namespace FinanceExam
         {
             DiagramCanvas.Children.Clear();
 
+            //MessageBox.Show(Cards[CurrentCardIndex]._dataGrid.Count.ToString());
             if (Cards[CurrentCardIndex]._diagramData.Count > 1)
+            //if (Cards[CurrentCardIndex]._dataGrid.Count > 1)
             {
                 int[] data = new int[Cards[CurrentCardIndex]._diagramData.Count];
                 Brush[] brushes = new Brush[Cards[CurrentCardIndex]._categoryColor.Count];
@@ -402,7 +423,6 @@ namespace FinanceExam
     [Serializable]
     public class Category_Data
     {
-
         public Category_Data(string category, string color, int money)
         {
             Category = category;
@@ -419,8 +439,7 @@ namespace FinanceExam
 
     public class User
     {
-        List<History_Data> DATAGrid; //Список ззаписей пользователя
-
+        List<History_Data> DATAGrid; //Список ззаписей 
 
         public User()
         {
