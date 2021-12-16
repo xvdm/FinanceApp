@@ -21,9 +21,8 @@ namespace FinanceExam
 {
     public class Card
     {
-        private FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
-        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
-
+        public FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
+        
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
         public List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
@@ -37,6 +36,8 @@ namespace FinanceExam
         public bool LastAddedDataIsCorrect = true;
 
         public double Balance { get; set; }
+
+        public string Name { get; }
 
         public Card(string name)
         {
@@ -57,17 +58,18 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
-            
-            _dataGrid = _fileData.LoadHistoryData();
-            _dataGridCategories = _fileData.LoadCategoryData();
-            _dataSettingCategory = _fileData.LoadSettingsCategory();
-            Datagrid.ItemsSource = _dataGrid;
+
+            AddCard("Main card");
+            CurrentCardIndex = 0;
+
+            Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
+            Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
+            Cards[0]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
+            Datagrid.ItemsSource = Cards[0]._dataGrid;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
   
-            Datagrid.ItemsSource = MainUser.Data;
-
-            CurrentCardIndex = 0;
+            //Datagrid.ItemsSource = MainUser.Data;
         }
 
         private void AddCard(string name) 
@@ -112,22 +114,18 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
+            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory);
             WinSet.ShowDialog();
-            _fileData.SaveSettingsCategory(_dataSettingCategory);
-
+            Cards[CurrentCardIndex]._fileData.SaveSettingsCategory(Cards[CurrentCardIndex]._dataSettingCategory);
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
             if (Cards.Count > 0)
             {
-                NewDataItem ItemDialog = new NewDataItem();
+                NewDataItem ItemDialog = new NewDataItem(Cards[CurrentCardIndex]._dataSettingCategory);
                 ItemDialog.Owner = this;
                 ItemDialog.ShowDialog();
-            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
-            ItemDialog.Owner = this;
-            ItemDialog.ShowDialog();
 
                 if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
                 {
@@ -144,27 +142,26 @@ namespace FinanceExam
             {
                 MessageBox.Show("Нет ни одного счета");
             }
-        }
-                _fileData.SaveHistoryData(_dataGrid);
-                _fileData.SaveCategory(_dataGridCategories);
-            }
+            Cards[CurrentCardIndex]._fileData.SaveHistoryData(Cards[CurrentCardIndex]._dataGrid);
+            Cards[CurrentCardIndex]._fileData.SaveCategory(Cards[CurrentCardIndex]._dataGridCategories);
         }
 
-        private void UpDateBallance()
-        {
-            double buffballace = 0;
-            if (_dataGrid != null) 
-            { 
-                for (int i = 0; i < _dataGrid.Count; i++)
-                {
-                    buffballace += _dataGrid[i].Money;
-                }
-            }
-            GeneralBallanceChange = buffballace.ToString();
-        }
+        //private void UpDateBallance()
+        //{
+        //    double buffballace = 0;
+        //    if (Cards[CurrentCardIndex]._dataGrid != null) 
+        //    { 
+        //        for (int i = 0; i < Cards[CurrentCardIndex]._dataGrid.Count; i++)
+        //        {
+        //            buffballace += Cards[CurrentCardIndex]._dataGrid[i].Money;
+        //        }
+        //    }
+        //    GeneralBallanceChange = buffballace.ToString();
+        //}
+
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
+            NewDataItem ItemDialog = new NewDataItem(Cards[CurrentCardIndex]._dataSettingCategory);
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
         }
@@ -199,7 +196,7 @@ namespace FinanceExam
 
             string category = data.Category;
             string color = null;
-            foreach (var col in _dataSettingCategory)
+            foreach (var col in Cards[CurrentCardIndex]._dataSettingCategory)
             {
                 if (col.Category == category)
                 {
@@ -208,10 +205,7 @@ namespace FinanceExam
                 }
             }    
 
-           
-            int money = Convert.ToInt32(data.Money);
-
-            
+            int money = Convert.ToInt32(data.Money);            
 
             if (Cards[CurrentCardIndex]._diagramData.ContainsKey(category)) // если категория уже есть
             {
@@ -361,11 +355,11 @@ namespace FinanceExam
             _FilterGrid = new();
             if (searchBox.Text.Equals(""))
             {
-                _FilterGrid.AddRange(_dataGrid);
+                _FilterGrid.AddRange(Cards[CurrentCardIndex]._dataGrid);
             }
             else
             {
-                foreach (History_Data row in _dataGrid)
+                foreach (History_Data row in Cards[CurrentCardIndex]._dataGrid)
                 {
                     if (row.Category.Contains(searchBox.Text) || row.Day.Contains(searchBox.Text) || row.Comment.Contains(searchBox.Text))
                     {
@@ -375,9 +369,7 @@ namespace FinanceExam
             }
             Datagrid.ItemsSource = _FilterGrid;
             Datagrid.Items.Refresh();
-
         }
-
     }
 
 
@@ -565,8 +557,5 @@ namespace FinanceExam
                 }
             }
         }
-
     }
-
-
 }
