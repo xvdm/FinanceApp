@@ -27,6 +27,8 @@ namespace FinanceExam
 
         public List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
 
+        public List<Categories> _dataSettingCategory = null;
+
         public Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
 
         public Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
