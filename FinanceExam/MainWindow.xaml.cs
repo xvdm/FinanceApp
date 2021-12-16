@@ -53,7 +53,17 @@ namespace FinanceExam
     { 
         private bool _expanded = false;
 
-        //private User MainUser = new User();
+        public string GeneralBallanceChange
+        {
+            get
+            {
+                return GeneralBalance.Content.ToString();
+            }
+            set
+            {
+                GeneralBalance.Content = value;
+            }
+        }
 
         public List<Card> Cards = new List<Card>();
 
@@ -65,7 +75,6 @@ namespace FinanceExam
 
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-
             AddCard("Main card");
             CurrentCardIndex = 0;
             Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
@@ -91,10 +100,18 @@ namespace FinanceExam
                     Cards[0]._diagramData.Add(x.Category, (int)x.Money);
                 }
             }
+
+            foreach(var x in Cards[0]._dataGridCategories)
+            {
+                if (Cards[0]._categoryColor.ContainsKey(x.Category) == false) {
+                    TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
+                    Color clr = (Color)tc.ConvertFromString(x.Color);
+                    Brush brush = new SolidColorBrush(clr);
+                    Cards[0]._categoryColor.Add(x.Category, brush);
+                }
+            }
             DrawCircleDiagram();
-            //MessageBox.Show(Cards[CurrentCardIndex]._dataGrid.Count.ToString());
-            //MessageBox.Show(Cards[CurrentCardIndex]._diagramData.Count.ToString());
-            //Datagrid.ItemsSource = MainUser.Data;
+            UpDateBallance();
         }
 
         private void AddCard(string name) 
@@ -171,18 +188,18 @@ namespace FinanceExam
             Cards[CurrentCardIndex]._fileData.SaveCategory(Cards[CurrentCardIndex]._dataGridCategories);
         }
 
-        //private void UpDateBallance()
-        //{
-        //    double buffballace = 0;
-        //    if (Cards[CurrentCardIndex]._dataGrid != null) 
-        //    { 
-        //        for (int i = 0; i < Cards[CurrentCardIndex]._dataGrid.Count; i++)
-        //        {
-        //            buffballace += Cards[CurrentCardIndex]._dataGrid[i].Money;
-        //        }
-        //    }
-        //    GeneralBallanceChange = buffballace.ToString();
-        //}
+        private void UpDateBallance()
+        {
+            double buffballace = 0;
+            if (Cards[CurrentCardIndex]._dataGrid != null) 
+            { 
+                for (int i = 0; i < Cards[CurrentCardIndex]._dataGrid.Count; i++)
+                {
+                    buffballace += Cards[CurrentCardIndex]._dataGrid[i].Money;
+                }
+            }
+            GeneralBallanceChange = buffballace.ToString();
+        }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -287,14 +304,12 @@ namespace FinanceExam
         {
             DiagramCanvas.Children.Clear();
 
-            //MessageBox.Show(Cards[CurrentCardIndex]._dataGrid.Count.ToString());
             if (Cards[CurrentCardIndex]._diagramData.Count > 1)
-            //if (Cards[CurrentCardIndex]._dataGrid.Count > 1)
             {
                 int[] data = new int[Cards[CurrentCardIndex]._diagramData.Count];
                 Brush[] brushes = new Brush[Cards[CurrentCardIndex]._categoryColor.Count];
                 int i = 0;
-                foreach(var x in Cards[CurrentCardIndex]._diagramData)
+                foreach (var x in Cards[CurrentCardIndex]._diagramData)
                 {
                     data[i] = x.Value;
                     i++;
@@ -352,12 +367,12 @@ namespace FinanceExam
                     startAngle = endAngle;
                 }
             }
-            else if(Cards[CurrentCardIndex]._diagramData.Count == 1)
+            else if (Cards[CurrentCardIndex]._diagramData.Count == 1)
             {
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();  //Баг уменьшения окна
+                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
@@ -437,29 +452,6 @@ namespace FinanceExam
         public double Money { get; set; }
     }
 
-    public class User
-    {
-        List<History_Data> DATAGrid; //Список ззаписей 
-
-        public User()
-        {
-            DATAGrid = new List<History_Data>();
-        }
-
-        public List<History_Data> Data
-        {
-            set { DATAGrid = value; }
-            get { return DATAGrid; }
-        }
-
-        public double Balance { get; set; }
-
-        public void AddItem(History_Data NewItem)
-        {
-            DATAGrid.Add(NewItem);
-        }
-    }
-
     [Serializable]
     public class Categories
     {
@@ -473,7 +465,6 @@ namespace FinanceExam
 
         public string Color { get; set; }
     }
-
 
     public class FileProcessing
     {
