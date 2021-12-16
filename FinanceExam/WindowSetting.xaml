@@ -25,7 +25,7 @@
         <TabControl TabStripPlacement="Left" Margin="0,20,0,50" BorderThickness="0">
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Общее" Height="46" Margin="-2,-2,0,0" VerticalAlignment="Top" Width="76" HorizontalAlignment="Left">
                 <Grid Background="White" Margin="-3,-3,-3,-3"  Width="718">
-                    <S>
+                    
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Категории" Margin="-2,-2,2,0" Height="46" VerticalAlignment="Top">
