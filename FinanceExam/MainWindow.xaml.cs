@@ -29,6 +29,8 @@ namespace FinanceExam
 
         public List<Categories> _dataSettingCategory = null;
 
+        public List<History_Data> _FilterGrid = null; // список фильтров для таблицы в разделе "история"
+
         public Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
 
         public Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
@@ -354,10 +356,10 @@ namespace FinanceExam
         private void Button_Filter(object sender, RoutedEventArgs e)
         {
 
-            _FilterGrid = new();
+            Cards[CurrentCardIndex]._FilterGrid = new();
             if (searchBox.Text.Equals(""))
             {
-                _FilterGrid.AddRange(Cards[CurrentCardIndex]._dataGrid);
+                Cards[CurrentCardIndex]._FilterGrid.AddRange(Cards[CurrentCardIndex]._dataGrid);
             }
             else
             {
@@ -365,11 +367,11 @@ namespace FinanceExam
                 {
                     if (row.Category.Contains(searchBox.Text) || row.Day.Contains(searchBox.Text) || row.Comment.Contains(searchBox.Text))
                     {
-                        _FilterGrid.Add(row);
+                        Cards[CurrentCardIndex]._FilterGrid.Add(row);
                     }
                 }
             }
-            Datagrid.ItemsSource = _FilterGrid;
+            Datagrid.ItemsSource = Cards[CurrentCardIndex]._FilterGrid;
             Datagrid.Items.Refresh();
         }
     }
