@@ -33,7 +33,7 @@ namespace FinanceExam
                 InputCategory.Items.Add(x.Category);
             }
 
-            if (((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect == false)
+            if (((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect == false)
             {
                 InputDate.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Day;
                 InputMoney.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Money.ToString();
