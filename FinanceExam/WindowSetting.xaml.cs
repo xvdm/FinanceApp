@@ -23,13 +23,24 @@ namespace FinanceExam
         private List<Categories> SettinhCategory = null;
         private List<Categories> FilterList = null;
         private bool settingrow = false;
-        public WindowSetting(List<Categories> _SettinhCategory)
+        List<History_Data> dataGrid = null;
+        List<Category_Data> dataGridCategories;
+        public WindowSetting(List<Categories> _SettinhCategory, List<History_Data> _dataGrid, List<Category_Data> _dataGridCategories)
         {
             InitializeComponent();
             SettinhCategory = _SettinhCategory;
             CategoryData.ItemsSource = SettinhCategory;
+            dataGrid = _dataGrid;
+            dataGridCategories = _dataGridCategories;
         }
 
+        public string CurrencyLable
+        {
+            get
+            {
+                return CurrencyBox.Text;
+            }
+        }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -40,7 +51,7 @@ namespace FinanceExam
         {
             Close();
         }
-
+        
         private void Button_Color(object sender, RoutedEventArgs e)
         {
 
@@ -91,7 +102,6 @@ namespace FinanceExam
 
         }
 
-
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             settingrow = true;
@@ -138,6 +148,81 @@ namespace FinanceExam
             CategoryData.ItemsSource = FilterList;
             CategoryData.Items.Refresh();
 
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            ChengeBallance();
+            this.Close();
+        }
+
+        private void ChengeBallance()
+        {
+            double ballance = Convert.ToDouble(((MainWindow)Application.Current.MainWindow).GeneralBalance.Content);
+            char symbol = ' ';
+            double kurs =1;
+
+            if(((MainWindow)Application.Current.MainWindow).Currency.Content == "₴" && CurrencyLable == "$")
+            {
+                symbol = '/';
+                kurs = 27.24;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "$";
+            }
+            else if (((MainWindow)Application.Current.MainWindow).Currency.Content == "₴" && CurrencyLable == "€")
+            {
+                symbol = '/';
+                kurs = 30.34;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "€";
+            }
+
+            if (((MainWindow)Application.Current.MainWindow).Currency.Content == "$" && CurrencyLable == "₴")
+            {
+                symbol = '*';
+                kurs = 27.24;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "₴";
+            }
+            else if (((MainWindow)Application.Current.MainWindow).Currency.Content == "€" && CurrencyLable == "₴")
+            {
+                symbol = '*';
+                kurs = 30.34;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "₴";
+            }
+
+            if (((MainWindow)Application.Current.MainWindow).Currency.Content == "$" && CurrencyLable == "€")
+            {
+                symbol = '*';
+                kurs = 0.88;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "€";
+            }
+            else if (((MainWindow)Application.Current.MainWindow).Currency.Content == "€" && CurrencyLable == "$")
+            {
+                symbol = '*';
+                kurs = 1.132;
+                ((MainWindow)Application.Current.MainWindow).Currency.Content = "$";
+            }
+
+            switch (symbol)
+            {
+                case '*':
+                    for (int i = 0; i < dataGrid.Count; i++)
+                    {
+                        dataGrid[i].Money = Math.Round(dataGrid[i].Money * kurs, 2);
+                        dataGridCategories[i].Money = Math.Round(dataGridCategories[i].Money / kurs, 2);
+                    }
+                    ((MainWindow)Application.Current.MainWindow).GeneralBalance.Content = Math.Round(ballance * kurs, 2);
+                    break;
+                case '/':
+                    for (int i = 0; i < dataGrid.Count; i++)
+                    {
+                        dataGrid[i].Money = Math.Round(dataGrid[i].Money / kurs, 2);
+                        dataGridCategories[i].Money = Math.Round(dataGridCategories[i].Money / kurs, 2);
+                    }
+                    ((MainWindow)Application.Current.MainWindow).GeneralBalance.Content = Math.Round(ballance / kurs, 2);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
