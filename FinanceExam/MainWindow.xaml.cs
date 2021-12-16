@@ -73,6 +73,7 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
+            Currency.Content = "₴";
             DiagramCanvas.Width = MaxDiagramCanvasSize;
             DiagramCanvas.Height = MaxDiagramCanvasSize;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
@@ -169,8 +170,10 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory, Cards[CurrentCardIndex]._dataGrid, Cards);
+            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory, Cards[CurrentCardIndex]._dataGrid, Cards[CurrentCardIndex]._dataGridCategories, Cards);
             WinSet.ShowDialog();
+            DatagridCategory.Items.Refresh();
+            Datagrid.Items.Refresh();
             Cards[CurrentCardIndex]._fileData.SaveSettingsCategory(Cards[CurrentCardIndex]._dataSettingCategory);
         }
 
