@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,7 +21,8 @@ namespace FinanceExam
 {
     public class Card
     {
-        public string Name { get; }
+        private FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
+        private List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
@@ -53,9 +57,11 @@ namespace FinanceExam
         public MainWindow()
         {
             InitializeComponent();
-            this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
-            this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-
+            
+            _dataGrid = _fileData.LoadHistoryData();
+            _dataGridCategories = _fileData.LoadCategoryData();
+            _dataSettingCategory = _fileData.LoadSettingsCategory();
+            Datagrid.ItemsSource = _dataGrid;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
   
@@ -94,14 +100,22 @@ namespace FinanceExam
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
 
-        private void Button_Click_Exit(object sender, RoutedEventArgs e) => Close();
+        private void Button_Click_Exit(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-        private void Button_Click_Roll(object sender, RoutedEventArgs e) => this.WindowState = WindowState.Minimized;
+        private void Button_Click_Roll(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting();
+            WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
             WinSet.ShowDialog();
+            _fileData.SaveSettingsCategory(_dataSettingCategory);
+
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
@@ -111,6 +125,9 @@ namespace FinanceExam
                 NewDataItem ItemDialog = new NewDataItem();
                 ItemDialog.Owner = this;
                 ItemDialog.ShowDialog();
+            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
+            ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
 
                 if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
                 {
@@ -128,12 +145,36 @@ namespace FinanceExam
                 MessageBox.Show("Нет ни одного счета");
             }
         }
+                _fileData.SaveHistoryData(_dataGrid);
+                _fileData.SaveCategory(_dataGridCategories);
+            }
+        }
+
+        private void UpDateBallance()
+        {
+            double buffballace = 0;
+            if (_dataGrid != null) 
+            { 
+                for (int i = 0; i < _dataGrid.Count; i++)
+                {
+                    buffballace += _dataGrid[i].Money;
+                }
+            }
+            GeneralBallanceChange = buffballace.ToString();
+        }
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
+            ItemDialog.Owner = this;
+            ItemDialog.ShowDialog();
+        }
 
         public void AddMoneyToGeneralBalance(double money)
         {
             Cards[CurrentCardIndex].Balance += money;
         }
 
+        
         private void HistoryTableEdit(History_Data data)
         {
             Random r = new Random();
@@ -155,17 +196,22 @@ namespace FinanceExam
                 Cards[CurrentCardIndex]._dataGridCategories = new List<Category_Data>();
                 DatagridCategory.ItemsSource = Cards[CurrentCardIndex]._dataGridCategories;
             }
+
             string category = data.Category;
+            string color = null;
+            foreach (var col in _dataSettingCategory)
+            {
+                if (col.Category == category)
+                {
+                    color = col.Color;
+                    break;
+                }
+            }    
+
+           
             int money = Convert.ToInt32(data.Money);
 
-            string color = "Gray"; // эта переменная будет инициализироваться выбором пользователя при создании категории
-            switch (category[category.Length - 1]) // пока нет функционала - цвет для каждой категории задается тут (в зависимости от рандомной цифры в конце названия категории)
-            {
-                case '1': color = "Gray"; break;
-                case '2': color = "Red"; break;
-                case '3': color = "Green"; break;
-                case '4': color = "Yellow"; break;
-            }
+            
 
             if (Cards[CurrentCardIndex]._diagramData.ContainsKey(category)) // если категория уже есть
             {
@@ -261,7 +307,7 @@ namespace FinanceExam
 
                     var angleDeg = angle * 180.0 / Math.PI;
 
-                    Path p = new Path()
+                    System.Windows.Shapes.Path p = new System.Windows.Shapes.Path()
                     {
                         Stroke = Brushes.Black,
                         Fill = brushes[i++],
@@ -291,7 +337,7 @@ namespace FinanceExam
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();
+                //ellipse.Fill = _categoryColor.Values.First();  //Баг уменьшения окна
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
@@ -307,9 +353,35 @@ namespace FinanceExam
             if (CardsComboBox.Items.Count == 1)
                 ((ComboBoxItem)(CardsComboBox.Items.GetItemAt(0))).IsSelected = true;
         }
+
+
+        private void Button_Filter(object sender, RoutedEventArgs e)
+        {
+
+            _FilterGrid = new();
+            if (searchBox.Text.Equals(""))
+            {
+                _FilterGrid.AddRange(_dataGrid);
+            }
+            else
+            {
+                foreach (History_Data row in _dataGrid)
+                {
+                    if (row.Category.Contains(searchBox.Text) || row.Day.Contains(searchBox.Text) || row.Comment.Contains(searchBox.Text))
+                    {
+                        _FilterGrid.Add(row);
+                    }
+                }
+            }
+            Datagrid.ItemsSource = _FilterGrid;
+            Datagrid.Items.Refresh();
+
+        }
+
     }
 
 
+    [Serializable]
     public class History_Data
     {
         public History_Data(string day, double money, string category, string comment)
@@ -329,8 +401,11 @@ namespace FinanceExam
         public string Comment { get; set; }
     }
 
+
+    [Serializable]
     public class Category_Data
     {
+
         public Category_Data(string category, string color, int money)
         {
             Category = category;
@@ -342,21 +417,17 @@ namespace FinanceExam
 
         public string Color { get; set; }
 
-        public int Money { get; set; }
+        public double Money { get; set; }
     }
-
 
     public class User
     {
-        List<History_Data> DATAGrid;
+        List<History_Data> DATAGrid; //Список ззаписей пользователя
 
-        List<Category> CategoryList;
 
         public User()
         {
             DATAGrid = new List<History_Data>();
-            LoadCategory();
-            CardHistory();
         }
 
         public List<History_Data> Data
@@ -365,20 +436,137 @@ namespace FinanceExam
             get { return DATAGrid; }
         }
 
-        private void CardHistory() { }
-
-        private void LoadCategory() { }
-
         public double Balance { get; set; }
 
-        public void AddItem (History_Data NewItem) => DATAGrid.Add(NewItem);
-
-        public void AddCategory() { }
+        public void AddItem(History_Data NewItem)
+        {
+            DATAGrid.Add(NewItem);
+        }
     }
 
-    struct Category
+    [Serializable]
+    public class Categories
     {
-        string Name;
-        string Color;
+        public Categories(string category, string color)
+        {
+            Category = category;
+            Color = color;
+        }
+
+        public string Category { get; set; }
+
+        public string Color { get; set; }
     }
+
+
+    public class FileProcessing
+    {
+        private static BinaryFormatter binaryFormatter;
+        private readonly string _path = @"..\Data";
+        private readonly string _settingspath = @"..\..\..\SettingsCategory";
+        public FileProcessing()
+        {
+            binaryFormatter = new BinaryFormatter();
+            if (!Directory.Exists(_path))
+            {
+                Directory.CreateDirectory(_path);
+            }
+        }
+
+        public List<Category_Data> LoadCategoryData()
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Category_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public void SaveCategory(List<Category_Data> data)
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+
+        public void SaveHistoryData(List<History_Data> data)
+        {
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.Open))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+
+        public List<History_Data> LoadHistoryData()
+        {
+            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<History_Data>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public void SaveSettingsCategory(List<Categories> data)
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    throw;
+                }
+            }
+        }
+
+        public List<Categories> LoadSettingsCategory()
+        {
+            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    return (List<Categories>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+    }
+
+
 }

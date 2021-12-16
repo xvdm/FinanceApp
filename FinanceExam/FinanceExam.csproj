@@ -12,6 +12,11 @@
 
   <ItemGroup>
     <Folder Include="Icon\" />
+    <Folder Include="SettingsCategory\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,12 +21,19 @@ namespace FinanceExam
     public partial class NewDataItem : Window
     {
         public History_Data Item { private set;  get; }
+        private List<Categories> SettinhCategory = null;
 
-        public NewDataItem()
+        public NewDataItem(List<Categories> _SettinhCategory)
         {
             InitializeComponent();
+            SettinhCategory = _SettinhCategory;
 
-            if(((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedDataIsCorrect == false)
+            foreach(Categories x in _SettinhCategory)
+            {
+                InputCategory.Items.Add(x.Category);
+            }
+
+            if (((MainWindow)Application.Current.MainWindow).LastAddedDataIsCorrect == false)
             {
                 InputDate.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Day;
                 InputMoney.Text = ((MainWindow)Application.Current.MainWindow).Cards[((MainWindow)Application.Current.MainWindow).CurrentCardIndex].LastAddedData.Money.ToString();
