@@ -53,7 +53,7 @@ namespace FinanceExam
     { 
         private bool _expanded = false;
 
-        private User MainUser = new User();
+        //private User MainUser = new User();
 
         public List<Card> Cards = new List<Card>();
 
@@ -63,16 +63,18 @@ namespace FinanceExam
         {
             InitializeComponent();
 
-            AddCard("Main card");
-            CurrentCardIndex = 0;
-
-            Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
-            Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
-            Cards[0]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
-            Datagrid.ItemsSource = Cards[0]._dataGrid;
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
-  
+
+            AddCard("Main card");
+            CurrentCardIndex = 0;
+            Cards[CurrentCardIndex]._dataGrid = Cards[0]._fileData.LoadHistoryData();
+            Cards[CurrentCardIndex]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
+            Cards[CurrentCardIndex]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
+            Datagrid.ItemsSource = Cards[CurrentCardIndex]._dataGrid;
+            DatagridCategory.ItemsSource = Cards[CurrentCardIndex]._dataGridCategories;
+            DrawCircleDiagram();
+
             //Datagrid.ItemsSource = MainUser.Data;
         }
 
@@ -175,7 +177,6 @@ namespace FinanceExam
             Cards[CurrentCardIndex].Balance += money;
         }
 
-        
         private void HistoryTableEdit(History_Data data)
         {
             Random r = new Random();
@@ -335,7 +336,7 @@ namespace FinanceExam
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = DiagramCanvas.Width;
                 ellipse.Height = DiagramCanvas.Height;
-                //ellipse.Fill = _categoryColor.Values.First();  //Баг уменьшения окна
+                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();  //Баг уменьшения окна
                 ellipse.Stroke = Brushes.Black;
                 ellipse.StrokeThickness = 1;
                 DiagramCanvas.Children.Add(ellipse);
