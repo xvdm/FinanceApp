@@ -25,6 +25,7 @@
         <TabControl TabStripPlacement="Left" Margin="0,20,0,50" BorderThickness="0">
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Общее" Height="46" Margin="-2,-2,0,0" VerticalAlignment="Top" Width="76" HorizontalAlignment="Left">
                 <Grid Background="White" Margin="-3,-3,-3,-3"  Width="718">
+                    <S>
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource SettingTabItem}" Header="Категории" Margin="-2,-2,2,0" Height="46" VerticalAlignment="Top">
@@ -43,7 +44,7 @@
 
 
 
-                    <DataGrid Style="{DynamicResource History}" Margin="10,70,212,10" Background="White"  Name="CategoryData" IsReadOnly="True" HeadersVisibility="Column" AutoGenerateColumns="False">
+                    <DataGrid Style="{DynamicResource History}" Margin="10,70,212,5" Background="White"  Name="CategoryData" IsReadOnly="True" HeadersVisibility="Column" AutoGenerateColumns="False">
 
                         <DataGrid.ItemContainerStyle>
                             <Style TargetType="DataGridRow">
@@ -100,7 +101,7 @@
                     <xctk:ColorPicker SelectedColor="{Binding MyColorProperty}" Margin="534,228,14,128" Name="ColorPick" />
                     <Border BorderThickness="1" BorderBrush="#2A324B" Margin="10,57,212,289">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Категория" Width="246" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
+                            <Label Content="Категория" Width="238" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
                             <Border Background="#2A324B" Width="1"/>
                             <Label Content="Цвет" Width="247" VerticalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="SemiBold"  FontSize="14"/>
                         </StackPanel>
