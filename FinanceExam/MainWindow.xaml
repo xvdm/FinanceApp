@@ -50,9 +50,9 @@
 
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Text="Счет" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="114" Foreground="White" FontSize="40" Margin="20,2,0,0" Grid.Row="1"/>
         <Border Grid.Row="2" Background="#C7CCDB" Width="{Binding ElementName=window, Mode=OneWay}" Grid.Column="1" Height="944" VerticalAlignment="Center">
-            <Label Name="Currency" Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44" >
+            <TextBlock Name="Currency" Margin="245,58,0,0"  FontSize="30" FontWeight="SemiBold" Foreground="Black" VerticalAlignment="Top" Height="47" HorizontalAlignment="Left" Width="44" >
                 
-            </Label>
+            </TextBlock>
         </Border>
 
         <DockPanel   Grid.Column="1" Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center" Width="304" Height="944" VerticalAlignment="Center" >

@@ -48,6 +48,8 @@ namespace FinanceExam
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
             UpDateBallance();
+            Currency.Text = "₴";
+
         }
 
 
@@ -77,10 +79,12 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting(_dataSettingCategory);
+            
+            WindowSetting WinSet = new WindowSetting(_dataSettingCategory, _dataGrid);
+
             WinSet.ShowDialog();
             _fileData.SaveSettingsCategory(_dataSettingCategory);
-
+            Datagrid.Items.Refresh();
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)

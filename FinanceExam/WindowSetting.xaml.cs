@@ -21,15 +21,16 @@ namespace FinanceExam
     {
 
         private List<Categories> SettinhCategory = null;
+        private List<History_Data> ListHistory_Data = null;
         private List<Categories> FilterList = null;
         private bool settingrow = false;
-        public WindowSetting(List<Categories> _SettinhCategory)
+        public WindowSetting(List<Categories> _SettinhCategory, List<History_Data> _ListHistory_Data)
         {
             InitializeComponent();
             SettinhCategory = _SettinhCategory;
+            ListHistory_Data = _ListHistory_Data;
             CategoryData.ItemsSource = SettinhCategory;
         }
-
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -91,14 +92,13 @@ namespace FinanceExam
 
         }
 
-
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             settingrow = true;
             ColorButton.Content = "Изменить";
             ResetButton.Content = "Удалить";
 
-           Categories temp = (Categories)CategoryData.SelectedItem;
+            Categories temp = (Categories)CategoryData.SelectedItem;
 
             SettingNameCategory.Text = temp.Category;
             ColorPick.SelectedColor = (Color)ColorConverter.ConvertFromString(temp.Color);
@@ -137,6 +137,42 @@ namespace FinanceExam
             }
             CategoryData.ItemsSource = FilterList;
             CategoryData.Items.Refresh();
+
+        }
+
+        private void Button_SaveSettings(object sender, RoutedEventArgs e)
+        {
+            ((MainWindow)Application.Current.MainWindow).Currency.Text = ChengeCurrencyBox.Text;
+            ChangeMoney();
+            this.Close();
+        }
+
+        private void ChangeMoney()
+        {
+            double ballance = Convert.ToDouble((((MainWindow)Application.Current.MainWindow).GeneralBalance.Content));
+            double kurs = 1;
+            switch (ChengeCurrencyBox.Text)
+            {
+                case "₴":
+                    kurs = 1;
+                    break;
+                case "$":
+                    kurs = 27.20;
+                    break;
+                case "€":
+                    kurs = 30.77;
+                    break;
+            }
+
+            for (int i = 0; i < ListHistory_Data.Count; i++)
+            {
+                    ListHistory_Data[i].Money = Math.Round(ListHistory_Data[i].Money / kurs, 3);
+            }
+            double b = Convert.ToDouble(((MainWindow)Application.Current.MainWindow).GeneralBalance.Content);  
+            ((MainWindow)Application.Current.MainWindow).GeneralBalance.Content = (Math.Round(b / 27.5, 3)).ToString();
+            
+            
+
 
         }
     }
