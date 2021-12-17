@@ -55,7 +55,6 @@ namespace FinanceExam
         int MinDiagramCanvasSize = 450;
 
        FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
-
         List<Categories> _dataSettingCategory = null;
 
         public string GeneralBallanceChange
@@ -140,7 +139,10 @@ namespace FinanceExam
             DatagridCategory.Items.Refresh();
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => this.DragMove();
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+                this.DragMove();
+        }
 
         private void Button_Click_Exit(object sender, RoutedEventArgs e)
         {
@@ -209,19 +211,10 @@ namespace FinanceExam
         {
             NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
             ItemDialog.Owner = this;
+            ItemDialog.EditRow((History_Data)Datagrid.SelectedItem);
             ItemDialog.ShowDialog();
 
-            if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
-            {
-                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
-
-                HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
-                DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
-
-                DrawCircleDiagram();
-            }
-
+ 
         }
 
         public void AddMoneyToGeneralBalance(double money)

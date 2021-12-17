@@ -17,8 +17,8 @@
         <Border BorderBrush="#2A324B" BorderThickness="1,20,1,1">
             <Grid>
 
-                <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Сохранить" HorizontalAlignment="Left" Margin="288,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_ADD"/>
-                <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_Close"/>
+                <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Сохранить" HorizontalAlignment="Left" Margin="288,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_ADD" Name="Save"/>
+                <Button Style="{DynamicResource SettingCategoryAddButton}" Content="Отмена" HorizontalAlignment="Left" Margin="10,386,0,0" VerticalAlignment="Top" Height="33" Width="100" Click="Button_Click_Close" Name ="Edit"/>
 
                 <TextBlock Text="Дата:" Margin="24,23,321,379" FontSize="18"/>
                 <DatePicker Style="{DynamicResource AddItemDataPicker}" Margin="124,24,24,381" RenderTransformOrigin="0.496,0.125" Name="InputDate" >
