@@ -81,7 +81,7 @@ namespace FinanceExam
                         }
                     }
                     SettingCard.Add(new(SettingNameCard.Text));
-                    ((MainWindow)Application.Current.MainWindow).Cards.Add(new Card(SettingNameCard.Text));
+                    //((MainWindow)Application.Current.MainWindow)AddCard(SettingNameCard.Text);
                 }
                 else
                 {
@@ -323,6 +323,9 @@ namespace FinanceExam
                 default:
                     break;
             }
+
+            Close();
+
         }
      }
 }

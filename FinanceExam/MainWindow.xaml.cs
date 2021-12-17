@@ -21,13 +21,12 @@ namespace FinanceExam
 {
     public class Card
     {
-        public FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
-        
+
+        public FileProcessing _fileData = new FileProcessing();
+
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
         public List<Category_Data> _dataGridCategories = null; // список для таблице в разделе "график"
-
-        public List<Categories> _dataSettingCategory = null;
 
         public List<History_Data> _FilterGrid = null; // список фильтров для таблицы в разделе "история"
 
@@ -54,6 +53,11 @@ namespace FinanceExam
         private bool _expanded = false;
         int MaxDiagramCanvasSize = 600;
         int MinDiagramCanvasSize = 450;
+
+       FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
+
+        List<Categories> _dataSettingCategory = null;
+
         public string GeneralBallanceChange
         {
             get
@@ -79,13 +83,16 @@ namespace FinanceExam
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
 
+            Cards.Add(new("Main Card"));
+            CardsComboBox.ItemsSource = Cards;
+            CardsComboBox.SelectedItem = Cards[0];
+            CardsComboBox.DisplayMemberPath = "Name";
 
-            AddCard("Main card");
 
             CurrentCardIndex = 0;
             Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
             Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
-            Cards[0]._dataSettingCategory = Cards[0]._fileData.LoadSettingsCategory();
+            _dataSettingCategory = _fileData.LoadSettingsCategory();
             Datagrid.ItemsSource = Cards[0]._dataGrid;
             DatagridCategory.ItemsSource = Cards[0]._dataGridCategories;
             int i = 0;
@@ -142,9 +149,13 @@ namespace FinanceExam
         private void CardsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CurrentCardIndex = CardsComboBox.SelectedIndex;
+
+
+
             DrawCircleDiagram();
             UpdateTables();
-            GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
+            UpDateBallance();
+            
         }
 
         private void UpdateTables()
@@ -170,18 +181,19 @@ namespace FinanceExam
 
         private void Button_Setting(object sender, RoutedEventArgs e)
         {
-            WindowSetting WinSet = new WindowSetting(Cards[CurrentCardIndex]._dataSettingCategory, Cards[CurrentCardIndex]._dataGrid, Cards[CurrentCardIndex]._dataGridCategories, Cards);
+            WindowSetting WinSet = new WindowSetting(_dataSettingCategory, Cards[CurrentCardIndex]._dataGrid, Cards[CurrentCardIndex]._dataGridCategories, Cards);
             WinSet.ShowDialog();
+            CardsComboBox.Items.Refresh();
             DatagridCategory.Items.Refresh();
             Datagrid.Items.Refresh();
-            Cards[CurrentCardIndex]._fileData.SaveSettingsCategory(Cards[CurrentCardIndex]._dataSettingCategory);
+            _fileData.SaveSettingsCategory(_dataSettingCategory);
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
         {
             if (Cards.Count > 0)
             {
-                NewDataItem ItemDialog = new NewDataItem(Cards[CurrentCardIndex]._dataSettingCategory);
+                NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
                 ItemDialog.Owner = this;
                 ItemDialog.ShowDialog();
 
@@ -200,8 +212,8 @@ namespace FinanceExam
             {
                 MessageBox.Show("Нет ни одного счета");
             }
-            Cards[CurrentCardIndex]._fileData.SaveHistoryData(Cards[CurrentCardIndex]._dataGrid);
-            Cards[CurrentCardIndex]._fileData.SaveCategory(Cards[CurrentCardIndex]._dataGridCategories);
+            _fileData.SaveHistoryData(Cards[CurrentCardIndex]._dataGrid);
+            _fileData.SaveCategory(Cards[CurrentCardIndex]._dataGridCategories);
         }
 
         private void UpDateBallance()
@@ -219,9 +231,21 @@ namespace FinanceExam
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            NewDataItem ItemDialog = new NewDataItem(Cards[CurrentCardIndex]._dataSettingCategory);
+            NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
             ItemDialog.Owner = this;
             ItemDialog.ShowDialog();
+
+            if (Cards[CurrentCardIndex].LastAddedDataIsCorrect == true)
+            {
+                GeneralBalance.Content = Cards[CurrentCardIndex].Balance;
+
+                HistoryTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                ChartTableEdit(Cards[CurrentCardIndex].LastAddedData);
+                DiagramEdit(Cards[CurrentCardIndex].LastAddedData);
+
+                DrawCircleDiagram();
+            }
+
         }
 
         public void AddMoneyToGeneralBalance(double money)
@@ -253,7 +277,7 @@ namespace FinanceExam
 
             string category = data.Category;
             string color = null;
-            foreach (var col in Cards[CurrentCardIndex]._dataSettingCategory)
+            foreach (var col in _dataSettingCategory)
             {
                 if (col.Category == category)
                 {
