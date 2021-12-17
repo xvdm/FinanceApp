@@ -19,10 +19,9 @@ using System.Windows.Shapes;
 
 namespace FinanceExam
 {
+    [Serializable]
     public class Card
     {
-
-        public FileProcessing _fileData = new FileProcessing();
 
         public List<History_Data> _dataGrid = null; // список для таблицы в разделе "история"
 
@@ -32,7 +31,8 @@ namespace FinanceExam
 
         public Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
 
-        public Dictionary<string, Brush> _categoryColor = new Dictionary<string, Brush>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
+        //[NonSerialized]
+        public List<string> _categoryColor = new List<string>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         public History_Data LastAddedData = new History_Data(null, 0, null, null);
 
@@ -70,7 +70,7 @@ namespace FinanceExam
             }
         }
 
-        public List<Card> Cards = new List<Card>();
+        public List<Card> Cards;
 
         public int CurrentCardIndex;
 
@@ -83,51 +83,24 @@ namespace FinanceExam
             this.Height = System.Windows.SystemParameters.WorkArea.Height / 1.2;
             this.Width = System.Windows.SystemParameters.WorkArea.Width / 1.2;
 
-            Cards.Add(new("Main Card"));
+            _dataSettingCategory = _fileData.LoadCategoryData();
+
+            Cards = _fileData.LoadCardData();
+
+
+            if (Cards == null)
+            {
+                Cards = new();
+            }
             CardsComboBox.ItemsSource = Cards;
             CardsComboBox.SelectedItem = Cards[0];
             CardsComboBox.DisplayMemberPath = "Name";
 
 
             CurrentCardIndex = 0;
-            Cards[0]._dataGrid = Cards[0]._fileData.LoadHistoryData();
-            Cards[0]._dataGridCategories = Cards[0]._fileData.LoadCategoryData();
-            _dataSettingCategory = _fileData.LoadSettingsCategory();
-            Datagrid.ItemsSource = Cards[0]._dataGrid;
-            DatagridCategory.ItemsSource = Cards[0]._dataGridCategories;
-            int i = 0;
-            if (Cards[0]._dataGridCategories != null)
-            {
-                foreach (var x in Cards[0]._dataGridCategories)
-                {
-                    if (Cards[0]._diagramData.ContainsKey(x.Category)) // если категория уже есть
-                    {
-                        foreach (var y in Cards[0]._dataGridCategories) // в таблице (в разделе "график") ищу строку с этой категорией
-                        {
-                            if (y.Category == x.Category)
-                            {
-                                x.Money += y.Money; // и увеличиваю сумму в этой строке
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Cards[0]._diagramData.Add(x.Category, (int)x.Money);
-                    }
-                }
 
-                foreach (var x in Cards[0]._dataGridCategories)
-                {
-                    if (Cards[0]._categoryColor.ContainsKey(x.Category) == false)
-                    {
-                        TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
-                        Color clr = (Color)tc.ConvertFromString(x.Color);
-                        Brush brush = new SolidColorBrush(clr);
-                        Cards[0]._categoryColor.Add(x.Category, brush);
-                    }
-                }
-            }
 
+            
 
 
             DrawCircleDiagram();
@@ -186,7 +159,7 @@ namespace FinanceExam
             CardsComboBox.Items.Refresh();
             DatagridCategory.Items.Refresh();
             Datagrid.Items.Refresh();
-            _fileData.SaveSettingsCategory(_dataSettingCategory);
+            _fileData.SaveCardData(Cards);
         }
 
         private void Button_AddInData(object sender, RoutedEventArgs e)
@@ -212,21 +185,24 @@ namespace FinanceExam
             {
                 MessageBox.Show("Нет ни одного счета");
             }
-            _fileData.SaveHistoryData(Cards[CurrentCardIndex]._dataGrid);
-            _fileData.SaveCategory(Cards[CurrentCardIndex]._dataGridCategories);
+            _fileData.SaveCardData(Cards);
         }
 
         private void UpDateBallance()
         {
             double buffballace = 0;
-            if (Cards[CurrentCardIndex]._dataGrid != null) 
-            { 
-                for (int i = 0; i < Cards[CurrentCardIndex]._dataGrid.Count; i++)
+            if(Cards != null)
+            {
+                if (Cards[CurrentCardIndex]._dataGrid != null)
                 {
-                    buffballace += Cards[CurrentCardIndex]._dataGrid[i].Money;
+                    for (int i = 0; i < Cards[CurrentCardIndex]._dataGrid.Count; i++)
+                    {
+                        buffballace += Cards[CurrentCardIndex]._dataGrid[i].Money;
+                    }
                 }
+                GeneralBallanceChange = buffballace.ToString();
             }
-            GeneralBallanceChange = buffballace.ToString();
+
         }
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -301,11 +277,7 @@ namespace FinanceExam
             else
             {
                 Cards[CurrentCardIndex]._dataGridCategories.Add(new Category_Data(category, color, money)); // добавление новой категории, ее цвета и кол-во денег в таблицу
-
-                TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
-                Color clr = (Color)tc.ConvertFromString(color);
-                Brush brush = new SolidColorBrush(clr);
-                Cards[CurrentCardIndex]._categoryColor.Add(category, brush);
+                Cards[CurrentCardIndex]._categoryColor.Add(color);
             }
 
             DatagridCategory.Items.Refresh();
@@ -343,53 +315,57 @@ namespace FinanceExam
         private void DrawCircleDiagram()
         {
             DiagramCanvas.Children.Clear();
-
-            if (Cards[CurrentCardIndex]._diagramData.Count > 1)
+            if(Cards != null)
             {
-                int[] data = new int[Cards[CurrentCardIndex]._diagramData.Count];
-                Brush[] brushes = new Brush[Cards[CurrentCardIndex]._categoryColor.Count];
-                int i = 0;
-                foreach (var x in Cards[CurrentCardIndex]._diagramData)
+                if (Cards[CurrentCardIndex]._diagramData.Count > 1)
                 {
-                    data[i] = x.Value;
-                    i++;
-                }
-                i = 0;
-                foreach (var x in Cards[CurrentCardIndex]._categoryColor)
-                {
-                    brushes[i] = x.Value;
-                    i++;
-                }
-                var sum = data.Sum();
-                var angles = data.Select(d => d * 2.0 * Math.PI / sum);
-
-                double radius = DiagramCanvas.Width / 2;
-                double startAngle = 0.0;
-
-                var centerPoint = new Point(radius, radius);
-                var xyradius = new Size(radius, radius);
-
-                i = 0;
-                foreach (var angle in angles)
-                {
-                    var endAngle = startAngle + angle;
-
-                    var startPoint = centerPoint;
-                    startPoint.Offset(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle));
-
-                    var endPoint = centerPoint;
-                    endPoint.Offset(radius * Math.Cos(endAngle), radius * Math.Sin(endAngle));
-
-                    var angleDeg = angle * 180.0 / Math.PI;
-
-                    System.Windows.Shapes.Path p = new System.Windows.Shapes.Path()
+                    int[] data = new int[Cards[CurrentCardIndex]._diagramData.Count];
+                    Brush[] brushes = new Brush[Cards[CurrentCardIndex]._categoryColor.Count];
+                    int i = 0;
+                    foreach (var x in Cards[CurrentCardIndex]._diagramData)
                     {
-                        Stroke = Brushes.Black,
-                        Fill = brushes[i++],
-                        StrokeThickness = 1,
-                        Data = new PathGeometry(
-                            new PathFigure[]
-                            {
+                        data[i] = x.Value;
+                        i++;
+                    }
+                    i = 0;
+                    foreach (var x in Cards[CurrentCardIndex]._categoryColor)
+                    {
+                        TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
+                        Color clr = (Color)tc.ConvertFromString(x);
+                        Brush brush = new SolidColorBrush(clr);
+                        brushes[i] = brush;
+                        i++;
+                    }
+                    var sum = data.Sum();
+                    var angles = data.Select(d => d * 2.0 * Math.PI / sum);
+
+                    double radius = DiagramCanvas.Width / 2;
+                    double startAngle = 0.0;
+
+                    var centerPoint = new Point(radius, radius);
+                    var xyradius = new Size(radius, radius);
+
+                    i = 0;
+                    foreach (var angle in angles)
+                    {
+                        var endAngle = startAngle + angle;
+
+                        var startPoint = centerPoint;
+                        startPoint.Offset(radius * Math.Cos(startAngle), radius * Math.Sin(startAngle));
+
+                        var endPoint = centerPoint;
+                        endPoint.Offset(radius * Math.Cos(endAngle), radius * Math.Sin(endAngle));
+
+                        var angleDeg = angle * 180.0 / Math.PI;
+
+                        System.Windows.Shapes.Path p = new System.Windows.Shapes.Path()
+                        {
+                            Stroke = Brushes.Black,
+                            Fill = brushes[i++],
+                            StrokeThickness = 1,
+                            Data = new PathGeometry(
+                                new PathFigure[]
+                                {
                                 new PathFigure(
                                     centerPoint,
                                     new PathSegment[]
@@ -400,23 +376,30 @@ namespace FinanceExam
                                         SweepDirection.Clockwise, isStroked: true)
                                     },
                                     closed: true)
-                            })
-                    };
-                    DiagramCanvas.Children.Add(p);
+                                })
+                        };
+                        DiagramCanvas.Children.Add(p);
 
-                    startAngle = endAngle;
+                        startAngle = endAngle;
+                    }
+                }
+                else if (Cards[CurrentCardIndex]._diagramData.Count == 1)
+                {
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Width = DiagramCanvas.Width;
+                    ellipse.Height = DiagramCanvas.Height;
+
+                    TypeConverter tc = TypeDescriptor.GetConverter(typeof(Color)); // добавление соответствия между строкой (с названием цвета) и цветом (brush)
+                    Color clr = (Color)tc.ConvertFromString(Cards[CurrentCardIndex]._categoryColor[0]);
+                    Brush brush = new SolidColorBrush(clr);
+                    ellipse.Fill = brush;
+
+                    ellipse.Stroke = Brushes.Black;
+                    ellipse.StrokeThickness = 1;
+                    DiagramCanvas.Children.Add(ellipse);
                 }
             }
-            else if (Cards[CurrentCardIndex]._diagramData.Count == 1)
-            {
-                Ellipse ellipse = new Ellipse();
-                ellipse.Width = DiagramCanvas.Width;
-                ellipse.Height = DiagramCanvas.Height;
-                ellipse.Fill = Cards[CurrentCardIndex]._categoryColor.Values.First();
-                ellipse.Stroke = Brushes.Black;
-                ellipse.StrokeThickness = 1;
-                DiagramCanvas.Children.Add(ellipse);
-            }
+
         }
 
 
@@ -444,7 +427,6 @@ namespace FinanceExam
         }
     }
 
-
     [Serializable]
     public class History_Data
     {
@@ -464,7 +446,6 @@ namespace FinanceExam
 
         public string Comment { get; set; }
     }
-
 
     [Serializable]
     public class Category_Data
@@ -511,87 +492,9 @@ namespace FinanceExam
             }
         }
 
-        public List<Category_Data> LoadCategoryData()
+        public List<Categories> LoadCategoryData()
         {
-            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
-            {
-                if (stream.Length > 0)
-                {
-                    return (List<Category_Data>)binaryFormatter.Deserialize(stream);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public void SaveCategory(List<Category_Data> data)
-        {
-            using (Stream stream = File.Open(_path + '\\' + "CategoryData.txt", FileMode.OpenOrCreate))
-            {
-                try
-                {
-                    binaryFormatter.Serialize(stream, data);
-                }
-                catch (SerializationException e)
-                {
-                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    throw;
-                }
-            }
-        }
-
-        public void SaveHistoryData(List<History_Data> data)
-        {
-            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.Open))
-            {
-                try
-                {
-                    binaryFormatter.Serialize(stream, data);
-                }
-                catch (SerializationException e)
-                {
-                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    throw;
-                }
-            }
-        }
-
-        public List<History_Data> LoadHistoryData()
-        {
-            using (Stream stream = File.Open(_path + '\\' + "HistoryData.txt", FileMode.OpenOrCreate))
-            {
-                if (stream.Length > 0)
-                {
-                    return (List<History_Data>)binaryFormatter.Deserialize(stream);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public void SaveSettingsCategory(List<Categories> data)
-        {
-            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
-            {
-                try
-                {
-                    binaryFormatter.Serialize(stream, data);
-                }
-                catch (SerializationException e)
-                {
-                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    throw;
-                }
-            }
-        }
-
-        public List<Categories> LoadSettingsCategory()
-        {
-            using (Stream stream = File.Open(_settingspath + '\\' + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            using (Stream stream = File.Open(_settingspath + "\\" + "SettingsCategory.txt", FileMode.OpenOrCreate))
             {
                 if (stream.Length > 0)
                 {
@@ -603,5 +506,54 @@ namespace FinanceExam
                 }
             }
         }
+
+        public void SaveCategory(List<Categories> data)
+        {
+            using (Stream stream = File.Open(_settingspath + "\\" + "SettingsCategory.txt", FileMode.OpenOrCreate))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    
+                }
+            }
+        }
+
+        public void SaveCardData(List<Card> data)
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CardData.txt", FileMode.Open))
+            {
+                try
+                {
+                    binaryFormatter.Serialize(stream, data);
+                }
+                catch (SerializationException e)
+                {
+                    MessageBox.Show("Ошибка сохранения. Причина: " + e.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    
+                }
+            }
+        }
+
+        public List<Card> LoadCardData()
+        {
+            using (Stream stream = File.Open(_path + '\\' + "CardData.txt", FileMode.OpenOrCreate))
+            {
+                if (stream.Length > 0)
+                {
+                    stream.Position = 0;
+                    return (List<Card>)binaryFormatter.Deserialize(stream);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
     }
 }

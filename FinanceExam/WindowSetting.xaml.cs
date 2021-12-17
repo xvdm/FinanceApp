@@ -103,7 +103,7 @@ namespace FinanceExam
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Цвет или имя категории уже используются", "Внимание");
+                MessageBox.Show("Имя счета уже используются", "Внимание");
             }
         }
 
