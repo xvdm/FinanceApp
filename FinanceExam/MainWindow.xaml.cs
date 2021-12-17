@@ -90,6 +90,7 @@ namespace FinanceExam
             if (Cards == null)
             {
                 Cards = new();
+                Cards.Add(new("Main card"));
             }
             CardsComboBox.ItemsSource = Cards;
             CardsComboBox.SelectedItem = Cards[0];
@@ -141,7 +142,7 @@ namespace FinanceExam
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-                this.DragMove();
+                //this.DragMove();
         }
 
         private void Button_Click_Exit(object sender, RoutedEventArgs e)

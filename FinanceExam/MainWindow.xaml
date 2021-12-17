@@ -82,7 +82,7 @@
                         <DataGrid Style="{DynamicResource History}"  Background="White" x:Name="Datagrid" Margin="0,30,0,20" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" VerticalGridLinesBrush="{x:Null}" HorizontalGridLinesBrush="#FFAAAAAA" GridLinesVisibility="Horizontal" FontWeight="Normal" IsReadOnly="True" HeadersVisibility="Column" Grid.RowSpan="2"  AutoGenerateColumns="False">
                             <DataGrid.ItemContainerStyle>
                                 <Style TargetType="DataGridRow">
-                                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                                    <EventSetter Event="MouseDoubleClick"  Handler="Row_DoubleClick"/>
                                 </Style>
                             </DataGrid.ItemContainerStyle>
 

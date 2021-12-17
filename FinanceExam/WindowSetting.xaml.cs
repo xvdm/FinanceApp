@@ -201,7 +201,7 @@ namespace FinanceExam
             ColorButton.Content = "Изменить";
             ResetButton.Content = "Удалить";
 
-           Categories temp = (Categories)CategoryData.SelectedItem;
+            Categories temp = (Categories)CategoryData.SelectedItem;
 
             SettingNameCategory.Text = temp.Category;
             ColorPick.SelectedColor = (Color)ColorConverter.ConvertFromString(temp.Color);
