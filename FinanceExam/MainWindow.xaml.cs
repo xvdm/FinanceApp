@@ -31,7 +31,6 @@ namespace FinanceExam
 
         public Dictionary<string, int> _diagramData = new Dictionary<string, int>(); // категория и ее сумма денег
 
-        //[NonSerialized]
         public List<string> _categoryColor = new List<string>(); // соответствие строк и цветов (Red = Brushes.Red и тд)
 
         public History_Data LastAddedData = new History_Data(null, 0, null, null);
@@ -41,6 +40,8 @@ namespace FinanceExam
         public double Balance { get; set; }
 
         public string Name { get; set; }
+
+        public int EditedRow { get; set; }
 
         public Card(string name)
         {
@@ -54,7 +55,7 @@ namespace FinanceExam
         int MaxDiagramCanvasSize = 600;
         int MinDiagramCanvasSize = 450;
 
-       FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
+        FileProcessing _fileData = new FileProcessing(); // работа с сохранением/извлечением из файла
         List<Categories> _dataSettingCategory = null;
 
         public string GeneralBallanceChange
@@ -210,12 +211,15 @@ namespace FinanceExam
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
+            Cards[CurrentCardIndex].EditedRow = Datagrid.SelectedIndex;
+
             NewDataItem ItemDialog = new NewDataItem(_dataSettingCategory);
             ItemDialog.Owner = this;
             ItemDialog.EditRow((History_Data)Datagrid.SelectedItem);
             ItemDialog.ShowDialog();
 
- 
+            Datagrid.Items.Refresh();
+            //.Items.Refresh();
         }
 
         public void AddMoneyToGeneralBalance(double money)
